@@ -7,52 +7,26 @@ import assets from "@/public/assets";
 export default function Skills() {
   const skillCategories = [
     {
-      title: "Langeages",
+      title: "Languages",
       skills: [
-        // { name: "React", icon: assets.react },
-        // { name: "Next.js", icon: assets.next },
-        { name: "Golang", icon: assets.ts },
-        { name: "TypeScript", icon: assets.ts },
         { name: "JavaScript", icon: assets.js },
-        { name: "PostgreSQL", icon: assets.js },
+        { name: "TypeScript", icon: assets.ts },
+        { name: "React", icon: assets.react },
+        { name: "Next.js", icon: assets.next },
+        { name: "Vue.js", icon: assets.next },
+        { name: "Tailwind.css", icon: assets.next },
+        { name: "HTML/CSS", icon: "</>" },
+        { name: "Shad/cn", icon: assets.next },
         { name: "REST API", icon: assets.restApi },
-        { name: "Docker", icon: "🔄" },
         { name: "Git", icon: "🔄" },
         { name: "Github", icon: "🔄" },
         { name: "VS Code", icon: "🔄" },
         { name: "Postman", icon: assets.restApi },
-        // { name: "Tailwind CSS", icon: assets.tail },
-        // { name: "HTML/CSS", icon: "</>" },
-        // { name: "Redux", icon: assets.react },
-        // { name: "Framer Motion", icon: "🎭" },
+        { name: "Redux", icon: assets.react },
+        { name: "Framer Motion", icon: "🎭" },
       ],
     },
-    // {
-    //   title: "Backend Development",
-    //   skills: [
-    //     { name: "TypeScript", icon: assets.ts },
-    //     { name: "JavaScript", icon: assets.js },
-    //     { name: "Node.js", icon: assets.ode },
-    //     { name: "Express", icon: assets.express },
-    //     { name: "MongoDB", icon: assets.mongogb },
-    //     { name: "Mongoose", icon: assets.mongoose },
-    //     // { name: "Postgres", icon: "🐈" },
-    //     { name: "Prisma", icon: "🐈" },
-    //     { name: "REST API", icon: assets.restApi },
-    //   ],
-    // },
-    // {
-    //   title: "Tools & Other Skills",
-    //   skills: [
-    //     { name: "Git", icon: "🔄" },
-    //     { name: "VS Code", icon: "🔄" },
-    //     { name: "Postman", icon: assets.restApi },
-    //     { name: "REST API", icon: assets.restApi },
-    //     { name: "Figma", icon: "📱" },
-    //     { name: "Jest/Vitest", icon: "🧪" },
-    //     { name: "Agile/Scrum", icon: "🔄" },
-    //   ],
-    // },
+    
   ];
 
   return (
