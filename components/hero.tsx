@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Github, Linkedin, Mail } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function Hero() {
   return (
@@ -27,11 +28,11 @@ export default function Hero() {
                 <span className="block">Hi, I'm</span>
                 <span className="text-primary block mt-2">
                   {/* Jr. Software Engineer */}
-                  Backend Developer
+                  Arif Ur Rahman
                 </span>
               </h1>
               <p className="text-muted-foreground text-lg md:text-xl mb-8 max-w-xl">
-                I've been focusing on developing RESTful APIs, backend services, and learning Go's powerful features like concurrency and memory efficiency. I'm eager to contribute to impactful backend systems and continue growing backend engineer.
+                Specializing in modern frontend development with React, Next.js, and Tailwind CSS. I build responsive, accessible web applications using Shadcn/UI and Daisy UI components. Passionate about creating seamless user experiences and excited to contribute to innovative frontend systems while continuing to grow as a software engineer.
               </p>
 
               <div className="flex flex-wrap gap-4 mb-8">
@@ -105,20 +106,18 @@ export default function Hero() {
             >
               <div className="aspect-square rounded-full bg-gradient-to-br from-primary/20 to-primary/5 p-1">
                 <div className="w-full h-full rounded-full bg-background flex items-center justify-center overflow-hidden">
-                  <img
-                    // src="https://i.ibb.co.com/KjPsGzsp/Whats-App-Image-2025-09-21-at-9-25-01-PM.jpg"
-                    src="https://i.ibb.co.com/3mjLPnwC/Whats-App-Image-2025-09-21-at-9-24-56-PM.jpg"
-                    // src="https://i.ibb.co.com/B5mxRb7z/waliullah.jpg"
-                    // src="https://images.pexels.com/photos/4974915/pexels-photo-4974915.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-                    alt="Developer"
-                    className="w-full h-full object-cover"
+                  <Image
+                    src="/assets/images/arif.jpg"
+                    alt="Hero Image"
+                    width={100}
+                    height={100}
+                    className="object-fill w-full h-full"
                   />
                 </div>
               </div>
               <div className="absolute -bottom-4 -right-4 p-5">
                 <div className="bg-secondary/80 text-secondary-foreground px-7 py-2.5 rounded-full text-sm font-medium border border-transparent hover:animate-border-animation">
-                  {/* Backend Developer */}
-                  Jr. Software Engineer
+                  Software Engineer
                 </div>
               </div>
             </motion.div>

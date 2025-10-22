@@ -14,17 +14,64 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 export default function Experience() {
   const workExperience = [
     {
-      company: "Asian It Inc.",
-      location: "Sirajgong, Bangladesh",
-      title: "Junior Front End Developer",
-      period: "June, 2024 - Sep, 2024",
+      company: "DataCrunch Ltd",
+      location: "Gulshan 1, Dhaka",
+      title: "Software Engineer",
+      period: "September, 2025 - Present",
       description:
-        "Worked as a Junior Front-End Developer during my internship, contributing to the development of various websites such as E-commerce platforms, Agency website, Portfolios, School management dashboard panels, Medical websites",
+        "I'm working as a Software Engineer at DataCrunch Ltd, focusing on building scalable web applications using modern technologies. I also collaborate with cross-functional teams to deliver high-quality software solutions.",
       responsibilities: [
         "Built interactive user interfaces with Next.js",
         "Implemented RESTful APIs using Express.js and Node.js",
         "Implemented database solutions using MongoDB and Mongoose",
         "Collaborated with UX designers to implement intuitive user interfaces",
+        "Optimized application performance and scalability",
+        "Wrote unit and integration tests to ensure code quality",
+      ],
+    },
+    {
+      company: "Leadsync AI",
+      location: "Uttara 9, Dhaka",
+      title: "Frontend Software Engineer",
+      period: "January, 2025 - August, 2025",
+      description:
+        "I worked as a Frontend Software Engineer at Leadsync AI, where I was responsible for developing and maintaining the frontend of their AI-powered lead generation platform. I collaborated closely with designers and backend developers to create a seamless user experience.",
+      responsibilities: [
+        "Built interactive user interfaces from Figma to Next.js",
+        "Implemented RESTful APIs using Express.js and Node.js",
+        "Implemented lead generation business logic to Next.js pages",
+        "Collaborated with UX designers to implement intuitive user interfaces",
+        
+      ],
+    },
+    {
+      company: "Dream Diver",
+      location: "Uttara 9, Dhaka",
+      title: "Process Development Engineer",
+      period: "January, 2024 - December, 2024",
+      description:
+        "I co-operated with the clients accross different time zones and noted their requiremnets and pain-points to develop web applications that meet their business needs. Then, I maintained the development team workflow to ensure timely delivery of high-quality software solutions.",
+      responsibilities: [
+        "Clients Business Requirement Analysis and pointing their pain-points",
+        "Co-operation with the development team to deliver high-quality software solutions",
+        "Fullfilled clients requirements using web technologies",
+        "Maintained project documentation and reports",
+        
+      ],
+    },
+    {
+      company: "Ultra -X Asia Pacific",
+      location: "Baridhara J Block, Dhaka",
+      title: "Software Engineer",
+      period: "September, 2022 - December, 2023",
+      description:
+        "I worked at Ultra-X Asia Pacific as a Software Engineer, where I was responsible for developing and maintaining web applications using Angular, React.js. Most of our clients were from Japan. So, Software Quality and timely delivery were my top priorities.",
+      responsibilities: [
+        "Clients Business Requirement Analysis and pointing their pain-points",
+        "Co-operation with the development team to deliver high-quality software solutions",
+        "Fullfilled clients requirements using web technologies",
+        "Maintained project documentation and reports",
+        
       ],
     },
   ];
