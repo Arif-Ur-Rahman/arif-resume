@@ -11,7 +11,7 @@ import ScrollToTop from '@/components/scroll-to-top';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Waliullah | Jr. Software Engineer',
+  title: 'Arif Ur Rahman | Software Engineer',
   description: 'Professional portfolio of a Junior Software Engineer',
 };
 
