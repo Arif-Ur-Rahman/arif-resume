@@ -11,12 +11,12 @@ export default function Footer() {
         <div className="flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-muted-foreground">
             © {currentYear} Developer{" "}
-            <span className="text-violet-700">Waliullah</span>. All rights
+            <span className="text-blue-700">Arif Ur Rahman</span>. All rights
             reserved.
           </p>
           <div className="flex items-center gap-6 text-sm text-muted-foreground">
             <Link
-              href="https://github.com/gowaliullah/portfolio"
+              href="https://github.com/Arif-Ur-Rahman"
               className="hover:text-primary flex items-center gap-1.5 transition-colors"
               target="_blank"
               rel="noopener noreferrer"
@@ -25,7 +25,7 @@ export default function Footer() {
               STAR
             </Link>
             <Link
-              href="https://github.com/gowaliullah/portfolio/fork"
+              href="https://github.com/Arif-Ur-Rahman"
               className="hover:text-primary flex items-center gap-1.5 transition-colors"
               target="_blank"
               rel="noopener noreferrer"
