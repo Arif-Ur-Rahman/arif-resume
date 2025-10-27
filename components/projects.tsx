@@ -18,60 +18,43 @@ export default function Projects() {
   const [activeTab, setActiveTab] = useState<string>("all")
   
   const projects = [
-    // {
-    //   title: "Task Management App",
-    //   description: "A productivity app for managing tasks with features like drag-and-drop, filtering, and team collaboration.",
-    //   image: "https://images.pexels.com/photos/1029757/pexels-photo-1029757.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-    //   tags: ["React", "Redux", "Node.js", "Express", "MongoDB"],
-    //   category: "fullstack",
-    //   demoLink: "#",
-    //   githubLink: "#"
-    // },
-    // {
-    //   title: "Weather Dashboard",
-    //   description: "A weather dashboard showing current conditions and forecasts using data from a weather API.",
-    //   image: "https://images.pexels.com/photos/1118873/pexels-photo-1118873.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-    //   tags: ["React", "API Integration", "Chart.js"],
-    //   category: "frontend",
-    //   demoLink: "#",
-    //   githubLink: "#"
-    // },
-    // {
-    //   title: "Blog Platform",
-    //   description: "A content management system for creating and publishing blog posts with user authentication.",
-    //   image: "https://images.pexels.com/photos/261579/pexels-photo-261579.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-    //   tags: ["React", "Node.js", "Express", "MongoDB"],
-    //   category: "fullstack",
-    //   demoLink: "#",
-    //   githubLink: "#"
-    // },
+    
     {
-      title: "RESTful API Service",
-      description: "A backend service providing RESTful APIs for a mobile application with authentication and data validation.",
-      image: "https://images.pexels.com/photos/546819/pexels-photo-546819.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-      tags: ["Typescript", "Express", "MongoDB", "JWT"],
+      title: "Credit Hero Frontend",
+      description: "A credit management platform that allows users to track and manage their credit scores, view credit reports, and receive personalized recommendations to improve their financial health. An Interacticve responsive design built with Next.js and Tailwind CSS based on Typescript.",
+      image: "/projects/Credit-Hero.png",
+      tags: ["Typescript", "Next.js", "Tailwind.css"],
       category: "backend",
-      demoLink: "https://github.com/engWaliullah/University_Management",
-      githubLink: "#https://github.com/engWaliullah/University_Management"
+      demoLink: "https://research-credit-frontend.vercel.app/",
+      githubLink: "https://github.com/Arif-Ur-Rahman/credit-hero"
     },
     {
-      title: "Real Estate Project",
-      description: "A full-featured Real Estate Project with product listings, cart functionality, payment integration, and user authentication.",
-      image: "https://images.pexels.com/photos/34577/pexels-photo.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+      title: "Foody Moody",
+      description: "A restaurant website with menu browsing, online ordering, and user reviews. Built with React and interactive design.",
+      image: "/projects/Foodymoody.png",
+      tags: ["Typescript", "Express", "MongoDB", "JWT"],
+      category: "backend",
+      demoLink: "https://foody-moody-restaurant.web.app/",
+      githubLink: "#https://github.com/Arif-Ur-Rahman/foody-moody-shakil"
+    },
+    {
+      title: "Dr. Sarwar Kamal Portfolio",
+      description: "Its a portfolio website for Dr. Sarwar Kamal, showcasing his work, achievements, and services as a researcher in Australia. I worked on it as a freelance project to help him establish an online presence.",
+      image: "/projects/sarwar-sir.png",
       tags: ["Typescript", "Next.js", "Express.js", "MongoDB"],
       category: "fullstack",
-      demoLink: "https://real-state-client-peach.vercel.app",
-      githubLink: "https://github.com/engWaliullah/real-state-project-client",
+      demoLink: "https://dr-sarwar-sir.vercel.app/",
+      githubLink: "https://github.com/Arif-Ur-Rahman/dr-sarwar-sir",
       backend: "https://github.com/engWaliullah/real-state-backend"
     },
     {
-      title: "Portfolio Website",
-      description: "A responsive portfolio website showcasing work experience, skills, and projects.",
-      image: "https://images.pexels.com/photos/196644/pexels-photo-196644.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-      tags: ["React", "Next.js", "Tailwind CSS"],
-      category: "frontend",
-      demoLink: "https://dev-waliullah.vercel.app/",
-      githubLink: "https://github.com/gowaliullah/portfolio"
+      title: "Simple Authentication System",
+      description: "A simple authentication system built with Next.js for the frontend and Python with Fast API for the backend. It includes user registration, login, and protected routes using JWT for secure access.",
+      image: "/projects/authentication.png",
+      tags: ["React", "Next.js", "Tailwind CSS", "Fast API", "Python", "JWT"],
+      category: "backend",
+      demoLink: "https://jwt-cors-middlewares-7dj1-lks09j6mi-arif-ur-rahmans-projects.vercel.app/login",
+      githubLink: "https://github.com/Arif-Ur-Rahman/jwt-cors-middlewares"
     }
   ]
 
