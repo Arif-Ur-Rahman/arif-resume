@@ -18,35 +18,6 @@ export default function Projects() {
   const [activeTab, setActiveTab] = useState<string>("all")
   
   const projects = [
-    
-    {
-      title: "Credit Hero Frontend",
-      description: "A credit management platform that allows users to track and manage their credit scores, view credit reports, and receive personalized recommendations to improve their financial health. An Interacticve responsive design built with Next.js and Tailwind CSS based on Typescript.",
-      image: "/projects/Credit-Hero.png",
-      tags: ["Typescript", "Next.js", "Tailwind.css"],
-      category: "backend",
-      demoLink: "https://research-credit-frontend.vercel.app/",
-      githubLink: "https://github.com/Arif-Ur-Rahman/credit-hero"
-    },
-    {
-      title: "Foody Moody",
-      description: "A restaurant website with menu browsing, online ordering, and user reviews. Built with React and interactive design.",
-      image: "/projects/Foodymoody.png",
-      tags: ["Typescript", "Express", "MongoDB", "JWT"],
-      category: "backend",
-      demoLink: "https://foody-moody-restaurant.web.app/",
-      githubLink: "#https://github.com/Arif-Ur-Rahman/foody-moody-shakil"
-    },
-    {
-      title: "Dr. Sarwar Kamal Portfolio",
-      description: "Its a portfolio website for Dr. Sarwar Kamal, showcasing his work, achievements, and services as a researcher in Australia. I worked on it as a freelance project to help him establish an online presence.",
-      image: "/projects/sarwar-sir.png",
-      tags: ["Typescript", "Next.js", "Express.js", "MongoDB"],
-      category: "fullstack",
-      demoLink: "https://dr-sarwar-sir.vercel.app/",
-      githubLink: "https://github.com/Arif-Ur-Rahman/dr-sarwar-sir",
-      backend: "https://github.com/engWaliullah/real-state-backend"
-    },
     {
       title: "Simple Authentication System",
       description: "A simple authentication system built with Next.js for the frontend and Python with Fast API for the backend. It includes user registration, login, and protected routes using JWT for secure access.",
@@ -55,7 +26,36 @@ export default function Projects() {
       category: "backend",
       demoLink: "https://jwt-cors-middlewares-7dj1-lks09j6mi-arif-ur-rahmans-projects.vercel.app/login",
       githubLink: "https://github.com/Arif-Ur-Rahman/jwt-cors-middlewares"
+    },
+    {
+      title: "Credit Hero Frontend",
+      description: "A credit management platform that allows users to track and manage their credit scores, view credit reports, and receive personalized recommendations to improve their financial health. An Interacticve responsive design built with Next.js and Tailwind CSS based on Typescript.",
+      image: "/projects/Credit-Hero.png",
+      tags: ["Typescript", "Next.js", "Tailwind.css"],
+      category: "frontend",
+      demoLink: "https://research-credit-frontend.vercel.app/",
+      githubLink: "https://github.com/Arif-Ur-Rahman/credit-hero"
+    },
+    {
+      title: "Foody Moody",
+      description: "A restaurant website with menu browsing, online ordering, and user reviews. Built with React and interactive design.I did this project for client of Dream Diver IT while I worked there as a Software Engineer.",
+      image: "/projects/Foodymoody.png",
+      tags: ["Typescript", "Express", "MongoDB", "JWT", "React", "Tailwind CSS", "Firebase"],
+      category: "frontend",
+      demoLink: "https://foody-moody-restaurant.web.app/",
+      githubLink: "#https://github.com/Arif-Ur-Rahman/foody-moody-shakil"
+    },
+    {
+      title: "Dr. Sarwar Kamal Portfolio",
+      description: "Its a portfolio website for Dr. Sarwar Kamal, showcasing his work, achievements, and services as a researcher in Australia. I worked on it as a freelance project to help him establish an online presence.",
+      image: "/projects/sarwar-sir.png",
+      tags: ["Typescript", "Next.js", "Express.js", "MongoDB"],
+      category: "frontend",
+      demoLink: "https://dr-sarwar-sir.vercel.app/",
+      githubLink: "https://github.com/Arif-Ur-Rahman/dr-sarwar-sir",
+      backend: "https://github.com/engWaliullah/real-state-backend"
     }
+    
   ]
 
   const filteredProjects = activeTab === "all" 
