@@ -59,7 +59,7 @@ export default function Navbar() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
           <a href="#hero" className="text-xl font-bold tracking-tight transition-colors">
-            <span className="text-primary">WALIULLAH</span>
+            <span className="text-primary">Arif Ur Rahman</span>
             {/* <span>Dev</span> */}
           </a>
 
@@ -79,7 +79,7 @@ export default function Navbar() {
             ))}
             <ThemeToggle />
             <Button asChild className="ml-4 relative overflow-hidden group">
-              <Link href="/waliullah.pdf" download>
+              <Link href="/Arif_Ur_Rahman.pdf" download>
                 <span className="relative z-10">Resume</span>
                 <span className="absolute inset-0 bg-primary/20 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300"></span>
               </Link>
@@ -113,7 +113,7 @@ export default function Navbar() {
           >
             <div className="flex justify-between items-center mb-6">
               <Link href="#hero" className="text-lg font-semibold">
-                <span className="text-primary">WALIULLAH</span>
+                <span className="text-primary">Arif Ur Rahman</span>
               </Link>
               <button onClick={() => setIsOpen(false)} aria-label="Close Menu">
                 <X size={24} />
@@ -134,7 +134,7 @@ export default function Navbar() {
                 </Link>
               ))}
               <Button asChild className="mt-6 w-full">
-                <Link href="/waliullah.pdf" download onClick={() => setIsOpen(false)}>
+                <Link href="/Arif_Ur_Rahman.pdf" download onClick={() => setIsOpen(false)}>
                   Resume
                 </Link>
               </Button>

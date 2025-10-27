@@ -78,20 +78,36 @@ export default function Experience() {
 
   const education = [
     {
-      degree: "Next Level Web Development",
+      degree: "MERN Stack Development Course",
       institution: "Programming Hero",
       location: "Dhaka",
-      period: "September, 2023 - March 2024",
+      period: "January, 2022 - December, 2022",
       description:
-        "Explored TypeScript, Next.js, Redux, Mongoose, Node.js, PostgreSQL, and Prisma for building full-stack web applications.",
+        "In 2022, I completed a comprehensive MERN Stack Development Course from Programming Hero. This course provided me with in-depth knowledge and hands-on experience in building full-stack web applications using MongoDB, Express.js, React.js, and Node.js. Throughout the course, I worked on various projects that enhanced my skills in frontend and backend development, database management, and deployment strategies.I also learned best practices for coding, version control with Git, and collaborative development workflows. Next.js and Tailwind CSS were also covered in this course, which further enriched my web development expertise.",
     },
     {
-      degree: "Bachelor Of BITS",
-      institution: "Islamic University, Kushtia",
-      location: "Kushtia, Bangladesh",
-      period: "2023 - 2027",
+      degree: "B.Sc. in Computer Science & Engineering",
+      institution: "East West University",
+      location: "Dhaka",
+      period: "September, 2014 - December, 2020",
       description:
-        "Specialized in web technologies and software engineering. Completed thesis on scalable web architectures.",
+        "I have completed my B.Sc. in Computer Science & Engineering from East West University. During my studies, I gained a solid foundation in computer science principles and practical experience in software development. My coursework included data structures, algorithms, database management, and web development.",
+    },
+    {
+      degree: "Higher Secondary Certificate (HSC)",
+      institution: "Udayan ",
+      location: "Dhaka, Bangladesh",
+      period: "2011 - 2013",
+      description:
+        "I completed my Higher Secondary Certificate (HSC) from Udayan in Dhaka, Bangladesh. During this period, I focused on science subjects, which laid the groundwork for my future studies in computer science and engineering.",
+    },
+    {
+      degree: "Secondary School Certificate (SSC)",
+      institution: "Willes Little Flower School & College",
+      location: "Kakrail, Dhaka, Bangladesh",
+      period: "2009 - 2011",
+      description:
+        "I had my Secondary School Certificate (SSC) from Willes Little Flower School & College in Kakrail, Dhaka, Bangladesh. This phase of my education provided me with a strong academic foundation and prepared me for higher studies in the field of science and technology.",
     },
   ];
 
