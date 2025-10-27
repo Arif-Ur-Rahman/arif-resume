@@ -2,14 +2,21 @@
 
 import { motion } from "framer-motion";
 import {
+  Braces,
   Code2,
+  CodeXml,
   Database,
+  Figma,
+  FileScan,
+  Github,
   Globe,
   Laptop,
   Layout,
+  ScanQrCode,
   Search,
   Server,
   Smartphone,
+  SquareTerminal,
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 
@@ -22,35 +29,41 @@ export default function Services() {
     //     "Building responsive, interactive user interfaces using React.js, Next.js, and modern CSS frameworks.",
     // },
     {
-      icon: <Server className="h-10 w-10 text-primary" />,
-      title: "Backend Development",
+      icon: <Braces className="h-10 w-10 text-primary" />,
+      title: "JavaScript & Typescript Development",
       description:
-        "Creating robust server-side applications with Node.js, Express.js, and RESTful API design.",
+        "Expertise in building dynamic web applications using JavaScript and TypeScript for robust and scalable solutions.",
     },
     {
-      icon: <Database className="h-10 w-10 text-primary" />,
-      title: "Database Design",
+      icon: <SquareTerminal className="h-10 w-10 text-primary" />,
+      title: "React & Next.js Development",
       description:
-        "Designing efficient and scalable database schemas using MongoDB and implementing with Mongoose.",
+        "Creating high-performance web applications with React and Next.js, focusing on SEO and server-side rendering.",
     },
     {
-      icon: <Code2 className="h-10 w-10 text-primary" />,
-      title: "Full Stack Development",
+      icon: <Figma className="h-10 w-10 text-primary" />,
+      title: "Figma to Code",
       description:
-        "End-to-end application development from frontend to backend using the complete MERN stack.",
+        "Translating Figma designs into pixel-perfect, responsive web pages using modern frontend technologies, like React, Next.js, and Tailwind CSS.",
     },
-    // {
-    //   icon: <Smartphone className="h-10 w-10 text-primary" />,
-    //   title: "Responsive Web Design",
-    //   description:
-    //     "Creating websites that work seamlessly across all devices and screen sizes.",
-    // },
-    // {
-    //   icon: <Search className="h-10 w-10 text-primary" />,
-    //   title: "Performance Optimization",
-    //   description:
-    //     "Improving application speed and efficiency through code optimization and best practices.",
-    // },
+    {
+      icon: <Github className="h-10 w-10 text-primary" />,
+      title: "Github version Control",
+      description:
+        "Utilizing Git and GitHub for efficient version control, collaboration, and code management in development projects.",
+    },
+    {
+      icon: <ScanQrCode className="h-10 w-10 text-primary" />,
+      title: "Responsive Web Design",
+      description:
+        "Creating websites that work seamlessly across all devices and screen sizes.",
+    },
+    {
+      icon: <CodeXml className="h-10 w-10 text-primary" />,
+      title: "FastAPI Development",
+      description:
+        "Building high-performance backend APIs using FastAPI for scalable web applications.",
+    },
   ];
 
   const cardVariants = {
