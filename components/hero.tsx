@@ -58,7 +58,7 @@ export default function Hero() {
                   whileTap={{ scale: 0.95 }}
                 >
                   <Link
-                    href="https://github.com/gowaliullah"
+                    href="https://github.com/Arif-Ur-Rahman"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="p-3 inline-flex items-center justify-center rounded-full bg-secondary hover:bg-primary hover:text-primary-foreground transition-all duration-200"
@@ -73,7 +73,7 @@ export default function Hero() {
                   whileTap={{ scale: 0.95 }}
                 >
                   <Link
-                    href="https://linkedin.com/in/engwaliullah"
+                    href="https://www.linkedin.com/in/arif-ur-rahman-swe/"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="p-3 inline-flex items-center justify-center rounded-full bg-secondary hover:bg-primary hover:text-primary-foreground transition-all duration-200"
@@ -88,7 +88,7 @@ export default function Hero() {
                   whileTap={{ scale: 0.95 }}
                 >
                   <Link
-                    href="mailto:waliullah9099@gmail.com"
+                    href="mailto:arifurrahman.it.doc@gmail.com"
                     className="p-3 inline-flex items-center justify-center rounded-full bg-secondary hover:bg-primary hover:text-primary-foreground transition-all duration-200"
                     aria-label="Email Me"
                   >
