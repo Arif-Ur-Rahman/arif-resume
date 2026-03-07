@@ -1,39 +1,73 @@
 import Link from "next/link";
-import { GoRepoForked } from "react-icons/go";
-import { FaStar } from "react-icons/fa6";
+import { Linkedin, Mail } from "lucide-react";
+import { FaGithub as Github } from "react-icons/fa";
+
+const footerLinks = [
+  { href: "#hero", label: "Home" },
+  { href: "#experience", label: "Experience" },
+  { href: "#projects", label: "Projects" },
+  { href: "#contact", label: "Contact" },
+];
+
+const socials = [
+  { href: "https://github.com/Arif-Ur-Rahman", icon: Github, label: "GitHub" },
+  { href: "https://www.linkedin.com/in/arif-ur-rahman-swe/", icon: Linkedin, label: "LinkedIn" },
+  { href: "mailto:arifurrahman.it.doc@gmail.com", icon: Mail, label: "Email" },
+];
 
 export default function Footer() {
-  const currentYear = new Date().getFullYear();
+  const year = new Date().getFullYear();
 
   return (
-    <footer className="bg-muted/50 py-12 border-t border-border ">
-      <div className="container mx-auto px-4">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-muted-foreground">
-            © {currentYear} Developer{" "}
-            <span className="text-blue-700">Arif Ur Rahman</span>. All rights
+    <footer className="border-t border-border/50 bg-muted/20">
+      <div className="container mx-auto px-4 py-10">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+          {/* Brand */}
+          <div className="flex flex-col items-center md:items-start gap-1">
+            <a href="#hero" className="text-lg font-bold">
+              <span className="gradient-text">Arif</span>
+              <span className="text-foreground/50">.dev</span>
+            </a>
+            <p className="text-xs text-muted-foreground">Frontend Software Engineer</p>
+          </div>
+
+          {/* Nav links */}
+          <nav className="flex items-center gap-5 flex-wrap justify-center">
+            {footerLinks.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                className="text-sm text-muted-foreground hover:text-primary transition-colors duration-200"
+              >
+                {link.label}
+              </a>
+            ))}
+          </nav>
+
+          {/* Social icons */}
+          <div className="flex items-center gap-3">
+            {socials.map(({ href, icon: Icon, label }) => (
+              <Link
+                key={label}
+                href={href}
+                target={href.startsWith("mailto") ? undefined : "_blank"}
+                rel="noopener noreferrer"
+                aria-label={label}
+                className="p-2 rounded-lg text-muted-foreground hover:text-primary hover:bg-primary/10 transition-all duration-200"
+              >
+                <Icon className="h-4 w-4" />
+              </Link>
+            ))}
+          </div>
+        </div>
+
+        <div className="mt-8 pt-6 border-t border-border/30 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-muted-foreground">
+          <p>
+            &copy; {year}{" "}
+            <span className="text-foreground/70 font-medium">Arif Ur Rahman</span>. All rights
             reserved.
           </p>
-          <div className="flex items-center gap-6 text-sm text-muted-foreground">
-            <Link
-              href="https://github.com/Arif-Ur-Rahman"
-              className="hover:text-primary flex items-center gap-1.5 transition-colors"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <FaStar />
-              STAR
-            </Link>
-            <Link
-              href="https://github.com/Arif-Ur-Rahman"
-              className="hover:text-primary flex items-center gap-1.5 transition-colors"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <GoRepoForked />
-              FORK
-            </Link>
-          </div>
+          <p>Built with Next.js &amp; Tailwind CSS</p>
         </div>
       </div>
     </footer>
