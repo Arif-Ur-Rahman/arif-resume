@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import { Menu, X, Download } from "lucide-react";
 import { Linkedin, Mail } from "lucide-react";
 import { FaGithub as Github } from "react-icons/fa";
@@ -16,7 +17,8 @@ const links = [
   { href: "#skills", label: "Skills", number: "03" },
   { href: "#projects", label: "Projects", number: "04" },
   { href: "#services", label: "Services", number: "05" },
-  { href: "#contact", label: "Contact", number: "06" },
+  { href: "/tuitions", label: "Tuitions", number: "06" },
+  { href: "#contact", label: "Contact", number: "07" },
 ];
 
 const socials = [
@@ -26,6 +28,12 @@ const socials = [
 ];
 
 export default function Navbar() {
+  const pathname = usePathname();
+  const isHome = pathname === "/";
+
+  const resolveHref = (href: string) =>
+    href.startsWith("#") && !isHome ? `/${href}` : href;
+
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("hero");
@@ -88,10 +96,11 @@ export default function Navbar() {
               {links.map((link) => (
                 <Link
                   key={link.href}
-                  href={link.href}
+                  href={resolveHref(link.href)}
                   className={cn(
                     "nav-link px-3 py-2 text-sm font-medium rounded-lg transition-colors hover:text-primary hover:bg-primary/5",
-                    activeSection === link.href.substring(1) ? "text-primary" : "text-muted-foreground"
+                    isHome && activeSection === link.href.substring(1) ? "text-primary" : "text-muted-foreground",
+                    !isHome && pathname.startsWith(link.href) && !link.href.startsWith("#") ? "text-primary" : ""
                   )}
                 >
                   {link.label}
@@ -171,12 +180,13 @@ export default function Navbar() {
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.3, delay: 0.05 + i * 0.06 }}
                   >
-                    <a
-                      href={link.href}
+                    <Link
+                      href={resolveHref(link.href)}
                       onClick={() => setIsOpen(false)}
                       className={cn(
                         "group flex items-center gap-4 py-4 border-b border-border/20 transition-all duration-200",
-                        activeSection === link.href.substring(1)
+                        (isHome && activeSection === link.href.substring(1)) ||
+                        (!isHome && !link.href.startsWith("#") && pathname.startsWith(link.href))
                           ? "text-primary"
                           : "text-foreground/60 hover:text-foreground"
                       )}
@@ -185,10 +195,10 @@ export default function Navbar() {
                         {link.number}
                       </span>
                       <span className="text-3xl font-bold tracking-tight">{link.label}</span>
-                      {activeSection === link.href.substring(1) && (
+                      {isHome && activeSection === link.href.substring(1) && (
                         <span className="ml-auto w-2 h-2 rounded-full bg-primary" />
                       )}
-                    </a>
+                    </Link>
                   </motion.div>
                 ))}
               </nav>
