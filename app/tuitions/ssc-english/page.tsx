@@ -43,7 +43,7 @@ const topics = [
       { label: "Formal & informal letters", href: null },
       { label: "Applications & emails", href: null },
       { label: "Completing stories", href: null },
-      { label: "Dialogue writing", href: null },
+      { label: "Dialogue writing", href: "/tuitions/ssc-english/dialogue-writing" },
     ],
   },
   {
