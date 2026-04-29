@@ -39,9 +39,9 @@ const topics = [
     bgClass: "bg-emerald-500/10 border-emerald-500/20",
     items: [
       { label: "Paragraph writing", href: "/tuitions/ssc-english/paragraph-writing" },
-      { label: "Composition & essay writing", href: null },
+      { label: "Composition & essay writing", href: "/tuitions/ssc-english/composition-writing" },
       { label: "Formal & informal letters", href: null },
-      { label: "Applications & emails", href: null },
+      { label: "Applications & emails", href: "/tuitions/ssc-english/application-writing" },
       { label: "Completing stories", href: null },
       { label: "Dialogue writing", href: "/tuitions/ssc-english/dialogue-writing" },
     ],
