@@ -27,11 +27,11 @@ const applications: ApplicationItem[] = [
     part: "A",
     partLabel: "Application",
     to: ["The Upazila Nirbahi Officer (UNO)", "Upazila: ……………, District: ……………"],
-    subject: "Prayer for immediate relief goods for the flood-affected people.",
+    subject: "Application for immediate relief goods for the flood-affected people.",
     body: [
-      "With due respect and humble submission, I beg to state that I am a resident of ……………… village under your upazila. Due to the recent devastating flood caused by incessant rainfall and the overflow of nearby rivers, our entire locality has been submerged under floodwater. Thousands of families have been rendered homeless and are suffering from acute shortage of food, pure drinking water, medicine, and other basic necessities of life.",
+      "With due respect, I would like to draw your kind attention to the fact that I am a resident of ……………… village under your upazila. Due to the recent devastating flood caused by incessant rainfall and the overflow of nearby rivers, our entire locality has been submerged under floodwater. Thousands of families have been rendered homeless and are suffering from acute shortage of food, pure drinking water, medicine, and other basic necessities of life.",
       "The floodwater has destroyed our crops, houses, and roads, making it extremely difficult for the affected people to survive. Many families have been living on embankments and in makeshift shelters without food or clean water for several days. Children, women, and elderly people are in particularly critical conditions and require urgent humanitarian assistance.",
-      "Therefore, I, on behalf of the flood-affected people of our area, most respectfully request you to kindly arrange and distribute emergency relief goods such as food, dry food, pure drinking water, oral saline, medicines, blankets, and tarpaulins as soon as possible. Your immediate and generous response will save many innocent lives from further suffering and deprivation.",
+      "Therefore, on behalf of the flood-affected people of our area, I respectfully request you to arrange and distribute emergency relief goods such as food, dry food, pure drinking water, oral saline, medicines, blankets, and tarpaulins as soon as possible. Your immediate and generous response will save many innocent lives from further suffering and deprivation.",
       "I sincerely hope that you will consider this matter with utmost urgency and take all necessary steps without further delay.",
     ],
     closing: "Yours faithfully,",
@@ -44,12 +44,12 @@ const applications: ApplicationItem[] = [
     part: "A",
     partLabel: "Application",
     to: ["The Headmaster", "…………… High School", "……………, Bangladesh"],
-    subject: "Prayer for setting up a canteen on the school campus.",
+    subject: "Application for setting up a canteen on the school campus.",
     body: [
-      "With profound respect, I beg to draw your kind attention to a pressing need of our school — the establishment of a proper canteen within the school campus. I am writing this application on behalf of all the students of our school to bring this important matter to your notice.",
+      "With profound respect, I would like to draw your kind attention to a pressing need of our school — the establishment of a proper canteen within the school campus. I am writing this application on behalf of all the students of our school to bring this important matter to your notice.",
       "Our school currently lacks a proper canteen or food stall within its premises. As a result, students often remain hungry during long class hours, particularly those who come from distant places and cannot go home for meals between periods. Some students purchase food from unhygienic roadside stalls outside the school gate, which poses serious health risks. The absence of a clean and affordable food source within the campus is adversely affecting students' health and their ability to concentrate in class.",
       "If a well-managed canteen is established within the school compound, students will be able to get fresh, hygienic, and affordable food without having to leave the campus. It will ensure better time management, reduce health hazards, and create a more productive learning environment. The canteen could also be supervised by the school authority to ensure quality and hygiene standards are maintained at all times.",
-      "Therefore, I most respectfully pray and hope that you will kindly take necessary steps to establish a well-managed canteen inside our school campus at the earliest convenience. We shall remain ever grateful for your kind consideration.",
+      "Therefore, I respectfully hope that you will take the necessary steps to establish a well-managed canteen inside our school campus at the earliest convenience. We shall remain ever grateful for your kind consideration.",
     ],
     closing: "Yours obediently,",
     signature: ["Name: ……………………", "Class: ………, Roll: ………", "On behalf of all students"],
@@ -61,12 +61,12 @@ const applications: ApplicationItem[] = [
     part: "A",
     partLabel: "Application",
     to: ["The Headmaster", "…………… High School", "……………, Bangladesh"],
-    subject: "Prayer for establishing a Debate Club in our school.",
+    subject: "Application for establishing a Debate Club in our school.",
     body: [
-      "With due respect, I beg to state that our school, though excelling in academic activities, lacks an active debate club that could significantly contribute to the intellectual and communicative development of the students. I, along with several like-minded students, am writing this application to request the establishment of a debate club in our esteemed institution.",
+      "With due respect, I would like to state that our school, though excelling in academic activities, lacks an active debate club that could significantly contribute to the intellectual and communicative development of the students. I, along with several like-minded students, am writing this application to request the establishment of a debate club in our esteemed institution.",
       "Debating is one of the most powerful tools for developing critical thinking, logical reasoning, public speaking skills, and leadership qualities among students. A debate club will create a platform where students can express their ideas confidently, argue logically, and learn to see issues from multiple perspectives. It will also help prepare students for national and inter-school debate competitions, which will undoubtedly bring honour and recognition to our institution.",
       "We assure you that we will maintain discipline and decorum during all debate sessions and will organise all events responsibly under the supervision of a teacher-in-charge. We have already identified a number of enthusiastic students who are eager to participate and contribute actively to the club's activities.",
-      "In view of the above, I humbly request you to kindly grant permission and necessary support for the formation of a Debate Club in our school. Your approval will be a great step toward the holistic intellectual development of our students.",
+      "In view of the above, I kindly request you to grant permission and necessary support for the formation of a Debate Club in our school. Your approval will be a great step toward the holistic intellectual development of our students.",
     ],
     closing: "Yours obediently,",
     signature: ["Name: ……………………", "Class: ………, Roll: ………", "On behalf of interested students"],
@@ -78,12 +78,12 @@ const applications: ApplicationItem[] = [
     part: "A",
     partLabel: "Application",
     to: ["The Headmaster", "…………… High School", "……………, Bangladesh"],
-    subject: "Prayer for granting permission to go on a study tour.",
+    subject: "Application for granting permission to go on a study tour.",
     body: [
-      "With due respect, I beg to draw your kind attention to the fact that the students of Class ……… are eagerly planning to go on a study tour to ……………. We believe that this educational excursion will be highly beneficial for our academic and personal development, and we are writing to seek your kind permission and wholehearted support for the same.",
+      "With due respect, I would like to draw your kind attention to the fact that the students of Class ……… are eagerly planning to go on a study tour to ……………. We believe that this educational excursion will be highly beneficial for our academic and personal development, and we are writing to seek your kind permission and wholehearted support for the same.",
       "Study tours provide students with invaluable opportunities to learn beyond the boundaries of textbooks. Visiting historical sites, museums, industrial establishments, or natural landmarks offers hands-on learning experiences that cannot be replicated within the four walls of a classroom. Such tours also nurture a sense of curiosity, teamwork, and national pride among students and give them a broader perspective on life and learning.",
       "We propose to undertake the tour on …………… and return on ……………, under the full supervision of our class teacher and two other respected teachers. All necessary arrangements regarding transport, accommodation, and the safety of students will be made well in advance. Written consent from parents and guardians will also be obtained for each participating student before the tour begins.",
-      "Therefore, we most respectfully request you to kindly grant permission for the said study tour and provide your valuable guidance and support. We assure you that we will maintain full discipline and decorum throughout the entire duration of the tour.",
+      "Therefore, we respectfully request you to grant permission for the said study tour and provide your valuable guidance and support. We assure you that we will maintain full discipline and decorum throughout the entire duration of the tour.",
     ],
     closing: "Yours obediently,",
     signature: ["Name: ……………………", "Class: ………, Roll: ………", "On behalf of Class ……… Students"],
@@ -95,12 +95,12 @@ const applications: ApplicationItem[] = [
     part: "A",
     partLabel: "Application",
     to: ["The Headmaster", "…………… High School", "……………, Bangladesh"],
-    subject: "Prayer for opening a Common Room for students.",
+    subject: "Application for opening a Common Room for students.",
     body: [
-      "With utmost respect, I beg to state that our school currently lacks a common room where students can relax and engage in recreational activities during leisure time and between classes. I, along with my fellow students, wish to bring this important matter to your kind notice and request the urgent establishment of a common room within our school premises.",
+      "With utmost respect, I would like to draw your kind attention to the fact that our school currently lacks a common room where students can relax and engage in recreational activities during leisure time and between classes. I, along with my fellow students, am writing this application to request the urgent establishment of a common room within our school premises.",
       "A common room serves as a vital space where students can rest, read newspapers and magazines, play indoor games like chess and carom, and engage in informal and productive discussions. Such a facility significantly reduces mental fatigue caused by continuous academic study, enhances social bonding among students, and contributes to the overall physical and mental well-being of the student body. Schools that have well-equipped common rooms have consistently reported improved student morale and better academic focus.",
       "We propose that an unused or underutilised room on the ground floor could be converted into a comfortable common room at minimal cost. Basic furniture, a selection of newspapers and magazines, and a few indoor games would be sufficient to make it functional and enjoyable. We are also fully willing to contribute voluntarily to its management, cleanliness, and regular upkeep.",
-      "We therefore humbly appeal to you to kindly consider our request and take the necessary steps to open a common room for the students of our school. Your generous decision will be greatly appreciated and warmly welcomed by the entire student body.",
+      "We therefore appeal to you to kindly consider our request and take the necessary steps to open a common room for the students of our school. Your generous decision will be greatly appreciated and warmly welcomed by the entire student body.",
     ],
     closing: "Yours obediently,",
     signature: ["Name: ……………………", "Class: ………, Roll: ………", "On behalf of all students"],
@@ -112,12 +112,12 @@ const applications: ApplicationItem[] = [
     part: "A",
     partLabel: "Application",
     to: ["The Headmaster", "…………… High School", "……………, Bangladesh"],
-    subject: "Prayer for allotment of a seat in the school hostel.",
+    subject: "Application for allotment of a seat in the school hostel.",
     body: [
-      "With all due respect, I beg to state that I am a student of Class ……… at your esteemed institution. I live in …………… village, which is approximately ……… kilometres away from the school. Travelling such a long distance every day is both extremely time-consuming and financially burdensome for my family. This exhausting daily commute is also adversely affecting my studies, as I arrive home late and have very little time left for revision, homework, and adequate rest.",
+      "With all due respect, I would like to state that I am a student of Class ……… at your esteemed institution. I live in …………… village, which is approximately ……… kilometres away from the school. Travelling such a long distance every day is both extremely time-consuming and financially burdensome for my family. This exhausting daily commute is also adversely affecting my studies, as I arrive home late and have very little time left for revision, homework, and adequate rest.",
       "I come from a modest family, and my father is a farmer. Despite our financial constraints, my parents are fully committed to supporting my education. Residing in the school hostel will enable me to focus entirely on my studies without the burden of daily travel, participate in school activities more actively, benefit from a structured and disciplined study environment, and make the most of my academic years.",
       "I assure you that I will abide by all the rules and regulations of the hostel with full sincerity and dedication. I will maintain discipline, respect fellow hostel residents, and will not engage in any activity that could disrupt the peaceful environment of the hostel or bring dishonour to the institution.",
-      "In view of the above circumstances, I most humbly and earnestly request you to kindly allot me a seat in the school hostel. I will be forever grateful for your kind, compassionate, and generous consideration of my appeal.",
+      "In view of the above circumstances, I sincerely request you to kindly allot me a seat in the school hostel. I will be forever grateful for your kind, compassionate, and generous consideration of my appeal.",
     ],
     closing: "Yours obediently,",
     signature: ["Name: ……………………", "Class: ………, Roll: ………", "Father's Name: ……………………", "Village: ……………………"],
@@ -129,12 +129,12 @@ const applications: ApplicationItem[] = [
     part: "A",
     partLabel: "Application",
     to: ["The Headmaster", "…………… High School", "……………, Bangladesh"],
-    subject: "Prayer for establishing a Computer Club in our school.",
+    subject: "Application for establishing a Computer Club in our school.",
     body: [
-      "With profound respect, I beg to draw your kind attention to the pressing need for establishing a Computer Club in our school. In the present era of digital technology and information, computer literacy has become an absolutely indispensable skill for every student. Yet, our school lacks an organised club that specifically promotes and enhances students' computer knowledge and technical skills beyond the regular curriculum.",
+      "With profound respect, I would like to draw your kind attention to the pressing need for establishing a Computer Club in our school. In the present era of digital technology and information, computer literacy has become an absolutely indispensable skill for every student. Yet, our school lacks an organised club that specifically promotes and enhances students' computer knowledge and technical skills beyond the regular curriculum.",
       "A Computer Club would provide students with a structured and stimulating platform to learn programming, graphic design, web development, and basic computer operations outside of regular class hours. Club activities such as coding competitions, digital art exhibitions, and software development workshops would inspire students to explore technology in a creative and professional manner. Such skills are highly valued in today's competitive job market and in higher education institutions both nationally and internationally.",
       "We propose that the computer lab, which is currently used only during scheduled class periods, could also serve as the venue for club activities after school hours. A dedicated and knowledgeable teacher may be assigned as the club advisor to guide and oversee all activities. We are enthusiastic, motivated, and fully ready to take an active and responsible role in organising and running the club.",
-      "I therefore earnestly and respectfully request you to kindly grant permission for the establishment of a Computer Club in our school. This will be a significant and forward-looking step in equipping our students for the ever-growing challenges of the digital age.",
+      "I therefore respectfully request you to grant permission for the establishment of a Computer Club in our school. This will be a significant and forward-looking step in equipping our students for the ever-growing challenges of the digital age.",
     ],
     closing: "Yours obediently,",
     signature: ["Name: ……………………", "Class: ………, Roll: ………", "On behalf of interested students"],
@@ -146,12 +146,12 @@ const applications: ApplicationItem[] = [
     part: "A",
     partLabel: "Application",
     to: ["The Headmaster", "…………… High School", "……………, Bangladesh"],
-    subject: "Prayer for establishing a Language Club in our school.",
+    subject: "Application for establishing a Language Club in our school.",
     body: [
-      "With due respect, I beg to state that effective communication in English and other languages is one of the most critical and sought-after skills in the modern world. While our school provides a solid academic foundation in language subjects, there is currently no dedicated club that focuses on the practical, creative, and confident use of language skills in real-life contexts. I, along with my fellow students, hereby request you to establish a Language Club in our institution.",
+      "With due respect, I would like to draw your kind attention to the fact that effective communication in English and other languages is one of the most critical and sought-after skills in the modern world. While our school provides a solid academic foundation in language subjects, there is currently no dedicated club that focuses on the practical, creative, and confident use of language skills in real-life contexts. I, along with my fellow students, hereby request you to establish a Language Club in our institution.",
       "A Language Club would offer students a rich variety of opportunities to practise English conversation, participate in elocution contests, creative writing competitions, poetry recitation, storytelling sessions, and vocabulary-building exercises. It would also encourage students to explore other world languages and cultures, fostering a broader worldview and a deeper appreciation for global diversity. Regular language activities would naturally and effectively improve students' speaking, writing, reading, and listening skills — all of which are essential not just for academic success but for future professional careers and global interaction.",
       "The club activities can be held after school hours in any available classroom. We respectfully request that a skilled and enthusiastic English teacher be assigned as the club advisor. We promise to manage all the club's activities with full seriousness, dedication, and a deep sense of responsibility.",
-      "We humbly request you to kindly consider our appeal and grant permission for the establishment of a Language Club at the earliest possible time. We are absolutely confident that it will greatly benefit every student of our institution.",
+      "We kindly request you to consider our appeal and grant permission for the establishment of a Language Club at the earliest possible time. We are absolutely confident that it will greatly benefit every student of our institution.",
     ],
     closing: "Yours obediently,",
     signature: ["Name: ……………………", "Class: ………, Roll: ………", "On behalf of interested students"],
@@ -163,12 +163,12 @@ const applications: ApplicationItem[] = [
     part: "A",
     partLabel: "Application",
     to: ["The Headmaster", "…………… High School", "……………, Bangladesh"],
-    subject: "Prayer for setting up multimedia classroom facilities in our school.",
+    subject: "Application for setting up multimedia classroom facilities in our school.",
     body: [
-      "With due respect, I beg to draw your attention to the pressing need for multimedia classroom facilities in our school. In today's technologically advanced world, digital learning tools have fundamentally revolutionised the way knowledge is delivered and absorbed by students. Our school, however, still relies solely on traditional chalk-and-blackboard methods, which significantly limits the effectiveness, engagement, and interactivity of the teaching-learning process.",
+      "With due respect, I would like to draw your kind attention to the pressing need for multimedia classroom facilities in our school. In today's technologically advanced world, digital learning tools have fundamentally revolutionised the way knowledge is delivered and absorbed by students. Our school, however, still relies solely on traditional chalk-and-blackboard methods, which significantly limits the effectiveness, engagement, and interactivity of the teaching-learning process.",
       "A multimedia classroom equipped with projectors, interactive whiteboards, computers, and audio systems would dramatically improve the quality of education in our institution. Complex subjects such as science, mathematics, geography, and history become much easier to understand and retain when they are illustrated through educational videos, animated diagrams, and interactive digital presentations. Research consistently and conclusively shows that multimedia-aided instruction leads to better comprehension, higher retention rates, and significantly increased student engagement and motivation.",
       "We understand that the initial cost of setting up such facilities might be a concern. However, the long-term academic benefit to our students far outweighs the initial investment. We also note with encouragement that several schools in our district have already successfully implemented multimedia classrooms, and this has noticeably and measurably improved their students' performance in public examinations and inter-school competitions.",
-      "We therefore earnestly and respectfully request you to kindly take the necessary steps to introduce multimedia classroom facilities in our school as soon as possible. Your visionary initiative will bring about a truly transformative improvement in our overall learning environment and academic outcomes.",
+      "We therefore respectfully request you to take the necessary steps to introduce multimedia classroom facilities in our school as soon as possible. Your visionary initiative will bring about a truly transformative improvement in our overall learning environment and academic outcomes.",
     ],
     closing: "Yours obediently,",
     signature: ["Name: ……………………", "Class: ………, Roll: ………", "On behalf of all students"],
@@ -180,11 +180,11 @@ const applications: ApplicationItem[] = [
     part: "A",
     partLabel: "Application",
     to: ["The Headmaster", "…………… High School", "……………, Bangladesh"],
-    subject: "Prayer for issuance of a Transfer Certificate.",
+    subject: "Application for issuance of a Transfer Certificate.",
     body: [
-      "With due respect, I beg to state that I am a student of Class ……… (Roll No.: ………) at your esteemed institution. My father has recently been transferred to …………… due to his professional and official obligations, and our entire family is compelled to relocate there. As a result, it has become absolutely necessary for me to seek admission to a school near our new place of residence.",
+      "With due respect, I would like to state that I am a student of Class ……… (Roll No.: ………) at your esteemed institution. My father has recently been transferred to …………… due to his professional and official obligations, and our entire family is compelled to relocate there. As a result, it has become absolutely necessary for me to seek admission to a school near our new place of residence.",
       "I have been a sincere, regular, and well-behaved student of this institution since Class ………. Throughout my time here, I have always maintained a satisfactory academic record and have never been involved in any act of misconduct, indiscipline, or irregularity. I have fully cleared all school dues, fees, and financial obligations, and I have no pending liabilities whatsoever toward the institution.",
-      "In the above circumstances, I most respectfully and sincerely request you to kindly issue me a Transfer Certificate at your earliest possible convenience, along with any other necessary documents such as the testimonial, mark sheet, and character certificate. These documents will help me secure admission in a new school at my new place of residence without unnecessary delay or complication.",
+      "In the above circumstances, I sincerely request you to issue me a Transfer Certificate at your earliest possible convenience, along with any other necessary documents such as the testimonial, mark sheet, and character certificate. These documents will help me secure admission in a new school at my new place of residence without unnecessary delay or complication.",
       "I am deeply and genuinely grateful for the education, values, and opportunities that this beloved institution has so generously provided me over the years. I will always cherish the wonderful memories of my time here. I hope for your kind, prompt, and positive response to my heartfelt request.",
     ],
     closing: "Yours obediently,",
@@ -216,7 +216,7 @@ const applications: ApplicationItem[] = [
     to: ["The Commissioner of Police", "District: ……………, Bangladesh"],
     subject: "Complaint against anti-social and criminal activities in our locality.",
     body: [
-      "With utmost respect and deep concern, I beg to draw your kind and urgent attention to the alarming and rapidly worsening rise of anti-social and criminal activities in our locality of ……………, which is gravely threatening the safety, peace, harmony, and well-being of its thousands of residents.",
+      "With utmost respect and deep concern, I would like to draw your kind and urgent attention to the alarming and rapidly worsening rise of anti-social and criminal activities in our locality of ……………, which is gravely threatening the safety, peace, harmony, and well-being of its thousands of residents.",
       "For the past several months, our area has been witnessing a deeply disturbing increase in various forms of anti-social and criminal behaviour. These include mugging and chain-snatching incidents particularly targeting women and the elderly, open drug peddling near the school and market areas, brazen eve-teasing and harassment of female students, gambling in public spaces, and late-night disturbances caused by unruly and intoxicated groups of individuals. Several innocent residents have been physically assaulted when they courageously tried to resist or protest against these illegal activities.",
       "The residents of our locality now live in constant fear and a deep sense of insecurity. Parents are afraid to send their children to school unaccompanied, women are reluctant to go out alone even during daytime, and shopkeepers are being extorted by local criminals. The deteriorating law and order situation is having a severely negative impact on everyday life, business, and the mental well-being of the entire community.",
       "We therefore sincerely and urgently request you to kindly direct the local police to significantly increase patrol frequency in our area, particularly during the night hours, arrest the known miscreants and drug dealers without further delay, and take firm and exemplary legal action against all anti-social elements. We also respectfully request the establishment of a police outpost in our locality for the permanent protection and safety of residents.",
@@ -287,12 +287,12 @@ function ApplicationCard({ app, index }: { app: ApplicationItem; index: number }
 
             <div className="px-6 pb-7 space-y-4 text-sm">
               {/* Date */}
-              <p className="text-muted-foreground">15 April 2025</p>
+              <p>15 April 2025</p>
 
               {/* To */}
               <div className="space-y-0.5">
                 {app.to.map((line, i) => (
-                  <p key={i} className={i === 0 ? "font-medium" : "text-muted-foreground"}>{line}</p>
+                  <p key={i} className={i === 0 ? "font-semibold" : ""}>{line}</p>
                 ))}
               </div>
 
@@ -308,7 +308,7 @@ function ApplicationCard({ app, index }: { app: ApplicationItem; index: number }
               {/* Body */}
               <div className="space-y-3">
                 {app.body.map((para, i) => (
-                  <p key={i} className="leading-relaxed text-foreground/85 text-justify">
+                  <p key={i} className="leading-relaxed text-justify">
                     {para}
                   </p>
                 ))}
@@ -318,7 +318,7 @@ function ApplicationCard({ app, index }: { app: ApplicationItem; index: number }
               <div className="pt-1 space-y-1">
                 <p>{app.closing}</p>
                 {app.signature.map((line, i) => (
-                  <p key={i} className="text-muted-foreground">{line}</p>
+                  <p key={i}>{line}</p>
                 ))}
               </div>
             </div>
