@@ -11,7 +11,7 @@ const subjects = [
   {
     label: "Bangla",
     sub: "1st & 2nd Paper",
-    href: null,
+    href: "/tuitions/ssc-bangla",
     icon: Languages,
     iconColor: "text-emerald-400",
     iconBg: "bg-emerald-500/10 border-emerald-500/20",
