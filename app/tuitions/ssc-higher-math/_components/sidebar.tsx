@@ -24,7 +24,7 @@ export const chapters: Chapter[] = [
     num: 11,
     title: "Coordinate Geometry",
     subs: [
-      { label: "Examples", title: "Worked Examples",    href: null },
+      { label: "Examples", title: "Worked Examples",    href: "/tuitions/ssc-higher-math/coordinate-geometry/examples" },
       { label: "Ex 11.1",  title: "Distance Formula",   href: "/tuitions/ssc-higher-math/coordinate-geometry/exercise-11-1" },
       { label: "Ex 11.2",  title: "Area of Triangles",  href: "/tuitions/ssc-higher-math/coordinate-geometry/exercise-11-2" },
     ],
