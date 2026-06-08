@@ -69,7 +69,7 @@ const topics = [
       { label: "Midpoint & section formula", href: null },
       { label: "Slope & equation of a straight line", href: null },
       { label: "Conditions for parallel & perpendicular lines", href: null },
-      { label: "Area of triangle using coordinates", href: null },
+      { label: "Area of triangle using coordinates", href: "/tuitions/ssc-higher-math/coordinate-geometry/exercise-11-2" },
     ],
   },
   {
