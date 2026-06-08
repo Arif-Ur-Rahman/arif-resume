@@ -38,7 +38,7 @@ const subjects = [
   {
     label: "Higher Mathematics",
     sub: "Advanced",
-    href: null,
+    href: "/tuitions/ssc-higher-math",
     icon: Hash,
     iconColor: "text-violet-400",
     iconBg: "bg-violet-500/10 border-violet-500/20",
