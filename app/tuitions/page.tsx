@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowRight, BookOpen, GraduationCap, University } from "lucide-react";
+import { ArrowRight, BookOpen, ClipboardList, GraduationCap, University } from "lucide-react";
 import Link from "next/link";
 
 const levels = [
@@ -40,6 +40,18 @@ const levels = [
     iconColor: "text-emerald-400",
     iconBg: "bg-emerald-500/10 border-emerald-500/20",
     badgeColor: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
+  },
+  {
+    href: "/tuitions/model-test",
+    label: "Model Tests",
+    full: "Practice Papers & Answers",
+    description:
+      "Full model test papers with detailed answers and mark breakdowns — published after each session so students can revise and self-evaluate at home.",
+    icon: <ClipboardList className="h-8 w-8" />,
+    gradient: "from-violet-500/20 to-purple-500/5",
+    iconColor: "text-violet-400",
+    iconBg: "bg-violet-500/10 border-violet-500/20",
+    badgeColor: "bg-violet-500/10 text-violet-400 border-violet-500/20",
   },
 ];
 
@@ -96,7 +108,7 @@ export default function TuitionsPage() {
       <section className="relative pb-28">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
         <div className="container px-4 mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
             {levels.map((level, i) => (
               <motion.div
                 key={level.label}
