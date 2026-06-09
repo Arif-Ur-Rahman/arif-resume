@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { BookOpen, ChevronDown, ChevronRight } from "lucide-react";
 import Link from "next/link";
@@ -17,7 +17,16 @@ export const chapters: Chapter[] = [
   { num: 5,  title: "Equation",                             subs: null },
   { num: 6,  title: "Inequality",                           subs: null },
   { num: 7,  title: "Infinite Series",                      subs: null },
-  { num: 8,  title: "Trigonometry",                         subs: null },
+  {
+    num: 8,
+    title: "Trigonometry",
+    subs: [
+      { label: "Examples", title: "Worked Examples",   href: "/tuitions/ssc-higher-math/trigonometry/examples" },
+      { label: "Ex 8.1",   title: "Ratios & Values",   href: "/tuitions/ssc-higher-math/trigonometry/exercise-8-1" },
+      { label: "Ex 8.2",   title: "Identities",        href: "/tuitions/ssc-higher-math/trigonometry/exercise-8-2" },
+      { label: "Ex 8.3",   title: "Height & Distance", href: "/tuitions/ssc-higher-math/trigonometry/exercise-8-3" },
+    ],
+  },
   { num: 9,  title: "Exponential and Logarithmic Function", subs: null },
   { num: 10, title: "Binomial Expansion",                   subs: null },
   {
@@ -36,7 +45,22 @@ export const chapters: Chapter[] = [
 
 export function ChaptersSidebar() {
   const pathname = usePathname();
-  const [open, setOpen] = useState<number[]>([11]);
+  const [open, setOpen] = useState<number[]>(() =>
+    chapters
+      .filter(ch => ch.subs?.some(s => s.href && pathname.startsWith(s.href)))
+      .map(ch => ch.num)
+  );
+
+  useEffect(() => {
+    setOpen(prev => {
+      const active = chapters
+        .filter(ch => ch.subs?.some(s => s.href && pathname.startsWith(s.href)))
+        .map(ch => ch.num);
+      const seen = new Set(prev);
+      const merged = [...prev, ...active.filter(n => !seen.has(n))];
+      return merged.length === prev.length && merged.every((v, i) => v === prev[i]) ? prev : merged;
+    });
+  }, [pathname]);
 
   const toggle = (num: number) =>
     setOpen((prev) =>
