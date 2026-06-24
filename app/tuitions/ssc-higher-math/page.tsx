@@ -78,7 +78,7 @@ const topics = [
     colorClass: "text-pink-400",
     bgClass: "bg-pink-500/10 border-pink-500/20",
     items: [
-      { label: "Trigonometric ratios — sin, cos, tan (and reciprocals)", href: "/tuitions/ssc-higher-math/trigonometry/exercise-8-1" },
+      { label: "Radian & degree measure — conversion, arc length (s = rθ)", href: "/tuitions/ssc-higher-math/trigonometry/exercise-8-1" },
       { label: "Values for standard angles (0°, 30°, 45°, 60°, 90°)", href: "/tuitions/ssc-higher-math/trigonometry/examples" },
       { label: "Trigonometric identities & proofs", href: "/tuitions/ssc-higher-math/trigonometry/exercise-8-2" },
       { label: "Height & distance word problems", href: "/tuitions/ssc-higher-math/trigonometry/exercise-8-3" },

@@ -22,7 +22,7 @@ export const chapters: Chapter[] = [
     title: "Trigonometry",
     subs: [
       { label: "Examples", title: "Worked Examples",   href: "/tuitions/ssc-higher-math/trigonometry/examples" },
-      { label: "Ex 8.1",   title: "Ratios & Values",   href: "/tuitions/ssc-higher-math/trigonometry/exercise-8-1" },
+      { label: "Ex 8.1",   title: "Radian & Degree Measure", href: "/tuitions/ssc-higher-math/trigonometry/exercise-8-1" },
       { label: "Ex 8.2",   title: "Identities",        href: "/tuitions/ssc-higher-math/trigonometry/exercise-8-2" },
       { label: "Ex 8.3",   title: "Height & Distance", href: "/tuitions/ssc-higher-math/trigonometry/exercise-8-3" },
     ],
