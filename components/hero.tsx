@@ -28,7 +28,7 @@ export default function Hero() {
       {/* Background gradient orbs */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div className="absolute -top-48 -right-48 w-[500px] h-[500px] bg-blue-500/10 rounded-full blur-[140px]" />
-        <div className="absolute -bottom-48 -left-48 w-[500px] h-[500px] bg-violet-500/10 rounded-full blur-[140px]" />
+        <div className="absolute -bottom-48 -left-48 w-[500px] h-[500px] bg-orange-500/10 rounded-full blur-[140px]" />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-primary/5 rounded-full blur-[100px]" />
       </div>
 
@@ -56,7 +56,7 @@ export default function Hero() {
                 {/* Gradient ring */}
                 <div
                   className="absolute -inset-[2px] rounded-full"
-                  style={{ background: "linear-gradient(135deg, hsl(217 91% 60%), hsl(262 80% 65%))" }}
+                  style={{ background: "linear-gradient(135deg, hsl(217 91% 60%), hsl(25 95% 58%))" }}
                 />
                 <div className="absolute -inset-[1px] rounded-full bg-background" />
                 <div className="relative w-full h-full rounded-full overflow-hidden">
@@ -86,7 +86,7 @@ export default function Hero() {
             </motion.div>
 
             {/* Heading */}
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.4rem] font-bold leading-tight mb-5 tracking-tight">
+            <h1 className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-[3.75rem] font-semibold leading-[1.05] mb-5 tracking-tight">
               <span className="block text-foreground/80">Hi, I&apos;m</span>
               <span className="gradient-text block mt-1">Arif Ur Rahman</span>
             </h1>
@@ -153,13 +153,13 @@ export default function Hero() {
           >
             {/* Ambient glow */}
             <div className="absolute w-[320px] h-[420px] bg-primary/10 rounded-full blur-[80px]" />
-            <div className="absolute w-[200px] h-[200px] bg-violet-500/10 rounded-full blur-[60px] translate-x-20 translate-y-16" />
+            <div className="absolute w-[200px] h-[200px] bg-orange-500/10 rounded-full blur-[60px] translate-x-20 translate-y-16" />
 
             {/* Gradient border frame */}
             <div className="relative animate-float">
               <div
                 className="absolute -inset-[3px] rounded-3xl"
-                style={{ background: "linear-gradient(135deg, hsl(217 91% 60%), hsl(262 80% 65%), hsl(217 91% 40%))" }}
+                style={{ background: "linear-gradient(135deg, hsl(217 91% 60%), hsl(25 95% 58%), hsl(217 91% 40%))" }}
               />
               <div className="absolute -inset-[2px] rounded-3xl bg-background" />
               <div className="relative w-72 h-80 rounded-3xl overflow-hidden">
