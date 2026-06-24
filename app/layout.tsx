@@ -1,15 +1,24 @@
 import './globals.css';
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import { Hanken_Grotesk, Fraunces } from 'next/font/google';
 import { ThemeProvider } from '@/components/theme-provider';
 import Navbar from '@/components/navbar';
 import Footer from '@/components/footer';
 import ScrollToTop from '@/components/scroll-to-top';
 
-const inter = Inter({
+// Matter-like geometric grotesque for UI / body
+const hankenGrotesk = Hanken_Grotesk({
   subsets: ['latin'],
-  variable: '--font-inter',
+  variable: '--font-sans',
   display: 'swap',
+});
+
+// Season Mix-like editorial serif for display headings
+const fraunces = Fraunces({
+  subsets: ['latin'],
+  variable: '--font-display',
+  display: 'swap',
+  axes: ['opsz'],
 });
 
 export const metadata: Metadata = {
@@ -26,11 +35,11 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <link rel="icon" type="image/png" href="/fabicon.png" />
-      <body className={`${inter.variable} font-sans`}>
+      <body className={`${hankenGrotesk.variable} ${fraunces.variable} font-sans`}>
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
-          enableSystem
+          defaultTheme="light"
+          enableSystem={false}
           disableTransitionOnChange
         >
           <div className="flex min-h-screen flex-col">

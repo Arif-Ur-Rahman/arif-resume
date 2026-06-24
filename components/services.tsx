@@ -88,7 +88,7 @@ export default function Services() {
           <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-semibold uppercase tracking-widest mb-4">
             What I Offer
           </span>
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
+          <h2 className="font-display text-3xl md:text-5xl font-semibold tracking-tight mb-4">
             Services I <span className="gradient-text">Provide</span>
           </h2>
           <div className="section-divider mx-auto mb-6" />
@@ -135,11 +135,11 @@ export default function Services() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="relative overflow-hidden rounded-2xl border border-primary/20 bg-gradient-to-br from-primary/10 via-card to-violet-500/10 p-8 md:p-10"
+          className="relative overflow-hidden rounded-2xl border border-primary/20 bg-gradient-to-br from-primary/10 via-card to-orange-500/10 p-8 md:p-10"
         >
           {/* Decorative blobs */}
           <div className="absolute -top-16 -right-16 w-48 h-48 bg-primary/15 rounded-full blur-3xl pointer-events-none" />
-          <div className="absolute -bottom-16 -left-16 w-48 h-48 bg-violet-500/10 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute -bottom-16 -left-16 w-48 h-48 bg-orange-500/10 rounded-full blur-3xl pointer-events-none" />
 
           <div className="relative z-10 flex flex-col lg:flex-row gap-8 items-center justify-between">
             <div className="flex-1 max-w-xl">

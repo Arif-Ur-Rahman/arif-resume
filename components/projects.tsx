@@ -79,7 +79,7 @@ export default function Projects() {
           <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-semibold uppercase tracking-widest mb-4">
             My Work
           </span>
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
+          <h2 className="font-display text-3xl md:text-5xl font-semibold tracking-tight mb-4">
             Featured <span className="gradient-text">Projects</span>
           </h2>
           <div className="section-divider mx-auto mb-6" />

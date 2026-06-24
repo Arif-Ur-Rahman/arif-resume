@@ -110,7 +110,7 @@ export default function Experience() {
           <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-semibold uppercase tracking-widest mb-4">
             My Journey
           </span>
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
+          <h2 className="font-display text-3xl md:text-5xl font-semibold tracking-tight mb-4">
             Experience &amp; <span className="gradient-text">Education</span>
           </h2>
           <div className="section-divider mx-auto mb-6" />
@@ -135,7 +135,7 @@ export default function Experience() {
           <TabsContent value="work">
             <div className="relative max-w-3xl mx-auto">
               {/* Timeline vertical line */}
-              <div className="absolute left-[26px] top-10 bottom-10 w-px bg-gradient-to-b from-primary via-violet-500/50 to-transparent hidden sm:block" />
+              <div className="absolute left-[26px] top-10 bottom-10 w-px bg-gradient-to-b from-primary via-orange-500/50 to-transparent hidden sm:block" />
 
               <div className="space-y-6">
                 {workExperience.map((job, i) => (
@@ -191,7 +191,7 @@ export default function Experience() {
           {/* Education */}
           <TabsContent value="education">
             <div className="relative max-w-3xl mx-auto">
-              <div className="absolute left-[26px] top-10 bottom-10 w-px bg-gradient-to-b from-primary via-violet-500/50 to-transparent hidden sm:block" />
+              <div className="absolute left-[26px] top-10 bottom-10 w-px bg-gradient-to-b from-primary via-orange-500/50 to-transparent hidden sm:block" />
 
               <div className="space-y-6">
                 {education.map((edu, i) => (
