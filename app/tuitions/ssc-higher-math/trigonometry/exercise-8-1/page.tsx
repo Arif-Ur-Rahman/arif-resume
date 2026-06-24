@@ -4,7 +4,6 @@ import { motion } from "framer-motion";
 import { Infinity as InfinityIcon, ArrowLeft, CheckCircle2, Phone, MapPin } from "lucide-react";
 import Link from "next/link";
 import { ChaptersSidebar } from "../../_components/sidebar";
-import { TrigDiagram } from "../../_components/trig-diagram";
 
 function Steps({ lines }: { lines: string[] }) {
   return (
@@ -65,14 +64,14 @@ export default function Exercise8_1Page() {
               </div>
             </div>
             <p className="max-w-2xl text-muted-foreground text-lg leading-relaxed mb-6">
-              Trigonometric Ratios, Standard Values &amp; Complementary Angles.
-              Step-by-step solutions for all problems.
+              Radian &amp; degree measure — conversion between systems and arc length.
+              Step-by-step solutions for all 13 problems (π ≈ 3.1416).
             </p>
             <div className="flex flex-wrap gap-3">
               {[
-                ["sin²θ + cos²θ = 1",  "Pythagorean"],
-                ["1 + tan²θ = sec²θ",  "Pythagorean"],
-                ["sin(90°−θ) = cos θ", "Complementary"],
+                ["1° = π/180 rad",   "Degree → Radian"],
+                ["1ᶜ = (180/π)°",     "Radian → Degree"],
+                ["s = r θ",          "Arc length"],
               ].map(([eq, label]) => (
                 <div key={eq} className="flex items-center gap-2 bg-card border border-border rounded-xl px-4 py-2.5">
                   <span className="text-xs text-muted-foreground font-semibold uppercase tracking-wide">{label}</span>
@@ -91,149 +90,201 @@ export default function Exercise8_1Page() {
           <div className="flex-1 min-w-0 space-y-6">
 
             {/* ── Problem 1 ── */}
-            <ProblemCard num={1} statement="If sin θ = 3/5, find the values of the remaining five trigonometric ratios.">
-              <div className="max-w-xs">
-                <TrigDiagram type="right-triangle"
-                  labels={{ hyp: "5", opp: "3", adj: "4", theta: "θ" }}
-                  caption="Right triangle derived from sin θ = 3/5"
-                />
-              </div>
+            <ProblemCard num={1} statement="(1) Express in radians: (i) 75°30′  (ii) 55°54′53″  (iii) 33°22′11″.  (2) Express in degrees: (i) 8π/13 radian  (ii) 1.3177 radian  (iii) 0.9759 radian.">
               <Steps lines={[
-                "sin θ = 3/5  →  opposite = 3, hypotenuse = 5",
+                "Use 1° = (π/180)ᶜ  and  1ᶜ = (180/π)°,  π ≈ 3.1416",
                 "",
-                "By Pythagoras:  adjacent = √(5² − 3²) = √(25 − 9) = √16 = 4",
+                "(1) Degree → Radian",
+                "(i)   75°30′ = 75.5°  = 75.5 × π/180   = 1.3177ᶜ",
+                "(ii)  55°54′53″ = 55.9148° = 55.9148 × π/180 = 0.9759ᶜ",
+                "(iii) 33°22′11″ = 33.3697° = 33.3697 × π/180 = 0.5824ᶜ",
                 "",
-                "cos θ = 4/5",
-                "tan θ = sin θ / cos θ = (3/5) / (4/5) = 3/4",
-                "csc θ = 1/sin θ = 5/3",
-                "sec θ = 1/cos θ = 5/4",
-                "cot θ = 1/tan θ = 4/3",
+                "(2) Radian → Degree",
+                "(i)   8π/13 = (8 × 180)/13 = 1440/13 = 110.769° = 110°46′9″",
+                "(ii)  1.3177ᶜ = 1.3177 × 180/π = 75.499°  ≈ 75°30′",
+                "(iii) 0.9759ᶜ = 0.9759 × 180/π = 55.915°  = 55°54′53″",
               ]} />
-              <Answer>cos θ = 4/5, tan θ = 3/4, csc θ = 5/3, sec θ = 5/4, cot θ = 4/3</Answer>
+              <Answer>(1) 1.3177ᶜ, 0.9759ᶜ, 0.5824ᶜ  ·  (2) 110°46′9″, 75°30′, 55°54′53″</Answer>
             </ProblemCard>
 
             {/* ── Problem 2 ── */}
-            <ProblemCard num={2} statement="If tan θ = 5/12, find the values of sin θ, cos θ, sec θ, csc θ and cot θ.">
+            <ProblemCard num={2} statement="If an angle is expressed as D° in the sexagesimal system and Rᶜ in the circular (radian) system, prove that D/180 = R/π.">
               <Steps lines={[
-                "tan θ = 5/12  →  opposite = 5, adjacent = 12",
+                "We know:  180° = π radian.",
+                "∴ 1° = (π/180) radian.",
                 "",
-                "Hypotenuse = √(5² + 12²) = √(25 + 144) = √169 = 13",
+                "The angle measures D° in degrees and R radian in circular system,",
+                "and both describe the same angle, so:",
+                "  D° = D × (π/180) radian = R",
                 "",
-                "sin θ = 5/13,   cos θ = 12/13",
-                "sec θ = 13/12,  csc θ = 13/5",
-                "cot θ = 12/5",
+                "∴ D × π/180 = R",
+                "Dividing both sides by π:",
+                "  D/180 = R/π   (Proved)",
               ]} />
-              <Answer>sin θ = 5/13, cos θ = 12/13, sec θ = 13/12, csc θ = 13/5, cot θ = 12/5</Answer>
+              <Answer>D/180 = R/π ✓</Answer>
             </ProblemCard>
 
             {/* ── Problem 3 ── */}
-            <ProblemCard num={3} statement="Evaluate: 2sin²30° + cos²45° + 3tan²60°">
+            <ProblemCard num={3} statement="The radius of a wheel is 2 metre 3 cm. Find the approximate value of its circumference to four places of decimals.">
               <Steps lines={[
-                "sin 30° = 1/2  →  sin²30° = 1/4",
-                "cos 45° = 1/√2 →  cos²45° = 1/2",
-                "tan 60° = √3   →  tan²60° = 3",
+                "Radius r = 2 m 3 cm = 2.03 m  (1 m = 100 cm)",
                 "",
-                "= 2(1/4) + 1/2 + 3(3)",
-                "= 1/2    + 1/2 + 9",
-                "= 1 + 9  =  10",
+                "Circumference = 2πr",
+                "             = 2 × 3.1416 × 2.03",
+                "             = 6.2832 × 2.03",
+                "             = 12.7549 m  (nearly)",
               ]} />
-              <Answer>10</Answer>
+              <Answer>Circumference ≈ 12.7549 m</Answer>
             </ProblemCard>
 
             {/* ── Problem 4 ── */}
-            <ProblemCard num={4} statement="Evaluate: 4cos²60° + 3tan²30° − sin²90°">
+            <ProblemCard num={4} statement="The diameter of a wheel of a car is 0.84 metre and the wheel makes 6 revolutions per second. Find the speed of the car.">
               <Steps lines={[
-                "cos 60° = 1/2  →  cos²60° = 1/4",
-                "tan 30° = 1/√3 →  tan²30° = 1/3",
-                "sin 90° = 1    →  sin²90° = 1",
+                "Diameter d = 0.84 m",
+                "Distance in 1 revolution = circumference = πd",
+                "  = 3.1416 × 0.84 = 2.6389 m",
                 "",
-                "= 4(1/4) + 3(1/3) − 1",
-                "= 1      + 1      − 1",
-                "= 1",
+                "In 6 revolutions (i.e. in 1 second):",
+                "  distance = 6 × 2.6389 = 15.8337 m",
+                "",
+                "∴ Speed = 15.83 m/s (nearly)  = 15.83 × 3.6 ≈ 57 km/h",
               ]} />
-              <Answer>1</Answer>
+              <Answer>Speed ≈ 15.83 m/s (≈ 57 km/h)</Answer>
             </ProblemCard>
 
             {/* ── Problem 5 ── */}
-            <ProblemCard num={5} statement="Show that: sin 30° · cos 60° + cos 30° · sin 60° = 1">
+            <ProblemCard num={5} statement="The angles of a triangle are in the ratio 2 : 5 : 3; what are the circular measures of the smallest and the largest angles?">
               <Steps lines={[
-                "LHS = sin 30° · cos 60° + cos 30° · sin 60°",
-                "    = (1/2)(1/2)  +  (√3/2)(√3/2)",
-                "    = 1/4  +  3/4",
-                "    = 4/4  =  1  =  RHS  ✓",
+                "Sum of angles of a triangle = 180°",
+                "Total ratio parts = 2 + 5 + 3 = 10",
+                "Each part = 180° / 10 = 18°",
                 "",
-                "Note: This is the expansion of sin(30° + 60°) = sin 90° = 1.",
+                "Smallest angle = 2 × 18° = 36°",
+                "Largest angle  = 5 × 18° = 90°",
+                "",
+                "Circular measure:",
+                "  36° = 36 × π/180 = π/5 radian",
+                "  90° = π/2 radian",
               ]} />
-              <Answer>LHS = 1 = RHS ✓</Answer>
+              <Answer>Smallest = π/5ᶜ,  Largest = π/2ᶜ</Answer>
             </ProblemCard>
 
             {/* ── Problem 6 ── */}
-            <ProblemCard num={6} statement="If sin(A + B) = 1 and cos(A − B) = 1, where 0° ≤ A, B ≤ 90°, find A and B.">
+            <ProblemCard num={6} statement="The angles of a triangle are in arithmetical progression and the largest angle is twice the smallest. What are the radian measures of the angles?">
               <Steps lines={[
-                "sin(A + B) = 1  →  A + B = 90°  … (i)",
-                "cos(A − B) = 1  →  A − B = 0°   … (ii)",
+                "Let the angles be (a − d), a, (a + d).",
+                "Sum = 3a = 180°  →  a = 60°",
                 "",
-                "Adding (i) and (ii):   2A = 90°  →  A = 45°",
-                "Subtracting (ii) from (i):  2B = 90°  →  B = 45°",
+                "Largest = 2 × smallest:",
+                "  a + d = 2(a − d)",
+                "  60 + d = 2(60 − d) = 120 − 2d",
+                "  3d = 60  →  d = 20°",
+                "",
+                "Angles = 40°, 60°, 80°",
+                "Radian = 40×π/180, 60×π/180, 80×π/180",
+                "       = 2π/9,  π/3,  4π/9",
               ]} />
-              <Answer>A = 45°, B = 45°</Answer>
+              <Answer>2π/9ᶜ,  π/3ᶜ,  4π/9ᶜ</Answer>
             </ProblemCard>
 
             {/* ── Problem 7 ── */}
-            <ProblemCard num={7} statement="Find the value of: sin²30° + sin²45° + sin²60°">
+            <ProblemCard num={7} statement="The arc joining Dhaka with Chittagong subtends an angle of 5° at the centre of the earth. Taking the earth to be a sphere of radius 6440 km, find the distance of Chittagong from Dhaka.">
               <Steps lines={[
-                "sin 30° = 1/2  →  sin²30° = 1/4",
-                "sin 45° = 1/√2 →  sin²45° = 1/2",
-                "sin 60° = √3/2 →  sin²60° = 3/4",
+                "Radius r = 6440 km",
+                "Angle θ = 5° = 5 × π/180 = π/36 radian",
                 "",
-                "= 1/4 + 1/2 + 3/4",
-                "= 1/4 + 2/4 + 3/4",
-                "= 6/4  =  3/2",
+                "Distance = arc s = r θ",
+                "  = 6440 × π/36",
+                "  = 6440 × 3.1416 / 36",
+                "  = 562.0 km (nearly)",
               ]} />
-              <Answer>3/2</Answer>
+              <Answer>Distance ≈ 562 km</Answer>
             </ProblemCard>
 
             {/* ── Problem 8 ── */}
-            <ProblemCard num={8} statement="Find θ if 2 sin θ − 1 = 0, where 0° ≤ θ ≤ 90°.">
+            <ProblemCard num={8} statement="The arc joining Teknaf with Tetulia subtends an angle of 10°6′3″ at the centre of the earth. Taking the earth to be a sphere of radius 6440 km, find the distance between Tetulia and Teknaf.">
               <Steps lines={[
-                "2 sin θ − 1 = 0",
-                "sin θ = 1/2",
+                "Radius r = 6440 km",
+                "Angle θ = 10°6′3″ = 10.1008°",
+                "       = 10.1008 × π/180 = 0.17628 radian",
                 "",
-                "From the standard values table:",
-                "  sin 30° = 1/2",
-                "",
-                "∴ θ = 30°",
+                "Distance = arc s = r θ",
+                "  = 6440 × 0.17628",
+                "  = 1135.3 km (nearly)",
               ]} />
-              <Answer>θ = 30°</Answer>
+              <Answer>Distance ≈ 1135.3 km</Answer>
             </ProblemCard>
 
             {/* ── Problem 9 ── */}
-            <ProblemCard num={9} statement="Prove: sin(90° − A) · cos(90° − A) = sin A · cos A">
+            <ProblemCard num={9} statement="Riding a bicycle Shahed traverses a segment of a circular path in 11 seconds. The diameter of the circular path is 201 metre and the angle subtended by the segment at the centre is 30°; find Shahed's speed.">
               <Steps lines={[
-                "Using complementary-angle identities:",
-                "  sin(90° − A) = cos A",
-                "  cos(90° − A) = sin A",
+                "Diameter = 201 m  →  radius r = 100.5 m",
+                "Angle θ = 30° = π/6 radian",
                 "",
-                "LHS = cos A · sin A",
-                "    = sin A · cos A  =  RHS  ✓",
+                "Arc s = r θ = 100.5 × π/6",
+                "      = 100.5 × 0.5236 = 52.62 m",
+                "",
+                "Speed = s / time = 52.62 / 11",
+                "      = 4.78 m/s (nearly)",
               ]} />
-              <Answer>sin(90°−A)·cos(90°−A) = sinA·cosA ✓</Answer>
+              <Answer>Speed ≈ 4.78 m/s</Answer>
             </ProblemCard>
 
             {/* ── Problem 10 ── */}
-            <ProblemCard num={10} statement="Find all values of θ in [0°, 90°] that satisfy: 2cos²θ − 3cos θ + 1 = 0">
+            <ProblemCard num={10} statement="Given that the radius of the earth is 6440 km, what is the distance of two places on the surface of the earth which subtend an angle of 32″ at the centre of the earth?">
               <Steps lines={[
-                "Let x = cos θ:",
-                "  2x² − 3x + 1 = 0",
-                "  (2x − 1)(x − 1) = 0",
-                "  x = 1/2   or   x = 1",
+                "Radius r = 6440 km",
+                "Angle θ = 32″ = 32/3600 degree = 0.008889°",
+                "       = 0.008889 × π/180 = 0.00015519 radian",
                 "",
-                "Case 1:  cos θ = 1/2  →  θ = 60°",
-                "Case 2:  cos θ = 1    →  θ = 0°",
-                "",
-                "Both are in [0°, 90°].",
+                "Distance = arc s = r θ",
+                "  = 6440 × 0.00015519",
+                "  = 0.999 km ≈ 1 km (nearly)",
               ]} />
-              <Answer>θ = 0° or θ = 60°</Answer>
+              <Answer>Distance ≈ 1 km</Answer>
+            </ProblemCard>
+
+            {/* ── Problem 11 ── */}
+            <ProblemCard num={11} statement="Express in radian the angle between the minute hand and hour hand of a clock when it is 9 : 30 a.m. [One spacing on the dial subtends 360°/60 = 6° at the centre.]">
+              <Steps lines={[
+                "Each minute-spacing on the dial = 6°.",
+                "",
+                "At 9:30, the hands are (15 + 2½) = 17½ spacings apart:",
+                "  • minute hand at 6, hour hand half-way between 9 and 10",
+                "",
+                "Angle = 17.5 × 6° = 105°",
+                "Radian = 105 × π/180 = 7π/12",
+              ]} />
+              <Answer>7π/12 radian (= 105°)</Answer>
+            </ProblemCard>
+
+            {/* ── Problem 12 ── */}
+            <ProblemCard num={12} statement="A person jogging on a circular track at 6 km per hour traverses a segment of the path in 36 seconds which subtends an angle of 60° at the centre. Find the diameter of the circular track.">
+              <Steps lines={[
+                "Speed = 6 km/h = 6000 m / 3600 s = 5/3 m/s",
+                "Arc traversed in 36 s = (5/3) × 36 = 60 m",
+                "",
+                "Angle θ = 60° = π/3 radian",
+                "From s = r θ:  r = s / θ = 60 / (π/3) = 180/π",
+                "  = 180 / 3.1416 = 57.30 m",
+                "",
+                "Diameter = 2r = 2 × 57.30 = 114.59 m (nearly)",
+              ]} />
+              <Answer>Diameter ≈ 114.59 m</Answer>
+            </ProblemCard>
+
+            {/* ── Problem 13 ── */}
+            <ProblemCard num={13} statement="A hill subtends an angle of 8′ at a point at a distance of 750 km from the foot of the hill. Find the height of the hill.">
+              <Steps lines={[
+                "Distance r = 750 km",
+                "Angle θ = 8′ = 8/60 degree = 0.13333°",
+                "       = 0.13333 × π/180 = 0.0023271 radian",
+                "",
+                "Height ≈ arc s = r θ",
+                "  = 750 × 0.0023271",
+                "  = 1.745 km (nearly)",
+              ]} />
+              <Answer>Height ≈ 1.745 km</Answer>
             </ProblemCard>
 
             {/* CTA */}
