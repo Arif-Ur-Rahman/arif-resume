@@ -1,24 +1,38 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { Briefcase, Calendar, GraduationCap, MapPin } from "lucide-react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Briefcase, GraduationCap, MapPin } from "lucide-react";
+import { cn } from "@/lib/utils";
+import SectionHeading from "@/components/section-heading";
+import { EASE, Reveal } from "@/components/motion-primitives";
 
-const workExperience = [
+type Entry = {
+  company: string;
+  location: string;
+  title: string;
+  period: string;
+  description: string;
+  tags: string[];
+  current?: boolean;
+};
+
+const workExperience: Entry[] = [
   {
     company: "Crulon AI",
     location: "Dhaka",
     title: "Frontend Software Engineer",
-    period: "Mar 2026 – Present",
+    period: "Mar 2026 — Present",
     description:
-      "Working as a Frontend Software Engineer at Crulon AI, building and maintaining AI-powered web interfaces with a focus on performance, usability, and modern frontend practices.",
+      "Building and maintaining AI-powered web interfaces with a focus on performance, usability, and modern frontend practices.",
     tags: ["React", "Next.js", "TypeScript", "Tailwind CSS", "AI Products"],
+    current: true,
   },
   {
     company: "DataCrunch Ltd",
     location: "Gulshan 1, Dhaka",
     title: "Software Engineer",
-    period: "Sep 2025 – Feb 2026",
+    period: "Sep 2025 — Feb 2026",
     description:
       "Built scalable web applications using modern technologies. Collaborated with cross-functional teams to deliver high-quality software solutions.",
     tags: ["Next.js", "Express.js", "MongoDB", "REST API", "Testing"],
@@ -27,16 +41,16 @@ const workExperience = [
     company: "Leadsync AI",
     location: "Uttara 9, Dhaka",
     title: "Frontend Software Engineer",
-    period: "Jan 2025 – Aug 2025",
+    period: "Jan 2025 — Aug 2025",
     description:
-      "Developed and maintained the frontend of an AI-powered lead generation platform. Collaborated closely with designers and backend developers to create a seamless user experience.",
+      "Developed and maintained the frontend of an AI-powered lead generation platform, collaborating closely with designers and backend developers to create a seamless user experience.",
     tags: ["Next.js", "Figma to Code", "REST API", "UX Design"],
   },
   {
     company: "Dream Diver",
     location: "Uttara 9, Dhaka",
     title: "Process Development Engineer",
-    period: "Jan 2024 – Dec 2024",
+    period: "Jan 2024 — Dec 2024",
     description:
       "Co-operated with clients across different time zones, gathered requirements, and maintained the development team workflow to ensure timely, high-quality software delivery.",
     tags: ["Client Relations", "Web Development", "Documentation", "Agile"],
@@ -45,191 +59,200 @@ const workExperience = [
     company: "Ultra-X Asia Pacific",
     location: "Baridhara J Block, Dhaka",
     title: "Software Engineer",
-    period: "Sep 2022 – Dec 2023",
+    period: "Sep 2022 — Dec 2023",
     description:
       "Developed and maintained web applications for Japanese clients using Angular and React.js. Software quality and timely delivery were top priorities.",
     tags: ["React.js", "Angular", "Quality Assurance", "Japanese Clients"],
   },
 ];
 
-const education = [
+const education: Entry[] = [
   {
-    degree: "MERN Stack Development",
-    institution: "Programming Hero",
+    company: "Programming Hero",
     location: "Dhaka",
-    period: "Jan 2022 – Dec 2022",
+    title: "MERN Stack Development",
+    period: "Jan 2022 — Dec 2022",
     description:
-      "Comprehensive full-stack course covering MongoDB, Express.js, React.js, Node.js, Next.js, and Tailwind CSS. Built multiple end-to-end projects and learned best practices for version control and collaborative development.",
+      "Comprehensive full-stack course covering MongoDB, Express.js, React.js, Node.js, Next.js, and Tailwind CSS. Built multiple end-to-end projects and learned best practices for collaborative development.",
+    tags: ["MongoDB", "Express.js", "React", "Node.js"],
   },
   {
-    degree: "B.Sc. Computer Science & Engineering",
-    institution: "East West University",
+    company: "East West University",
     location: "Dhaka",
-    period: "Sep 2014 – Dec 2020",
+    title: "B.Sc. Computer Science & Engineering",
+    period: "Sep 2014 — Dec 2020",
     description:
       "Solid foundation in computer science principles: data structures, algorithms, database management, and software engineering. Hands-on experience across frontend and backend development.",
+    tags: ["Algorithms", "Data Structures", "Databases"],
   },
   {
-    degree: "Higher Secondary Certificate (HSC)",
-    institution: "Udayan Higher Secondary School",
+    company: "Udayan Higher Secondary School",
     location: "Dhaka, Bangladesh",
-    period: "2011 – 2013",
+    title: "Higher Secondary Certificate (HSC)",
+    period: "2011 — 2013",
     description:
       "Science stream, laying the groundwork for further studies in computer science and engineering.",
+    tags: ["Science"],
   },
   {
-    degree: "Secondary School Certificate (SSC)",
-    institution: "Willes Little Flower School & College",
+    company: "Willes Little Flower School & College",
     location: "Kakrail, Dhaka, Bangladesh",
-    period: "2009 – 2011",
+    title: "Secondary School Certificate (SSC)",
+    period: "2009 — 2011",
     description:
       "Built a strong academic foundation and prepared for higher studies in science and technology.",
+    tags: ["Science"],
   },
 ];
 
-function TimelineDot() {
-  return (
-    <div className="absolute left-[18px] top-6 w-5 h-5 rounded-full border-2 border-primary bg-background hidden sm:flex items-center justify-center z-10">
-      <div className="w-2 h-2 rounded-full bg-primary" />
-    </div>
-  );
-}
+const tabs = [
+  { value: "work", label: "Work", icon: Briefcase },
+  { value: "education", label: "Education", icon: GraduationCap },
+] as const;
 
 export default function Experience() {
+  const [active, setActive] = useState<"work" | "education">("work");
+  const entries = active === "work" ? workExperience : education;
+
   return (
-    <section id="experience" className="py-16 md:py-24">
-      <div className="container px-4 mx-auto">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="text-center mb-16"
-        >
-          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-semibold uppercase tracking-widest mb-4">
-            My Journey
-          </span>
-          <h2 className="font-display text-3xl md:text-5xl font-semibold tracking-tight mb-4">
-            Experience &amp; <span className="gradient-text">Education</span>
-          </h2>
-          <div className="section-divider mx-auto mb-6" />
-          <p className="max-w-xl mx-auto text-muted-foreground">
-            My professional journey and educational background that shaped my expertise
-          </p>
-        </motion.div>
+    <section id="experience" className="relative py-20 md:py-28">
+      <div className="container mx-auto px-4">
+        <SectionHeading
+          index="02"
+          eyebrow="My Journey"
+          title={
+            <>
+              Experience &amp; <span className="accent-word">education</span>
+            </>
+          }
+          description="Five years across product teams, agencies, and AI startups — and the studies behind them."
+        />
 
-        <Tabs defaultValue="work" className="w-full">
-          <TabsList className="grid w-full max-w-xs mx-auto grid-cols-2 mb-16 bg-secondary/40 p-1 rounded-xl border border-border">
-            <TabsTrigger value="work" className="rounded-lg text-sm">
-              <Briefcase className="mr-2 h-3.5 w-3.5" />
-              Work
-            </TabsTrigger>
-            <TabsTrigger value="education" className="rounded-lg text-sm">
-              <GraduationCap className="mr-2 h-3.5 w-3.5" />
-              Education
-            </TabsTrigger>
-          </TabsList>
+        {/* Toggle — sliding pill indicator */}
+        <div className="mb-12 flex justify-center md:mb-16">
+          <div className="inline-flex rounded-full border border-border bg-card p-1">
+            {tabs.map(({ value, label, icon: Icon }) => (
+              <button
+                key={value}
+                type="button"
+                onClick={() => setActive(value)}
+                className={cn(
+                  "relative flex items-center gap-2 rounded-full px-6 py-2.5 text-sm font-semibold transition-colors duration-300",
+                  active === value
+                    ? "text-background"
+                    : "text-muted-foreground hover:text-foreground"
+                )}
+              >
+                {active === value && (
+                  <motion.span
+                    layoutId="experience-tab-pill"
+                    transition={{ type: "spring", stiffness: 350, damping: 30 }}
+                    className="absolute inset-0 rounded-full bg-foreground"
+                  />
+                )}
+                <span className="relative z-10 flex items-center gap-2">
+                  <Icon className="h-3.5 w-3.5" />
+                  {label}
+                </span>
+              </button>
+            ))}
+          </div>
+        </div>
 
-          {/* Work */}
-          <TabsContent value="work">
-            <div className="relative max-w-3xl mx-auto">
-              {/* Timeline vertical line */}
-              <div className="absolute left-[26px] top-10 bottom-10 w-px bg-gradient-to-b from-primary via-orange-500/50 to-transparent hidden sm:block" />
-
-              <div className="space-y-6">
-                {workExperience.map((job, i) => (
-                  <motion.div
-                    key={i}
-                    initial={{ opacity: 0, x: -16 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.45, delay: i * 0.09 }}
-                    className="relative sm:pl-16"
+        {/* Editorial timeline — period column left, content right */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={active}
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.3 }}
+            className="mx-auto max-w-4xl"
+          >
+            {entries.map((entry, i) => (
+              <motion.article
+                key={entry.company + entry.period}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.45, delay: i * 0.07 }}
+                className="group grid grid-cols-1 gap-3 border-b border-border py-8 first:border-t md:grid-cols-[220px_1fr] md:gap-10 md:py-10"
+              >
+                {/* Left: period + location — slides in from the left */}
+                <motion.div
+                  initial={{ opacity: 0, x: -18 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.55, ease: EASE, delay: 0.12 }}
+                  className="flex flex-row items-center gap-4 md:flex-col md:items-start md:gap-2"
+                >
+                  <span
+                    className={cn(
+                      "text-sm font-semibold tracking-wide",
+                      entry.current ? "text-primary" : "text-muted-foreground"
+                    )}
                   >
-                    <TimelineDot />
+                    {entry.period}
+                  </span>
+                  <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                    <MapPin className="h-3 w-3" />
+                    {entry.location}
+                  </span>
+                  {entry.current && (
+                    <span className="mt-1 hidden w-fit items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-[11px] font-semibold text-primary md:inline-flex">
+                      <span className="h-1.5 w-1.5 rounded-full bg-primary" />
+                      Current
+                    </span>
+                  )}
+                </motion.div>
 
-                    <div className="group gradient-border bg-card rounded-2xl p-6 transition-all duration-300 hover:shadow-xl hover:shadow-primary/5">
-                      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 mb-3">
-                        <div>
-                          <h3 className="text-base font-bold group-hover:text-primary transition-colors duration-200">
-                            {job.title}
-                          </h3>
-                          <p className="text-primary text-sm font-semibold mt-0.5">{job.company}</p>
-                        </div>
-                        <div className="flex flex-col items-start sm:items-end gap-1 flex-shrink-0 text-xs text-muted-foreground">
-                          <span className="flex items-center gap-1.5">
-                            <Calendar className="h-3 w-3" /> {job.period}
-                          </span>
-                          <span className="flex items-center gap-1.5">
-                            <MapPin className="h-3 w-3" /> {job.location}
-                          </span>
-                        </div>
-                      </div>
-
-                      <p className="text-muted-foreground text-sm leading-relaxed mb-4">
-                        {job.description}
-                      </p>
-
-                      <div className="flex flex-wrap gap-2">
-                        {job.tags.map((tag) => (
-                          <span
-                            key={tag}
-                            className="text-xs px-2.5 py-1 rounded-full bg-primary/8 border border-primary/15 text-primary/80 font-medium"
-                          >
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-            </div>
-          </TabsContent>
-
-          {/* Education */}
-          <TabsContent value="education">
-            <div className="relative max-w-3xl mx-auto">
-              <div className="absolute left-[26px] top-10 bottom-10 w-px bg-gradient-to-b from-primary via-orange-500/50 to-transparent hidden sm:block" />
-
-              <div className="space-y-6">
-                {education.map((edu, i) => (
-                  <motion.div
-                    key={i}
-                    initial={{ opacity: 0, x: -16 }}
-                    whileInView={{ opacity: 1, x: 0 }}
+                {/* Right: role details — masked company reveal, staggered tags */}
+                <div>
+                  <h3 className="font-display text-2xl font-medium tracking-tight transition-colors duration-200 group-hover:text-primary md:text-[1.75rem]">
+                    <Reveal delay={0.15}>{entry.company}</Reveal>
+                  </h3>
+                  <motion.p
+                    initial={{ opacity: 0, y: 10 }}
+                    whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.45, delay: i * 0.09 }}
-                    className="relative sm:pl-16"
+                    transition={{ duration: 0.5, ease: EASE, delay: 0.28 }}
+                    className="mt-1 text-sm font-semibold text-foreground/80"
                   >
-                    <TimelineDot />
-
-                    <div className="group gradient-border bg-card rounded-2xl p-6 transition-all duration-300 hover:shadow-xl hover:shadow-primary/5">
-                      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 mb-3">
-                        <div>
-                          <h3 className="text-base font-bold group-hover:text-primary transition-colors duration-200">
-                            {edu.degree}
-                          </h3>
-                          <p className="text-primary text-sm font-semibold mt-0.5">{edu.institution}</p>
-                        </div>
-                        <div className="flex flex-col items-start sm:items-end gap-1 flex-shrink-0 text-xs text-muted-foreground">
-                          <span className="flex items-center gap-1.5">
-                            <Calendar className="h-3 w-3" /> {edu.period}
-                          </span>
-                          <span className="flex items-center gap-1.5">
-                            <MapPin className="h-3 w-3" /> {edu.location}
-                          </span>
-                        </div>
-                      </div>
-                      <p className="text-muted-foreground text-sm leading-relaxed">{edu.description}</p>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-            </div>
-          </TabsContent>
-        </Tabs>
+                    {entry.title}
+                  </motion.p>
+                  <motion.p
+                    initial={{ opacity: 0, y: 10 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, ease: EASE, delay: 0.36 }}
+                    className="mt-3 max-w-xl text-sm leading-relaxed text-muted-foreground"
+                  >
+                    {entry.description}
+                  </motion.p>
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    {entry.tags.map((tag, j) => (
+                      <motion.span
+                        key={tag}
+                        initial={{ opacity: 0, scale: 0.7 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        viewport={{ once: true }}
+                        transition={{
+                          type: "spring",
+                          stiffness: 260,
+                          damping: 20,
+                          delay: 0.4 + j * 0.05,
+                        }}
+                        className="rounded-full border border-border bg-card px-2.5 py-1 text-xs font-medium text-muted-foreground"
+                      >
+                        {tag}
+                      </motion.span>
+                    ))}
+                  </div>
+                </div>
+              </motion.article>
+            ))}
+          </motion.div>
+        </AnimatePresence>
       </div>
     </section>
   );
