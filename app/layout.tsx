@@ -13,11 +13,12 @@ const hankenGrotesk = Hanken_Grotesk({
   display: 'swap',
 });
 
-// Season Mix-like editorial serif for display headings
+// Editorial serif for display headings — italic loaded for accent words
 const fraunces = Fraunces({
   subsets: ['latin'],
   variable: '--font-display',
   display: 'swap',
+  style: ['normal', 'italic'],
   axes: ['opsz'],
 });
 

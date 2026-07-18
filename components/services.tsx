@@ -12,167 +12,177 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { FaGithub as Github, FaFigma as Figma } from "react-icons/fa";
+import SectionHeading from "@/components/section-heading";
+import { EASE, Reveal } from "@/components/motion-primitives";
 
 const services = [
   {
-    icon: <Braces className="h-6 w-6" />,
+    icon: <Braces className="h-5 w-5" />,
     title: "JavaScript & TypeScript",
     description:
       "Building dynamic, type-safe web applications with modern JS/TS for robust and scalable solutions.",
-    gradient: "from-yellow-500/20 to-amber-500/5",
-    iconColor: "text-yellow-400",
-    iconBg: "bg-yellow-500/10 border-yellow-500/20",
   },
   {
-    icon: <SquareTerminal className="h-6 w-6" />,
+    icon: <SquareTerminal className="h-5 w-5" />,
     title: "React & Next.js Development",
     description:
       "High-performance web apps with React and Next.js — SSR, SSG, SEO-optimized, and production-ready.",
-    gradient: "from-blue-500/20 to-cyan-500/5",
-    iconColor: "text-blue-400",
-    iconBg: "bg-blue-500/10 border-blue-500/20",
   },
   {
-    icon: <Figma className="h-6 w-6" />,
+    icon: <Figma className="h-5 w-5" />,
     title: "Figma to Code",
     description:
       "Translating Figma designs into pixel-perfect, responsive pages using React, Next.js, and Tailwind CSS.",
-    gradient: "from-violet-500/20 to-purple-500/5",
-    iconColor: "text-violet-400",
-    iconBg: "bg-violet-500/10 border-violet-500/20",
   },
   {
-    icon: <ScanQrCode className="h-6 w-6" />,
+    icon: <ScanQrCode className="h-5 w-5" />,
     title: "Responsive Web Design",
     description:
       "Websites that look and work beautifully across all devices and screen sizes — mobile-first.",
-    gradient: "from-emerald-500/20 to-teal-500/5",
-    iconColor: "text-emerald-400",
-    iconBg: "bg-emerald-500/10 border-emerald-500/20",
   },
   {
-    icon: <CodeXml className="h-6 w-6" />,
+    icon: <CodeXml className="h-5 w-5" />,
     title: "FastAPI Development",
     description:
       "Building high-performance backend APIs with Python FastAPI for scalable, well-documented services.",
-    gradient: "from-rose-500/20 to-pink-500/5",
-    iconColor: "text-rose-400",
-    iconBg: "bg-rose-500/10 border-rose-500/20",
   },
   {
-    icon: <Github className="h-6 w-6" />,
+    icon: <Github className="h-5 w-5" />,
     title: "Version Control & Collaboration",
     description:
       "Efficient Git & GitHub workflows for clean branching strategies, code reviews, and team collaboration.",
-    gradient: "from-gray-500/20 to-slate-500/5",
-    iconColor: "text-gray-400",
-    iconBg: "bg-gray-500/10 border-gray-500/20",
   },
 ];
 
 export default function Services() {
   return (
-    <section id="services" className="py-16 md:py-24 relative overflow-hidden">
-      <div className="absolute inset-0 bg-muted/20 pointer-events-none" />
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
+    <section id="services" className="relative overflow-hidden py-20 md:py-28">
+      <div className="container relative mx-auto px-4">
+        <SectionHeading
+          index="04"
+          eyebrow="What I Offer"
+          title={
+            <>
+              Services, <span className="accent-word">crafted</span> to fit
+            </>
+          }
+          description="Specialized web development services tailored to your product and your users."
+        />
 
-      <div className="relative container px-4 mx-auto">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="text-center mb-16"
-        >
-          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-semibold uppercase tracking-widest mb-4">
-            What I Offer
-          </span>
-          <h2 className="font-display text-3xl md:text-5xl font-semibold tracking-tight mb-4">
-            Services I <span className="gradient-text">Provide</span>
-          </h2>
-          <div className="section-divider mx-auto mb-6" />
-          <p className="max-w-xl mx-auto text-muted-foreground">
-            Specialized web development services tailored to your specific needs
-          </p>
-        </motion.div>
-
-        {/* Services grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mb-16">
+        {/* Services grid — numbered editorial cards */}
+        <div className="mb-16 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3 md:mb-20">
           {services.map((service, i) => (
             <motion.div
               key={service.title}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.45, delay: i * 0.07 }}
+              transition={{ duration: 0.45, delay: i * 0.06 }}
             >
-              <div className={`group gradient-border bg-card rounded-2xl p-6 h-full transition-all duration-300 hover:shadow-xl hover:shadow-primary/8 relative overflow-hidden`}>
-                {/* Background gradient on hover */}
-                <div className={`absolute inset-0 bg-gradient-to-br ${service.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl`} />
-
-                <div className="relative z-10">
-                  {/* Icon */}
-                  <div className={`inline-flex items-center justify-center w-12 h-12 rounded-xl border ${service.iconBg} ${service.iconColor} mb-5 group-hover:scale-110 transition-transform duration-300`}>
+              <div className="lift group relative h-full overflow-hidden rounded-2xl border border-border bg-card p-6">
+                {/* Top row: icon + index */}
+                <div className="mb-8 flex items-start justify-between">
+                  <motion.span
+                    initial={{ opacity: 0, scale: 0.5, rotate: -12 }}
+                    whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ type: "spring", stiffness: 220, damping: 16, delay: 0.15 + i * 0.06 }}
+                    className="flex h-11 w-11 items-center justify-center rounded-xl border border-border bg-background text-primary transition-all duration-300 group-hover:border-primary group-hover:bg-primary group-hover:text-primary-foreground"
+                  >
                     {service.icon}
-                  </div>
-
-                  <h3 className="text-base font-bold mb-2 group-hover:text-primary transition-colors duration-200">
-                    {service.title}
-                  </h3>
-                  <p className="text-muted-foreground text-sm leading-relaxed">
-                    {service.description}
-                  </p>
+                  </motion.span>
+                  <motion.span
+                    initial={{ opacity: 0, x: 10 }}
+                    whileInView={{ opacity: 0.6, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, ease: EASE, delay: 0.2 + i * 0.06 }}
+                    className="index-number"
+                  >
+                    {String(i + 1).padStart(2, "0")}
+                  </motion.span>
                 </div>
+
+                <h3 className="font-display mb-2.5 text-xl font-medium tracking-tight transition-colors duration-200 group-hover:text-primary">
+                  {service.title}
+                </h3>
+                <p className="text-sm leading-relaxed text-muted-foreground">
+                  {service.description}
+                </p>
+
+                {/* Amber baseline sweep on hover */}
+                <span className="absolute inset-x-0 bottom-0 h-0.5 origin-left scale-x-0 bg-primary transition-transform duration-300 group-hover:scale-x-100" />
               </div>
             </motion.div>
           ))}
         </div>
 
-        {/* CTA Banner */}
+        {/* CTA banner — ink block */}
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="relative overflow-hidden rounded-2xl border border-primary/20 bg-gradient-to-br from-primary/10 via-card to-orange-500/10 p-8 md:p-10"
+          transition={{ duration: 0.5, delay: 0.15 }}
+          className="relative overflow-hidden rounded-3xl bg-foreground p-8 text-background md:p-12"
         >
-          {/* Decorative blobs */}
-          <div className="absolute -top-16 -right-16 w-48 h-48 bg-primary/15 rounded-full blur-3xl pointer-events-none" />
-          <div className="absolute -bottom-16 -left-16 w-48 h-48 bg-orange-500/10 rounded-full blur-3xl pointer-events-none" />
+          {/* Decorative glow */}
+          <div className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full bg-primary/25 blur-[90px]" />
+          <div className="pointer-events-none absolute -bottom-24 -left-16 h-56 w-56 rounded-full bg-amber-500/15 blur-[80px]" />
 
-          <div className="relative z-10 flex flex-col lg:flex-row gap-8 items-center justify-between">
-            <div className="flex-1 max-w-xl">
-              <h3 className="text-2xl md:text-3xl font-bold mb-3">
-                Need a custom web application?
+          <div className="relative z-10 flex flex-col items-start justify-between gap-8 lg:flex-row lg:items-center">
+            <div className="max-w-xl flex-1">
+              <h3 className="font-display mb-3 text-3xl font-semibold tracking-tight md:text-4xl">
+                <Reveal delay={0.1}>
+                  Need a custom <span className="italic text-primary">web application?</span>
+                </Reveal>
               </h3>
-              <p className="text-muted-foreground mb-6">
+              <motion.p
+                initial={{ opacity: 0, y: 12 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.55, ease: EASE, delay: 0.3 }}
+                className="mb-6 text-background/70"
+              >
                 Let&apos;s discuss your project and bring your ideas to life. I&apos;m
                 dedicated to delivering high-quality solutions tailored to your needs.
-              </p>
+              </motion.p>
               <ul className="space-y-2.5">
                 {[
                   { icon: <Globe className="h-4 w-4" />, text: "Customized solutions for your business" },
                   { icon: <Laptop className="h-4 w-4" />, text: "Modern, responsive, user-friendly design" },
                   { icon: <Code2 className="h-4 w-4" />, text: "Clean, efficient, and maintainable code" },
-                ].map(({ icon, text }) => (
-                  <li key={text} className="flex items-center gap-3 text-sm">
+                ].map(({ icon, text }, i) => (
+                  <motion.li
+                    key={text}
+                    initial={{ opacity: 0, x: -16 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, ease: EASE, delay: 0.4 + i * 0.1 }}
+                    className="flex items-center gap-3 text-sm"
+                  >
                     <span className="text-primary">{icon}</span>
-                    <span className="text-muted-foreground">{text}</span>
-                  </li>
+                    <span className="text-background/70">{text}</span>
+                  </motion.li>
                 ))}
               </ul>
             </div>
 
-            <div className="flex-shrink-0">
-              <a
+            <motion.div
+              initial={{ opacity: 0, scale: 0.7 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ type: "spring", stiffness: 200, damping: 16, delay: 0.5 }}
+              className="flex-shrink-0"
+            >
+              <motion.a
                 href="#contact"
-                className="inline-flex items-center gap-2 px-8 py-3.5 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-xl shadow-lg shadow-primary/25 hover:shadow-primary/40 transition-all duration-300 group"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="group inline-flex items-center gap-2 rounded-full bg-primary px-8 py-4 text-sm font-semibold text-primary-foreground transition-opacity duration-300 hover:opacity-90"
               >
-                Get in Touch
+                Get in touch
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-              </a>
-            </div>
+              </motion.a>
+            </motion.div>
           </div>
         </motion.div>
       </div>

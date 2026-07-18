@@ -1,16 +1,26 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { Button } from "@/components/ui/button";
+import { useEffect, useRef } from "react";
+import {
+  motion,
+  animate,
+  useInView,
+  useMotionValue,
+  useReducedMotion,
+  useSpring,
+  useTransform,
+} from "framer-motion";
 import { ArrowRight, Download, Linkedin, Mail } from "lucide-react";
 import { FaGithub as Github } from "react-icons/fa";
 import Link from "next/link";
 import Image from "next/image";
 
+const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
+
 const stats = [
-  { value: "3+", label: "Years Exp." },
-  { value: "10+", label: "Projects" },
-  { value: "4", label: "Companies" },
+  { value: 3, suffix: "+", label: "Years of Experience" },
+  { value: 10, suffix: "+", label: "Projects Shipped" },
+  { value: 4, suffix: "", label: "Companies" },
 ];
 
 const socials = [
@@ -19,150 +29,258 @@ const socials = [
   { href: "mailto:arifurrahman.it.doc@gmail.com", icon: Mail, label: "Email" },
 ];
 
+const marqueeItems = [
+  "React", "Next.js", "TypeScript", "Tailwind CSS", "Framer Motion",
+  "Node.js", "FastAPI", "MongoDB", "Redux", "Figma to Code",
+];
+
+const fadeUp = {
+  initial: { opacity: 0, y: 24 },
+  animate: { opacity: 1, y: 0 },
+};
+
+/* Masked line reveal — text slides up from behind an overflow clip */
+function RevealLine({ children, delay }: { children: React.ReactNode; delay: number }) {
+  return (
+    <span className="-mb-[0.12em] block overflow-hidden pb-[0.12em]">
+      <motion.span
+        className="block"
+        initial={{ y: "115%" }}
+        animate={{ y: "0%" }}
+        transition={{ duration: 0.9, ease: EASE, delay }}
+      >
+        {children}
+      </motion.span>
+    </span>
+  );
+}
+
+/* Count-up stat number, triggered when scrolled into view */
+function CountUp({ value, suffix }: { value: number; suffix: string }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-40px" });
+  const reduce = useReducedMotion();
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!inView || !el) return;
+    if (reduce) {
+      el.textContent = String(value);
+      return;
+    }
+    const controls = animate(0, value, {
+      duration: 1.6,
+      ease: EASE,
+      onUpdate: (v) => {
+        el.textContent = String(Math.round(v));
+      },
+    });
+    return () => controls.stop();
+  }, [inView, value, reduce]);
+
+  return (
+    <span>
+      <span ref={ref}>0</span>
+      {suffix}
+    </span>
+  );
+}
+
 export default function Hero() {
+  const reduce = useReducedMotion();
+
+  // Mouse parallax — portrait follows gently, ambient orbs drift opposite
+  const mx = useMotionValue(0);
+  const my = useMotionValue(0);
+  const portraitX = useSpring(useTransform(mx, [-0.5, 0.5], [-10, 10]), { stiffness: 50, damping: 16 });
+  const portraitY = useSpring(useTransform(my, [-0.5, 0.5], [-8, 8]), { stiffness: 50, damping: 16 });
+  const orbX = useSpring(useTransform(mx, [-0.5, 0.5], [26, -26]), { stiffness: 40, damping: 18 });
+  const orbY = useSpring(useTransform(my, [-0.5, 0.5], [20, -20]), { stiffness: 40, damping: 18 });
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    mx.set(e.clientX / window.innerWidth - 0.5);
+    my.set(e.clientY / window.innerHeight - 0.5);
+  };
+
   return (
     <section
       id="hero"
-      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-background"
+      onMouseMove={reduce ? undefined : handleMouseMove}
+      className="relative flex min-h-screen flex-col justify-between overflow-hidden"
     >
-      {/* Background gradient orbs */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute -top-48 -right-48 w-[500px] h-[500px] bg-blue-500/10 rounded-full blur-[140px]" />
-        <div className="absolute -bottom-48 -left-48 w-[500px] h-[500px] bg-orange-500/10 rounded-full blur-[140px]" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-primary/5 rounded-full blur-[100px]" />
+      {/* Soft ambient washes — drift slowly + react to cursor */}
+      <div className="pointer-events-none absolute inset-0 overflow-hidden">
+        <motion.div
+          style={{ x: orbX, y: orbY }}
+          className="absolute -top-40 right-[-10%] h-[480px] w-[480px]"
+        >
+          <motion.div
+            animate={reduce ? undefined : { scale: [1, 1.12, 1], opacity: [0.8, 1, 0.8] }}
+            transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
+            className="h-full w-full rounded-full bg-primary/10 blur-[130px]"
+          />
+        </motion.div>
+        <motion.div
+          style={{ x: orbY, y: orbX }}
+          className="absolute bottom-[-20%] left-[-10%] h-[420px] w-[420px]"
+        >
+          <motion.div
+            animate={reduce ? undefined : { scale: [1.1, 1, 1.1], opacity: [1, 0.7, 1] }}
+            transition={{ duration: 11, repeat: Infinity, ease: "easeInOut" }}
+            className="h-full w-full rounded-full bg-amber-500/10 blur-[120px]"
+          />
+        </motion.div>
       </div>
 
-      {/* Subtle grid */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff06_1px,transparent_1px),linear-gradient(to_bottom,#ffffff06_1px,transparent_1px)] bg-[size:36px_36px]" />
+      <div className="container relative z-10 mx-auto flex flex-1 items-center px-4 pb-10 pt-32 md:pt-40">
+        <div className="grid w-full grid-cols-1 items-center gap-12 lg:grid-cols-[1.35fr_1fr] lg:gap-16">
 
-      <div className="relative z-10 container px-4 mx-auto pt-28 pb-16 md:pt-44 md:pb-32">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+          {/* ── Left: editorial statement ── */}
+          <div className="flex flex-col items-start">
+            {/* Eyebrow — rule grows in, text follows */}
+            <span className="eyebrow mb-6 overflow-hidden">
+              <motion.span
+                initial={{ opacity: 0, x: -16 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6, ease: EASE, delay: 0.1 }}
+                className="inline-block"
+              >
+                Frontend Software Engineer
+              </motion.span>
+            </span>
 
-          {/* ── Left: Text ── */}
-          <motion.div
-            initial={{ opacity: 0, y: 32 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.65, ease: "easeOut" }}
-            className="flex flex-col items-center text-center lg:items-start lg:text-left"
-          >
-            {/* Mobile-only profile image */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.85 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              className="mb-6 lg:hidden"
+            <motion.p
+              {...fadeUp}
+              transition={{ duration: 0.5, ease: EASE, delay: 0.18 }}
+              className="mb-4 text-base font-medium text-muted-foreground md:text-lg"
             >
-              <div className="relative w-28 h-28 mx-auto">
-                {/* Gradient ring */}
-                <div
-                  className="absolute -inset-[2px] rounded-full"
-                  style={{ background: "linear-gradient(135deg, hsl(217 91% 60%), hsl(25 95% 58%))" }}
-                />
-                <div className="absolute -inset-[1px] rounded-full bg-background" />
-                <div className="relative w-full h-full rounded-full overflow-hidden">
-                  <Image
-                    src="/assets/images/arif.jpg"
-                    alt="Arif Ur Rahman"
-                    fill
-                    className="object-cover object-top"
-                    priority
+              Hello, I&apos;m{" "}
+              <span className="font-semibold text-foreground">Arif Ur Rahman</span> —
+            </motion.p>
+
+            {/* Headline — masked line-by-line reveal */}
+            <h1 className="font-display mb-7 text-[2.6rem] font-semibold leading-[1.06] tracking-tight sm:text-6xl lg:text-[4.4rem]">
+              <RevealLine delay={0.25}>
+                Crafting{" "}
+                <span className="accent-word relative inline-block">
+                  thoughtful
+                  {/* Underline sweep after the reveal settles */}
+                  <motion.span
+                    initial={{ scaleX: 0 }}
+                    animate={{ scaleX: 1 }}
+                    transition={{ delay: 1.25, duration: 0.7, ease: EASE }}
+                    className="absolute -bottom-[0.04em] left-0 h-[0.06em] w-full origin-left rounded-full bg-primary/50"
                   />
-                </div>
-              </div>
-            </motion.div>
-
-            {/* "Available" badge */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.85 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.4, delay: 0.15 }}
-              className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-medium mb-6"
-            >
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-primary" />
-              </span>
-              Open to Opportunities
-            </motion.div>
-
-            {/* Heading */}
-            <h1 className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-[3.75rem] font-semibold leading-[1.05] mb-5 tracking-tight">
-              <span className="block text-foreground/80">Hi, I&apos;m</span>
-              <span className="gradient-text block mt-1">Arif Ur Rahman</span>
+                </span>
+              </RevealLine>
+              <RevealLine delay={0.37}>interfaces for</RevealLine>
+              <RevealLine delay={0.49}>the modern web.</RevealLine>
             </h1>
 
-            <p className="text-muted-foreground text-base md:text-lg leading-relaxed mb-8 max-w-xl">
-              Frontend Software Engineer specializing in{" "}
-              <span className="text-foreground font-semibold">React</span>,{" "}
-              <span className="text-foreground font-semibold">Next.js</span>, and{" "}
-              <span className="text-foreground font-semibold">TypeScript</span>. I build
-              responsive, accessible, and high-performance web applications that deliver
-              real value.
-            </p>
+            <motion.p
+              {...fadeUp}
+              transition={{ duration: 0.6, ease: EASE, delay: 0.62 }}
+              className="mb-9 max-w-lg text-base leading-relaxed text-muted-foreground md:text-lg"
+            >
+              I build responsive, accessible, high-performance applications with{" "}
+              <span className="font-semibold text-foreground">React</span>,{" "}
+              <span className="font-semibold text-foreground">Next.js</span> &{" "}
+              <span className="font-semibold text-foreground">TypeScript</span> —
+              currently shaping AI products at Crulon AI, Dhaka.
+            </motion.p>
 
             {/* CTAs */}
-            <div className="flex flex-col sm:flex-row gap-3 mb-8 w-full sm:w-auto">
-              <Button
-                asChild
-                size="lg"
-                className="group bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg shadow-primary/20 hover:shadow-primary/40 transition-all duration-300 w-full sm:w-auto"
+            <motion.div
+              {...fadeUp}
+              transition={{ duration: 0.6, ease: EASE, delay: 0.72 }}
+              className="mb-10 flex w-full flex-col gap-3 sm:w-auto sm:flex-row"
+            >
+              <motion.a
+                href="#contact"
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+                className="group inline-flex items-center justify-center gap-2 rounded-full bg-foreground px-7 py-3.5 text-sm font-semibold text-background transition-colors duration-300 hover:bg-primary hover:text-primary-foreground"
               >
-                <a href="#contact">
-                  Let&apos;s Talk
-                  <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-                </a>
-              </Button>
-              <Button
-                asChild
-                variant="outline"
-                size="lg"
-                className="border-border hover:border-primary/40 hover:bg-primary/5 transition-all duration-300 w-full sm:w-auto"
+                Let&apos;s work together
+                <motion.span
+                  animate={reduce ? undefined : { x: [0, 4, 0] }}
+                  transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut", repeatDelay: 1.2 }}
+                  className="inline-flex"
+                >
+                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </motion.span>
+              </motion.a>
+              <motion.a
+                href="/Arif_Ur_Rahman.pdf"
+                download
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-border bg-card px-7 py-3.5 text-sm font-semibold transition-colors duration-300 hover:border-primary hover:text-primary"
               >
-                <a href="/Arif_Ur_Rahman.pdf" download>
-                  <Download className="mr-2 h-4 w-4" />
-                  Download CV
-                </a>
-              </Button>
-            </div>
+                <Download className="h-4 w-4" />
+                Download CV
+              </motion.a>
+            </motion.div>
 
-            {/* Social links */}
-            <div className="flex flex-wrap justify-center lg:justify-start items-center gap-2.5">
-              {socials.map(({ href, icon: Icon, label }) => (
-                <motion.div key={label} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                  <Link
-                    href={href}
-                    target={href.startsWith("mailto") ? undefined : "_blank"}
-                    rel="noopener noreferrer"
-                    aria-label={label}
-                    className="flex items-center gap-2 px-4 py-2 rounded-full bg-secondary/80 hover:bg-primary hover:text-primary-foreground border border-border hover:border-primary transition-all duration-200 text-sm font-medium"
+            {/* Socials + availability */}
+            <motion.div
+              {...fadeUp}
+              transition={{ duration: 0.6, ease: EASE, delay: 0.82 }}
+              className="flex flex-wrap items-center gap-5"
+            >
+              <span className="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground">
+                <span className="relative flex h-2 w-2">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-500 opacity-75" />
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
+                </span>
+                Open to opportunities
+              </span>
+              <span className="hidden h-4 w-px bg-border sm:inline-block" />
+              <div className="flex items-center gap-2">
+                {socials.map(({ href, icon: Icon, label }, i) => (
+                  <motion.div
+                    key={label}
+                    initial={{ opacity: 0, scale: 0.6 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ delay: 0.9 + i * 0.08, type: "spring", stiffness: 260, damping: 18 }}
+                    whileHover={{ y: -3 }}
                   >
-                    <Icon className="h-4 w-4" />
-                    {label}
-                  </Link>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
+                    <Link
+                      href={href}
+                      target={href.startsWith("mailto") ? undefined : "_blank"}
+                      rel="noopener noreferrer"
+                      aria-label={label}
+                      className="flex h-10 w-10 items-center justify-center rounded-full border border-border bg-card text-foreground/70 transition-colors duration-200 hover:border-primary hover:text-primary"
+                    >
+                      <Icon className="h-4 w-4" />
+                    </Link>
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
+          </div>
 
-          {/* ── Right: Image (desktop only) ── */}
+          {/* ── Right: arched portrait with parallax ── */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.88 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.7, delay: 0.2, ease: "easeOut" }}
-            className="relative hidden lg:flex items-center justify-center"
+            style={reduce ? undefined : { x: portraitX, y: portraitY }}
+            className="relative mx-auto hidden lg:block"
           >
-            {/* Ambient glow */}
-            <div className="absolute w-[320px] h-[420px] bg-primary/10 rounded-full blur-[80px]" />
-            <div className="absolute w-[200px] h-[200px] bg-orange-500/10 rounded-full blur-[60px] translate-x-20 translate-y-16" />
+            {/* Offset arch outline slides into place */}
+            <motion.div
+              initial={{ opacity: 0, x: 12, y: -12 }}
+              animate={{ opacity: 1, x: 0, y: 0 }}
+              transition={{ duration: 0.8, ease: EASE, delay: 1.0 }}
+              className="absolute -right-4 top-4 h-full w-full rounded-t-full border border-primary/40"
+            />
 
-            {/* Gradient border frame */}
-            <div className="relative animate-float">
-              <div
-                className="absolute -inset-[3px] rounded-3xl"
-                style={{ background: "linear-gradient(135deg, hsl(217 91% 60%), hsl(25 95% 58%), hsl(217 91% 40%))" }}
-              />
-              <div className="absolute -inset-[2px] rounded-3xl bg-background" />
-              <div className="relative w-72 h-80 rounded-3xl overflow-hidden">
+            {/* Portrait — arch mask reveal, image settles from a zoom */}
+            <div className="relative h-[440px] w-[330px] overflow-hidden rounded-t-full border border-border bg-secondary">
+              <motion.div
+                initial={{ scale: 1.28, y: 36 }}
+                animate={{ scale: 1, y: 0 }}
+                transition={{ duration: 1.2, ease: EASE, delay: 0.35 }}
+                className="absolute inset-0"
+              >
                 <Image
                   src="/assets/images/arif.jpg"
                   alt="Arif Ur Rahman"
@@ -170,54 +288,131 @@ export default function Hero() {
                   className="object-cover object-top"
                   priority
                 />
-                <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-background/40 to-transparent" />
-              </div>
+              </motion.div>
             </div>
 
-            {/* Floating card: Current Role */}
+            {/* Floating role card — springs in, then drifts */}
             <motion.div
-              initial={{ opacity: 0, x: 24 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.9, duration: 0.5 }}
-              className="absolute -bottom-4 -left-6 bg-card border border-border rounded-2xl px-5 py-3.5 shadow-2xl shadow-black/30"
+              initial={{ opacity: 0, y: 24, rotate: -5 }}
+              animate={{ opacity: 1, y: 0, rotate: 0 }}
+              transition={{ delay: 1.15, type: "spring", stiffness: 130, damping: 14 }}
+              className="absolute -left-14 bottom-14"
             >
-              <p className="text-[10px] text-muted-foreground uppercase tracking-wider mb-1 font-medium">Current Role</p>
-              <p className="font-semibold text-sm leading-tight">Frontend Software Engineer</p>
-              <p className="text-xs text-primary mt-0.5">@ Crulon AI</p>
+              <motion.div
+                animate={reduce ? undefined : { y: [0, -7, 0] }}
+                transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut" }}
+                className="lift rounded-2xl border border-border bg-card px-5 py-4 shadow-xl shadow-black/10"
+              >
+                <p className="mb-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                  Currently
+                </p>
+                <p className="text-sm font-semibold leading-tight">
+                  Frontend Software Engineer
+                </p>
+                <p className="mt-0.5 font-display text-sm italic text-primary">
+                  @ Crulon AI
+                </p>
+              </motion.div>
             </motion.div>
 
-            {/* Floating card: Stack */}
+            {/* Rotating badge — pops in, spins forever */}
             <motion.div
-              initial={{ opacity: 0, x: -24 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 1.1, duration: 0.5 }}
-              className="absolute -top-4 -right-4 bg-card border border-border rounded-2xl px-5 py-3.5 shadow-2xl shadow-black/30"
+              initial={{ opacity: 0, scale: 0.5 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 1.3, type: "spring", stiffness: 180, damping: 15 }}
+              className="absolute -right-8 top-6 flex h-24 w-24 items-center justify-center"
             >
-              <p className="text-[10px] text-muted-foreground uppercase tracking-wider mb-2 font-medium">Tech Stack</p>
-              <div className="flex gap-1.5 flex-wrap">
-                {["React", "Next.js", "TS"].map((t) => (
-                  <span key={t} className="text-xs bg-primary/10 text-primary px-2.5 py-0.5 rounded-full font-medium border border-primary/20">
-                    {t}
-                  </span>
-                ))}
-              </div>
+              <svg viewBox="0 0 100 100" className="animate-spin-slow absolute inset-0 h-full w-full">
+                <defs>
+                  <path id="circlePath" d="M 50,50 m -37,0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0" />
+                </defs>
+                <text className="fill-muted-foreground text-[10.5px] font-semibold uppercase" style={{ letterSpacing: "0.2em" }}>
+                  <textPath href="#circlePath">react · next.js · typescript ·</textPath>
+                </text>
+              </svg>
+              <motion.span
+                animate={reduce ? undefined : { scale: [1, 1.25, 1] }}
+                transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
+                className="font-display text-xl italic text-primary"
+              >
+                ✦
+              </motion.span>
             </motion.div>
           </motion.div>
-        </div>
 
-        {/* ── Stats row ── */}
+          {/* Mobile portrait */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.92 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6, ease: EASE, delay: 0.2 }}
+            className="relative mx-auto -order-1 lg:hidden"
+          >
+            <div className="absolute -right-2.5 top-2.5 h-full w-full rounded-t-full border border-primary/40" />
+            <div className="relative h-52 w-40 overflow-hidden rounded-t-full border border-border bg-secondary">
+              <motion.div
+                initial={{ scale: 1.22 }}
+                animate={{ scale: 1 }}
+                transition={{ duration: 1.1, ease: EASE, delay: 0.3 }}
+                className="absolute inset-0"
+              >
+                <Image
+                  src="/assets/images/arif.jpg"
+                  alt="Arif Ur Rahman"
+                  fill
+                  className="object-cover object-top"
+                  priority
+                />
+              </motion.div>
+            </div>
+          </motion.div>
+        </div>
+      </div>
+
+      {/* ── Stats + marquee footer ── */}
+      <div className="relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.55 }}
-          className="mt-12 md:mt-20 flex items-center justify-center lg:justify-start gap-8 sm:gap-12"
+          transition={{ duration: 0.6, ease: EASE, delay: 0.9 }}
+          className="container mx-auto px-4"
         >
-          {stats.map(({ value, label }) => (
-            <div key={label} className="flex flex-col items-center text-center">
-              <span className="text-2xl sm:text-3xl font-bold gradient-text">{value}</span>
-              <span className="text-xs text-muted-foreground mt-1 leading-tight">{label}</span>
-            </div>
-          ))}
+          <motion.div
+            initial={{ scaleX: 0 }}
+            animate={{ scaleX: 1 }}
+            transition={{ duration: 1.1, ease: EASE, delay: 0.95 }}
+            className="rule mb-7 origin-left"
+          />
+          <div className="mb-10 flex flex-wrap items-center justify-start gap-x-12 gap-y-6 sm:gap-x-16">
+            {stats.map(({ value, suffix, label }) => (
+              <div key={label} className="flex items-baseline gap-3">
+                <span className="font-display text-4xl font-semibold text-foreground sm:text-5xl">
+                  <CountUp value={value} suffix={suffix} />
+                </span>
+                <span className="max-w-[7rem] text-xs leading-snug text-muted-foreground">
+                  {label}
+                </span>
+              </div>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* Tech marquee */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8, delay: 1.1 }}
+          className="marquee-paused overflow-hidden border-y border-border bg-card/60 py-4"
+        >
+          <div className="animate-marquee flex w-max items-center gap-8 whitespace-nowrap pr-8">
+            {[...marqueeItems, ...marqueeItems].map((item, i) => (
+              <span key={i} className="flex items-center gap-8">
+                <span className="font-display text-sm uppercase tracking-[0.2em] text-muted-foreground">
+                  {item}
+                </span>
+                <span className="text-primary">✦</span>
+              </span>
+            ))}
+          </div>
         </motion.div>
       </div>
     </section>

@@ -41,10 +41,10 @@ export default function ScrollToTop() {
           <Button
             size="icon"
             onClick={scrollToTop}
-            className="relative h-11 w-11 rounded-xl bg-primary hover:bg-primary/90 shadow-lg shadow-primary/30 hover:shadow-primary/50 transition-all duration-300"
+            className="relative h-11 w-11 rounded-full bg-foreground text-background shadow-lg transition-all duration-300 hover:bg-primary hover:text-primary-foreground"
             aria-label="Scroll to top"
           >
-            <ArrowUp className="h-4 w-4 text-primary-foreground" />
+            <ArrowUp className="h-4 w-4" />
           </Button>
         </motion.div>
       )}

@@ -1,12 +1,16 @@
+"use client";
+
 import Link from "next/link";
+import { motion } from "framer-motion";
 import { Linkedin, Mail } from "lucide-react";
 import { FaGithub as Github } from "react-icons/fa";
+import { EASE, DrawRule } from "@/components/motion-primitives";
 
 const footerLinks = [
   { href: "#hero", label: "Home" },
+  { href: "#skills", label: "Skills" },
   { href: "#experience", label: "Experience" },
   { href: "#projects", label: "Projects" },
-  { href: "/tuitions", label: "Tuitions" },
   { href: "#contact", label: "Contact" },
 ];
 
@@ -20,56 +24,88 @@ export default function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-border/50 bg-muted/20">
-      <div className="container mx-auto px-4 py-10">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-          {/* Brand */}
-          <div className="flex flex-col items-center md:items-start gap-1">
-            <a href="#hero" className="text-lg font-bold">
-              <span className="gradient-text">Arif</span>
-              <span className="text-foreground/50">.dev</span>
+    <footer className="border-t border-border">
+      <div className="container mx-auto px-4 pb-8 pt-14">
+        {/* Big serif wordmark */}
+        <div className="mb-10 flex flex-col items-start justify-between gap-8 md:flex-row md:items-end">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, ease: EASE, delay: 0.1 }}
+          >
+            <a
+              href="#hero"
+              className="font-display text-5xl font-semibold lowercase tracking-tight text-foreground sm:text-6xl"
+            >
+              arif<span className="italic text-primary">.dev</span>
             </a>
-            <p className="text-xs text-muted-foreground">Frontend Software Engineer</p>
-          </div>
+            <p className="mt-3 text-sm text-muted-foreground">
+              Frontend Software Engineer — Dhaka, Bangladesh
+            </p>
+          </motion.div>
 
-          {/* Nav links */}
-          <nav className="flex items-center gap-5 flex-wrap justify-center">
-            {footerLinks.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                className="text-sm text-muted-foreground hover:text-primary transition-colors duration-200"
-              >
-                {link.label}
-              </a>
-            ))}
-          </nav>
-
-          {/* Social icons */}
-          <div className="flex items-center gap-3">
-            {socials.map(({ href, icon: Icon, label }) => (
-              <Link
+          {/* Social icons — springy pops */}
+          <div className="flex items-center gap-2.5">
+            {socials.map(({ href, icon: Icon, label }, i) => (
+              <motion.div
                 key={label}
-                href={href}
-                target={href.startsWith("mailto") ? undefined : "_blank"}
-                rel="noopener noreferrer"
-                aria-label={label}
-                className="p-2 rounded-lg text-muted-foreground hover:text-primary hover:bg-primary/10 transition-all duration-200"
+                initial={{ opacity: 0, scale: 0.6 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ type: "spring", stiffness: 260, damping: 18, delay: 0.2 + i * 0.08 }}
+                whileHover={{ y: -3 }}
               >
-                <Icon className="h-4 w-4" />
-              </Link>
+                <Link
+                  href={href}
+                  target={href.startsWith("mailto") ? undefined : "_blank"}
+                  rel="noopener noreferrer"
+                  aria-label={label}
+                  className="flex h-10 w-10 items-center justify-center rounded-full border border-border bg-card text-foreground/70 transition-colors duration-200 hover:border-primary hover:text-primary"
+                >
+                  <Icon className="h-4 w-4" />
+                </Link>
+              </motion.div>
             ))}
           </div>
         </div>
 
-        <div className="mt-8 pt-6 border-t border-border/30 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-muted-foreground">
+        {/* Nav links — staggered fade */}
+        <nav className="mb-10 flex flex-wrap items-center gap-x-7 gap-y-3">
+          {footerLinks.map((link, i) => (
+            <motion.a
+              key={link.href}
+              href={link.href}
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.45, ease: EASE, delay: 0.15 + i * 0.06 }}
+              className="text-sm font-medium text-muted-foreground transition-colors duration-200 hover:text-primary"
+            >
+              {link.label}
+            </motion.a>
+          ))}
+        </nav>
+
+        <DrawRule delay={0.2} />
+
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7, delay: 0.35 }}
+          className="flex flex-col items-center justify-between gap-2 pt-6 text-xs text-muted-foreground sm:flex-row"
+        >
           <p>
             &copy; {year}{" "}
-            <span className="text-foreground/70 font-medium">Arif Ur Rahman</span>. All rights
-            reserved.
+            <span className="font-medium text-foreground/70">Arif Ur Rahman</span>. All
+            rights reserved.
           </p>
-          <p>Built with Next.js &amp; Tailwind CSS</p>
-        </div>
+          <p>
+            Designed &amp; built with Next.js, Tailwind CSS &amp; a little{" "}
+            <span className="font-display italic text-primary">amber</span>.
+          </p>
+        </motion.div>
       </div>
     </footer>
   );
