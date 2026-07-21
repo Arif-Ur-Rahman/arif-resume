@@ -117,6 +117,7 @@
   .proj-row .p-tag { display: inline; font-size: 6.6pt; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--amber); margin-left: 1.6mm; }
   .proj-row p { font-size: 8.2pt; color: #3c332b; line-height: 1.45; margin-top: 0.8mm; }
   .proj-row .stack { font-size: 7.4pt; font-weight: 600; color: var(--muted); margin-top: 0.6mm; }
+  .proj-row .plink { font-size: 7.2pt; font-weight: 600; color: var(--amber); }
 
   /* ── Education ── */
   .edu { display: grid; grid-template-columns: 38mm 1fr; gap: 6mm; padding: 2.2mm 0; border-bottom: 1px solid var(--line); align-items: baseline; }
@@ -149,6 +150,7 @@
         <span><b>Location</b> Dhaka, Bangladesh</span>
         <span><b>LinkedIn</b> <a href="https://www.linkedin.com/in/arif-ur-rahman-swe/">linkedin.com/in/arif-ur-rahman-swe</a></span>
         <span><b>GitHub</b> <a href="https://github.com/Arif-Ur-Rahman">github.com/Arif-Ur-Rahman</a></span>
+        <span><b>Portfolio</b> <a href="https://arif-resume-five.vercel.app/">arif-resume-five.vercel.app</a></span>
       </div>
     </div>
     <div class="photo-wrap">
@@ -160,12 +162,14 @@
     <div class="section-head"><span class="eyebrow">Profile</span><span class="index">01</span></div>
     <div class="rule"></div>
     <p class="summary">
-      Frontend Software Engineer with <b>3+ years of experience</b> shipping responsive,
+      Frontend Software Engineer with <b>4+ years of experience</b> shipping responsive,
       accessible, high-performance web applications with <b>React, Next.js, and
-      TypeScript</b>. Proven across AI products, agency client work, and international
-      teams — from translating Figma designs into pixel-perfect, reusable component
-      systems to integrating REST APIs and collaborating closely with designers and
-      backend engineers. Currently building AI-powered interfaces at Crulon AI.
+      TypeScript</b>. Highly efficient with <b>AI agent models</b> for frontend
+      development, using them to accelerate delivery without compromising code quality.
+      Proven across AI products, agency client work, and international teams —
+      translating Figma designs into pixel-perfect, reusable component systems and
+      integrating REST APIs. Currently the <b>sole frontend engineer</b> building the
+      entire frontend of Crulon AI's telecom and CRM platform.
     </p>
   </div>
 
@@ -179,9 +183,9 @@
         <div class="company">Crulon AI</div>
         <div class="title">Frontend Software Engineer</div>
         <ul class="bullets">
-          <li>Build and maintain user-facing interfaces for AI-powered products using React, Next.js, TypeScript, and Tailwind CSS.</li>
-          <li>Drive frontend performance and usability improvements, applying modern best practices across the codebase.</li>
-          <li>Partner with product and engineering teams to ship features quickly without sacrificing quality.</li>
+          <li>Sole owner of the entire frontend for the company's telecom and CRM system — architecture, component system, and every user-facing screen (React, Next.js, TypeScript, Tailwind CSS).</li>
+          <li>Leverage AI coding agents (Claude Code, Copilot) throughout the frontend workflow — scaffolding, refactoring, and review — to ship features at a pace normally requiring a full team.</li>
+          <li>Drive frontend performance and usability improvements, partnering with product and backend engineers to deliver quickly without sacrificing quality.</li>
         </ul>
       </div>
     </div>
@@ -282,7 +286,7 @@
     </div>
     <div class="skill-row">
       <span class="skill-cat">Tools</span>
-      <span class="chips"><span class="chip">Git</span><span class="chip">GitHub</span><span class="chip">Figma</span><span class="chip">Postman</span><span class="chip">Vercel</span><span class="chip">VS Code</span></span>
+      <span class="chips"><span class="chip">Git</span><span class="chip">GitHub</span><span class="chip">Figma</span><span class="chip">Postman</span><span class="chip">Vercel</span><span class="chip">VS Code</span><span class="chip">Claude Code</span><span class="chip">Copilot</span></span>
     </div>
   </div>
 
@@ -291,24 +295,24 @@
     <div class="rule"></div>
     <div class="projects">
       <div class="proj-row">
+        <h3><a href="https://crulon.ai/">Crulon AI</a></h3><span class="p-tag">Company — Crulon AI</span>
+        <p>AI voice support platform for ISPs and WISPs — end-to-end call handling for troubleshooting, billing, and payments. Sole frontend engineer.</p>
+        <div class="stack">Next.js · TypeScript · Tailwind CSS &nbsp;<a class="plink" href="https://crulon.ai/">crulon.ai ↗</a></div>
+      </div>
+      <div class="proj-row">
+        <h3><a href="https://arifs-foody-moody-online.vercel.app/">Foody Moody</a></h3><span class="p-tag">Client — Dream Diver</span>
+        <p>Restaurant web experience for a Netherlands-based client — menu browsing, online ordering, reviews — on a reusable component system.</p>
+        <div class="stack">React · Tailwind CSS · Firebase &nbsp;<a class="plink" href="https://arifs-foody-moody-online.vercel.app/">Live demo ↗</a></div>
+      </div>
+      <div class="proj-row">
         <h3>Credit Hero</h3><span class="p-tag">Client — DataCrunch</span>
         <p>Credit-management platform frontend converted from Figma to production code — score tracking, reports, personalized recommendations.</p>
         <div class="stack">TypeScript · Next.js · Tailwind CSS</div>
       </div>
       <div class="proj-row">
-        <h3>Foody Moody</h3><span class="p-tag">Client — Dream Diver</span>
-        <p>Restaurant web experience for a Netherlands-based client — menu browsing, online ordering, reviews — on a reusable component system.</p>
-        <div class="stack">React · Tailwind CSS · Firebase</div>
-      </div>
-      <div class="proj-row">
         <h3>Smart Office</h3><span class="p-tag">Client — Ultra-X</span>
         <p>Employee-management platform frontend covering onboarding, task assignment, and completion tracking.</p>
         <div class="stack">Angular · TypeScript · Node.js · MongoDB</div>
-      </div>
-      <div class="proj-row">
-        <h3>JWT Auth System</h3><span class="p-tag">Personal</span>
-        <p>Full-stack authentication flow — registration, login, protected routes — with a Next.js frontend and FastAPI backend.</p>
-        <div class="stack">Next.js · FastAPI · Python · JWT</div>
       </div>
     </div>
   </div>

@@ -9,7 +9,26 @@ import Link from "next/link";
 import SectionHeading from "@/components/section-heading";
 import { EASE, Reveal } from "@/components/motion-primitives";
 
-const projects = [
+type Project = {
+  title: string;
+  description: string;
+  image: string;
+  tags: string[];
+  category: string;
+  demoLink: string;
+  githubLink?: string;
+};
+
+const projects: Project[] = [
+  {
+    title: "Crulon AI",
+    description:
+      "AI voice support platform for ISPs and WISPs, handling customer calls end-to-end — troubleshooting, billing, and payments. Sole frontend engineer on the website and product interfaces.",
+    image: "/projects/crulon.png",
+    tags: ["Next.js", "TypeScript", "Tailwind CSS", "Framer Motion"],
+    category: "frontend",
+    demoLink: "https://crulon.ai/",
+  },
   {
     title: "Simple Authentication System",
     description:
@@ -37,7 +56,7 @@ const projects = [
     image: "/projects/Foodymoody.png",
     tags: ["TypeScript", "Express", "MongoDB", "React", "Firebase"],
     category: "frontend",
-    demoLink: "https://foody-moody-restaurant.web.app/",
+    demoLink: "https://arifs-foody-moody-online.vercel.app/",
     githubLink: "https://github.com/Arif-Ur-Rahman/foody-moody-shakil",
   },
   {
@@ -203,24 +222,26 @@ export default function Projects() {
                     </div>
                   </div>
 
-                  <motion.div
-                    initial={{ opacity: 0, scale: 0.6 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ type: "spring", stiffness: 260, damping: 18, delay: 0.25 }}
-                    whileHover={{ y: -3 }}
-                    className="shrink-0"
-                  >
-                    <Link
-                      href={project.githubLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label={`${project.title} source code on GitHub`}
-                      className="flex h-10 w-10 items-center justify-center rounded-full border border-border bg-card text-foreground/70 transition-colors duration-200 hover:border-primary hover:text-primary"
+                  {project.githubLink && (
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0.6 }}
+                      whileInView={{ opacity: 1, scale: 1 }}
+                      viewport={{ once: true }}
+                      transition={{ type: "spring", stiffness: 260, damping: 18, delay: 0.25 }}
+                      whileHover={{ y: -3 }}
+                      className="shrink-0"
                     >
-                      <Github className="h-4 w-4" />
-                    </Link>
-                  </motion.div>
+                      <Link
+                        href={project.githubLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={`${project.title} source code on GitHub`}
+                        className="flex h-10 w-10 items-center justify-center rounded-full border border-border bg-card text-foreground/70 transition-colors duration-200 hover:border-primary hover:text-primary"
+                      >
+                        <Github className="h-4 w-4" />
+                      </Link>
+                    </motion.div>
+                  )}
                 </div>
               </motion.article>
             ))}
