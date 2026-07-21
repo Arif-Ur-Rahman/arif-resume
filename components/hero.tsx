@@ -18,7 +18,7 @@ import Image from "next/image";
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
 const stats = [
-  { value: 3, suffix: "+", label: "Years of Experience" },
+  { value: 4, suffix: "+", label: "Years of Experience" },
   { value: 10, suffix: "+", label: "Projects Shipped" },
   { value: 4, suffix: "", label: "Companies" },
 ];
