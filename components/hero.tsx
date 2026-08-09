@@ -282,9 +282,10 @@ export default function Hero() {
                 className="absolute inset-0"
               >
                 <Image
-                  src="/assets/images/arif.jpg"
+                  src="/assets/images/ArifUrRahman.jpg"
                   alt="Arif Ur Rahman"
                   fill
+                  sizes="330px"
                   className="object-cover object-top"
                   priority
                 />
@@ -356,9 +357,10 @@ export default function Hero() {
                 className="absolute inset-0"
               >
                 <Image
-                  src="/assets/images/arif.jpg"
+                  src="/assets/images/ArifUrRahman.jpg"
                   alt="Arif Ur Rahman"
                   fill
+                  sizes="160px"
                   className="object-cover object-top"
                   priority
                 />

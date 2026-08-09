@@ -61,7 +61,10 @@ const navGroups: NavGroup[] = [
       },
     ],
   },
+  { label: "Studies", href: "https://ssc-solutions.vercel.app/" },
 ];
+
+const isExternal = (href: string) => /^https?:\/\//.test(href);
 
 // All in-page hash sections used for active-section detection
 const hashSections = navGroups
@@ -184,6 +187,8 @@ export default function Navbar() {
                     <Link
                       key={group.label}
                       href={resolveHref(group.href)}
+                      target={isExternal(group.href) ? "_blank" : undefined}
+                      rel={isExternal(group.href) ? "noopener noreferrer" : undefined}
                       onMouseEnter={handleGroupLeave}
                       className={cn(
                         "nav-link text-[13px] font-semibold uppercase tracking-[0.14em] transition-colors",
@@ -473,6 +478,8 @@ export default function Navbar() {
                       >
                         <Link
                           href={resolveHref(group.href)}
+                          target={isExternal(group.href) ? "_blank" : undefined}
+                          rel={isExternal(group.href) ? "noopener noreferrer" : undefined}
                           onClick={() => setIsOpen(false)}
                           className="flex items-center gap-5 border-b border-border/50 py-5"
                         >
