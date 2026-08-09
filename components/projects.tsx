@@ -63,7 +63,7 @@ const projects: Project[] = [
     title: "Dr. Sarwar Kamal Portfolio",
     description:
       "A professional portfolio for a researcher in Australia, showcasing work, achievements, and services. Delivered as a freelance project.",
-    image: "/projects/sarwar-sir.png",
+    image: "/projects/sarwar-sir.jpg",
     tags: ["TypeScript", "Next.js", "Express.js", "MongoDB"],
     category: "frontend",
     demoLink: "https://dr-sarwar-sir.vercel.app/",
