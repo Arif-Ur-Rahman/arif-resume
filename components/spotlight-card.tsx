@@ -1,5 +1,6 @@
 "use client";
-import { useRef, useState } from "react";
+
+import { useRef } from "react";
 import { cn } from "@/lib/utils";
 
 interface SpotlightCardProps {
@@ -7,28 +8,21 @@ interface SpotlightCardProps {
   className?: string;
 }
 
+/* Glass card whose fill + border light up around the cursor.
+   Position is written straight to CSS vars — no React re-render per mouse move. */
 export default function SpotlightCard({ children, className }: SpotlightCardProps) {
   const ref = useRef<HTMLDivElement>(null);
-  const [pos, setPos] = useState({ x: 0, y: 0 });
-  const [hovered, setHovered] = useState(false);
+
+  const handleMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const el = ref.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    el.style.setProperty("--mx", `${e.clientX - rect.left}px`);
+    el.style.setProperty("--my", `${e.clientY - rect.top}px`);
+  };
 
   return (
-    <div
-      ref={ref}
-      onMouseMove={(e) => {
-        if (!ref.current) return;
-        const rect = ref.current.getBoundingClientRect();
-        setPos({ x: e.clientX - rect.left, y: e.clientY - rect.top });
-      }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      className={cn("relative", className)}
-      style={{
-        background: hovered
-          ? `radial-gradient(350px circle at ${pos.x}px ${pos.y}px, hsl(209 23% 35% / 0.14), transparent 70%), hsl(var(--card))`
-          : "hsl(var(--card))",
-      }}
-    >
+    <div ref={ref} onMouseMove={handleMove} className={cn("spotlight-card", className)}>
       {children}
     </div>
   );

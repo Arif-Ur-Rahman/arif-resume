@@ -1,77 +1,34 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
+import { ArrowUpRight, Download, Mail } from "lucide-react";
+import { FaGithub as Github, FaLinkedinIn as Linkedin } from "react-icons/fa";
 import {
-  Menu,
-  X,
-  Download,
-  ChevronDown,
-  ArrowUpRight,
-  Wrench,
-  Briefcase,
-  FolderGit2,
-  Sparkles,
-  Linkedin,
-  Mail,
-  type LucideIcon,
-} from "lucide-react";
-import { FaGithub as Github } from "react-icons/fa";
+  AnimatePresence,
+  motion,
+  useMotionValueEvent,
+  useScroll,
+} from "framer-motion";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { GameToggle } from "@/components/game-toggle";
+import { EASE, useIntroDelay } from "@/components/motion-primitives";
+import { useDhakaTime } from "@/lib/use-local-time";
 import { cn } from "@/lib/utils";
-import { AnimatePresence, motion } from "framer-motion";
-import Link from "next/link";
 
-type NavItem = { href: string; label: string; desc?: string; icon?: LucideIcon };
-type Featured = { href: string; title: string; subtitle: string };
-type NavGroup = {
-  label: string;
-  href?: string;
-  items?: NavItem[];
-  featured?: Featured[];
-};
+type NavItem = { href: string; label: string };
 
-const navGroups: NavGroup[] = [
-  { label: "Home", href: "#hero" },
-  {
-    label: "About",
-    items: [
-      { href: "#skills", label: "Skills", desc: "Tools & technologies I work with", icon: Wrench },
-      { href: "#experience", label: "Experience", desc: "My professional journey", icon: Briefcase },
-    ],
-    featured: [
-      {
-        href: "/Arif_Ur_Rahman.pdf",
-        title: "Résumé",
-        subtitle: "Download my CV",
-      },
-    ],
-  },
-  {
-    label: "Work",
-    items: [
-      { href: "#projects", label: "Projects", desc: "Things I've designed and built", icon: FolderGit2 },
-      { href: "#services", label: "Services", desc: "How I can help you", icon: Sparkles },
-    ],
-    featured: [
-      {
-        href: "#projects",
-        title: "Featured Work",
-        subtitle: "See my latest builds",
-      },
-    ],
-  },
-  { label: "Studies", href: "https://ssc-solutions.vercel.app/" },
+const navItems: NavItem[] = [
+  { href: "#skills", label: "Skills" },
+  { href: "#experience", label: "Experience" },
+  { href: "#projects", label: "Work" },
+  { href: "#services", label: "Services" },
+  { href: "https://ssc-solutions.vercel.app/", label: "Studies" },
 ];
 
-const isExternal = (href: string) => /^https?:\/\//.test(href);
+const mobileItems: NavItem[] = [{ href: "#hero", label: "Home" }, ...navItems, { href: "#contact", label: "Contact" }];
 
-// All in-page hash sections used for active-section detection
-const hashSections = navGroups
-  .flatMap((g) => (g.items ? g.items : [g as NavItem]))
-  .map((x) => x.href)
-  .filter((h) => h.startsWith("#"))
-  .map((h) => h.substring(1));
+const sectionIds = ["hero", "skills", "experience", "projects", "services", "contact"];
 
 const socials = [
   { href: "https://github.com/Arif-Ur-Rahman", icon: Github, label: "GitHub" },
@@ -79,617 +36,304 @@ const socials = [
   { href: "mailto:arifurrahman.it.doc@gmail.com", icon: Mail, label: "Email" },
 ];
 
+const isExternal = (href: string) => /^https?:\/\//.test(href);
+
+function Logo({ onClick }: { onClick?: () => void }) {
+  return (
+    <a
+      href="#hero"
+      onClick={onClick}
+      className="group relative z-10 flex items-center gap-2.5"
+      aria-label="Arif Ur Rahman — home"
+    >
+      <span className="bg-signature relative flex h-9 w-9 items-center justify-center overflow-hidden rounded-xl font-display text-lg italic text-[#0b0b10] shadow-[0_6px_20px_-6px_hsl(var(--primary)/0.8)] transition-transform duration-500 group-hover:rotate-[-8deg] group-hover:scale-105">
+        ar
+      </span>
+      <span className="text-lg font-semibold tracking-tight">
+        arif<span className="font-display text-xl font-normal italic text-primary">.dev</span>
+      </span>
+    </a>
+  );
+}
+
 export default function Navbar() {
   const pathname = usePathname();
   const isHome = pathname === "/";
+  const intro = useIntroDelay();
+  const time = useDhakaTime();
 
-  const resolveHref = (href: string) =>
-    href.startsWith("#") && !isHome ? `/${href}` : href;
+  const resolveHref = (href: string) => (href.startsWith("#") && !isHome ? `/${href}` : href);
 
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [activeSection, setActiveSection] = useState("hero");
-  const [openGroup, setOpenGroup] = useState<string | null>(null);
-  const [openMobileGroup, setOpenMobileGroup] = useState<string | null>(null);
-  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [hidden, setHidden] = useState(false);
+  const [active, setActive] = useState("hero");
+  const [hovered, setHovered] = useState<string | null>(null);
 
+  // Glass on scroll; tuck away while scrolling down, return on scroll up
+  const { scrollY } = useScroll();
+  useMotionValueEvent(scrollY, "change", (y) => {
+    const prev = scrollY.getPrevious() ?? 0;
+    setScrolled(y > 24);
+    setHidden(y > 600 && y > prev + 4);
+    if (y < prev - 4) setHidden(false);
+  });
+
+  // Active section: the one crossing the upper third of the viewport
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
-      const current = hashSections.find((section) => {
-        const el = document.getElementById(section);
-        if (el) {
-          const rect = el.getBoundingClientRect();
-          return rect.top <= 120 && rect.bottom >= 120;
-        }
-        return false;
+    const update = () => {
+      const probe = window.innerHeight * 0.35;
+      const current = sectionIds.find((id) => {
+        const el = document.getElementById(id);
+        if (!el) return false;
+        const r = el.getBoundingClientRect();
+        return r.top <= probe && r.bottom >= probe;
       });
-      if (current) setActiveSection(current);
+      if (current) setActive(current);
     };
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+    update();
+    window.addEventListener("scroll", update, { passive: true });
+    return () => window.removeEventListener("scroll", update);
   }, []);
 
-  // Lock body scroll without layout shift
+  // Lock body scroll without layout shift; close on Escape
   useEffect(() => {
-    if (isOpen) {
-      const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
-      document.body.style.overflow = "hidden";
-      document.body.style.paddingRight = `${scrollbarWidth}px`;
-    } else {
-      document.body.style.overflow = "";
-      document.body.style.paddingRight = "";
-    }
+    if (!isOpen) return;
+    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+    document.body.style.overflow = "hidden";
+    document.body.style.paddingRight = `${scrollbarWidth}px`;
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setIsOpen(false);
+    window.addEventListener("keydown", onKey);
     return () => {
       document.body.style.overflow = "";
       document.body.style.paddingRight = "";
+      window.removeEventListener("keydown", onKey);
     };
   }, [isOpen]);
 
-  // Hover intent for desktop dropdowns
-  const handleGroupEnter = (label: string) => {
-    if (closeTimer.current) clearTimeout(closeTimer.current);
-    setOpenGroup(label);
-  };
-  const handleGroupLeave = () => {
-    if (closeTimer.current) clearTimeout(closeTimer.current);
-    closeTimer.current = setTimeout(() => setOpenGroup(null), 120);
-  };
-
-  const isGroupActive = (group: NavGroup) => {
-    if (group.href) {
-      return isHome && activeSection === group.href.substring(1);
-    }
-    return (group.items ?? []).some((item) =>
-      item.href.startsWith("#")
-        ? isHome && activeSection === item.href.substring(1)
-        : pathname.startsWith(item.href)
-    );
-  };
-
-  const activeGroup = navGroups.find((g) => g.label === openGroup && g.items);
+  const isActive = (href: string) => isHome && href.startsWith("#") && active === href.substring(1);
 
   return (
     <header>
-      {/* ── Floating pill top bar ── */}
-      <div
-        className={cn(
-          "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-          scrolled ? "py-2" : "py-3 sm:py-4"
-        )}
+      <motion.div
+        initial={{ y: -40, opacity: 0 }}
+        animate={{ y: hidden && !isOpen ? "-120%" : 0, opacity: 1 }}
+        transition={{ duration: 0.6, ease: EASE, delay: hidden ? 0 : intro ? intro + 0.1 : 0 }}
+        // Above the mobile overlay while it's open, so the trigger stays clickable
+        className={cn("fixed inset-x-0 top-0", isOpen ? "z-[80]" : "z-50")}
       >
-        <div className="container mx-auto px-3 sm:px-4 lg:px-6">
+        <div className="container">
           <div
             className={cn(
-              "relative flex items-center justify-between rounded-full border border-border bg-card/85 px-4 py-2.5 backdrop-blur-xl transition-all duration-300 sm:px-6",
-              scrolled
-                ? "shadow-[0_10px_35px_-12px_hsl(24_30%_10%/0.28)]"
-                : "shadow-[0_6px_25px_-14px_hsl(24_30%_10%/0.18)]"
+              "mt-3 flex items-center justify-between rounded-full border py-2 pl-3 pr-2 transition-all duration-500 md:mt-4",
+              scrolled && !isOpen
+                ? "glass shadow-[0_16px_40px_-20px_rgba(0,0,0,0.5)]"
+                : "border-transparent bg-transparent"
             )}
           >
-            {/* Brand */}
-            <a
-              href="#hero"
-              className="font-display relative z-50 text-2xl font-semibold lowercase tracking-tight text-foreground"
+            <Logo onClick={() => setIsOpen(false)} />
+
+            {/* Desktop nav — sliding hover pill + active dot */}
+            <nav
+              aria-label="Primary"
+              onMouseLeave={() => setHovered(null)}
+              className={cn(
+                "absolute left-1/2 hidden -translate-x-1/2 items-center rounded-full p-1 transition-all duration-500 lg:flex",
+                scrolled ? "border border-transparent" : "glass"
+              )}
             >
-              arif<span className="italic text-primary">.dev</span>
-            </a>
-
-            {/* Desktop nav — centered */}
-            <nav className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-7 md:flex">
-              {navGroups.map((group) => {
-                const active = isGroupActive(group);
-                const open = openGroup === group.label;
-
-                // Simple link group (no dropdown)
-                if (group.href) {
-                  return (
-                    <Link
-                      key={group.label}
-                      href={resolveHref(group.href)}
-                      target={isExternal(group.href) ? "_blank" : undefined}
-                      rel={isExternal(group.href) ? "noopener noreferrer" : undefined}
-                      onMouseEnter={handleGroupLeave}
-                      className={cn(
-                        "nav-link text-[13px] font-semibold uppercase tracking-[0.14em] transition-colors",
-                        active ? "active text-primary" : "text-foreground/75 hover:text-primary"
-                      )}
-                    >
-                      {group.label}
-                    </Link>
-                  );
-                }
-
-                // Dropdown trigger — opens shared mega-panel below
+              {navItems.map((item) => {
+                const activeItem = isActive(item.href);
+                const external = isExternal(item.href);
                 return (
-                  <button
-                    key={group.label}
-                    type="button"
-                    aria-expanded={open}
-                    onMouseEnter={() => handleGroupEnter(group.label)}
-                    onMouseLeave={handleGroupLeave}
+                  <a
+                    key={item.label}
+                    href={resolveHref(item.href)}
+                    target={external ? "_blank" : undefined}
+                    rel={external ? "noopener noreferrer" : undefined}
+                    onMouseEnter={() => setHovered(item.label)}
                     className={cn(
-                      "flex items-center gap-1 text-[13px] font-semibold uppercase tracking-[0.14em] transition-colors",
-                      active || open ? "text-primary" : "text-foreground/75 hover:text-primary"
+                      "relative flex items-center gap-1 rounded-full px-4 py-2 text-sm font-medium transition-colors duration-300",
+                      activeItem ? "text-foreground" : "text-foreground/65 hover:text-foreground"
                     )}
                   >
-                    {group.label}
-                    <ChevronDown
-                      className={cn(
-                        "h-3.5 w-3.5 transition-transform duration-200",
-                        open ? "rotate-180" : ""
-                      )}
-                    />
-                  </button>
+                    {hovered === item.label && (
+                      <motion.span
+                        layoutId="nav-hover"
+                        transition={{ type: "spring", stiffness: 400, damping: 32 }}
+                        className="absolute inset-0 rounded-full bg-foreground/[0.07]"
+                      />
+                    )}
+                    <span className="relative">{item.label}</span>
+                    {external && <ArrowUpRight className="relative h-3.5 w-3.5 opacity-60" />}
+                    {activeItem && (
+                      <motion.span
+                        layoutId="nav-active"
+                        transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                        className="bg-signature absolute -bottom-0.5 left-1/2 h-1 w-1 -translate-x-1/2 rounded-full shadow-[0_0_10px_hsl(var(--primary))]"
+                      />
+                    )}
+                  </a>
                 );
               })}
             </nav>
 
-            {/* Shared mega-panel */}
-            <AnimatePresence>
-              {activeGroup && (
-                <motion.div
-                  key={activeGroup.label}
-                  initial={{ opacity: 0, y: 12, scale: 0.985 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, y: 8, scale: 0.985 }}
-                  transition={{ duration: 0.22, ease: "easeOut" }}
-                  onMouseEnter={() => handleGroupEnter(activeGroup.label)}
-                  onMouseLeave={handleGroupLeave}
-                  className="absolute left-0 right-0 top-full z-40 hidden pt-3 md:block"
-                >
-                  <div className="relative w-full overflow-hidden rounded-3xl border border-border bg-popover p-6 shadow-2xl shadow-black/15">
-                    {/* Ambient corner washes */}
-                    <div className="pointer-events-none absolute -right-24 -top-24 h-56 w-56 rounded-full bg-primary/10 blur-[80px]" />
-                    <div className="pointer-events-none absolute -bottom-24 -left-24 h-48 w-48 rounded-full bg-amber-500/10 blur-[70px]" />
-
-                    {/* Panel header — eyebrow + star */}
-                    <div className="relative mb-4 flex items-center justify-between">
-                      <span className="eyebrow text-[11px]">{activeGroup.label}</span>
-                      <motion.span
-                        initial={{ opacity: 0, rotate: -90 }}
-                        animate={{ opacity: 1, rotate: 0 }}
-                        transition={{ delay: 0.1, duration: 0.35, ease: "easeOut" }}
-                        className="font-display italic text-primary"
-                      >
-                        ✦
-                      </motion.span>
-                    </div>
-                    <motion.div
-                      initial={{ scaleX: 0 }}
-                      animate={{ scaleX: 1 }}
-                      transition={{ duration: 0.5, ease: "easeOut", delay: 0.05 }}
-                      className="rule mb-5 origin-left"
-                    />
-
-                    <div className="relative flex items-stretch justify-between gap-8">
-                      {/* Left — numbered editorial link rows */}
-                      <div
-                        className={cn(
-                          "grid flex-1 content-start gap-1.5",
-                          (activeGroup.items?.length ?? 0) > 4 ? "grid-cols-2" : "grid-cols-1"
-                        )}
-                      >
-                        {activeGroup.items!.map((item, i) => {
-                          const Icon = item.icon;
-                          const itemActive = item.href.startsWith("#")
-                            ? isHome && activeSection === item.href.substring(1)
-                            : pathname.startsWith(item.href);
-                          return (
-                            <motion.div
-                              key={item.href}
-                              initial={{ opacity: 0, x: -14 }}
-                              animate={{ opacity: 1, x: 0 }}
-                              transition={{ duration: 0.35, ease: "easeOut", delay: 0.08 + i * 0.07 }}
-                            >
-                              <Link
-                                href={resolveHref(item.href)}
-                                onClick={() => setOpenGroup(null)}
-                                className={cn(
-                                  "group/item flex items-center gap-4 rounded-2xl border px-4 py-3.5 transition-all duration-200 hover:border-border hover:bg-secondary/70",
-                                  itemActive
-                                    ? "border-border bg-secondary/70"
-                                    : "border-transparent"
-                                )}
-                              >
-                                <span className="index-number w-6 shrink-0 opacity-70 transition-opacity group-hover/item:opacity-100">
-                                  {String(i + 1).padStart(2, "0")}
-                                </span>
-                                {Icon && (
-                                  <span
-                                    className={cn(
-                                      "flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border bg-card text-primary transition-all duration-200 group-hover/item:border-primary group-hover/item:bg-primary group-hover/item:text-primary-foreground",
-                                      itemActive ? "border-primary" : "border-border"
-                                    )}
-                                  >
-                                    <Icon className="h-[18px] w-[18px]" />
-                                  </span>
-                                )}
-                                <span className="min-w-0 flex-1">
-                                  <span
-                                    className={cn(
-                                      "font-display block text-lg font-medium leading-tight",
-                                      itemActive ? "text-primary" : "text-foreground"
-                                    )}
-                                  >
-                                    {item.label}
-                                  </span>
-                                  {item.desc && (
-                                    <span className="mt-1 block text-xs text-muted-foreground">
-                                      {item.desc}
-                                    </span>
-                                  )}
-                                </span>
-                                <ArrowUpRight className="h-4 w-4 shrink-0 -translate-x-1 text-primary opacity-0 transition-all duration-200 group-hover/item:translate-x-0 group-hover/item:opacity-100" />
-                              </Link>
-                            </motion.div>
-                          );
-                        })}
-                      </div>
-
-                      {/* Right — featured cards, inverted ink blocks */}
-                      {activeGroup.featured && activeGroup.featured.length > 0 && (
-                        <div className="flex gap-3 border-l border-border pl-6">
-                          {activeGroup.featured.map((f, i) => (
-                            <motion.div
-                              key={f.href + f.title}
-                              initial={{ opacity: 0, y: 16 }}
-                              animate={{ opacity: 1, y: 0 }}
-                              transition={{ duration: 0.4, ease: "easeOut", delay: 0.16 + i * 0.08 }}
-                            >
-                              <Link
-                                href={resolveHref(f.href)}
-                                download={f.href.endsWith(".pdf") || undefined}
-                                onClick={() => setOpenGroup(null)}
-                                className="group/feat relative flex h-[172px] w-[224px] flex-col justify-between overflow-hidden rounded-2xl bg-foreground p-5 text-background transition-colors duration-300 hover:bg-primary hover:text-primary-foreground"
-                              >
-                                {/* Decorative oversized serif star */}
-                                <span className="font-display pointer-events-none absolute -bottom-8 -right-3 text-[7rem] italic leading-none text-background/10 transition-transform duration-500 group-hover/feat:rotate-12">
-                                  ✦
-                                </span>
-                                <span className="relative z-10 flex items-center justify-between">
-                                  <span className="text-[10px] font-semibold uppercase tracking-[0.18em] opacity-70">
-                                    Featured
-                                  </span>
-                                  <span className="flex h-8 w-8 items-center justify-center rounded-full border border-background/25 transition-transform duration-300 group-hover/feat:rotate-45">
-                                    <ArrowUpRight className="h-3.5 w-3.5" />
-                                  </span>
-                                </span>
-                                <span className="relative z-10">
-                                  <span className="font-display block text-xl font-semibold italic leading-tight">
-                                    {f.title}
-                                  </span>
-                                  <span className="mt-1 block text-xs opacity-75">
-                                    {f.subtitle}
-                                  </span>
-                                </span>
-                              </Link>
-                            </motion.div>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-
-            {/* Desktop right */}
-            <div className="hidden items-center gap-2.5 md:flex">
+            {/* Right cluster */}
+            <div className="relative z-10 flex items-center gap-2">
+              <GameToggle />
               <ThemeToggle />
-              <Link
+              <a
                 href="/Arif_Ur_Rahman.pdf"
                 download
-                className="rounded-full bg-foreground px-5 py-2 text-sm font-semibold text-background transition-colors hover:bg-primary hover:text-primary-foreground"
+                className="hidden items-center gap-2 rounded-full px-4 py-2.5 text-sm font-medium text-foreground/75 transition-colors hover:text-foreground xl:inline-flex"
               >
-                Resume
-              </Link>
-              <Link
+                <Download className="h-4 w-4" />
+                Résumé
+              </a>
+              <a
                 href={resolveHref("#contact")}
-                className="rounded-full border border-border bg-card px-5 py-2 text-sm font-semibold text-foreground transition-colors hover:border-primary hover:text-primary"
+                className="btn btn-ink btn-shine group hidden px-5 py-2.5 lg:inline-flex"
               >
-                Contact
-              </Link>
-            </div>
+                Let&apos;s talk
+                <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:rotate-45" />
+              </a>
 
-            {/* Mobile right */}
-            <div className="relative z-50 flex items-center gap-2 md:hidden">
-              <ThemeToggle />
+              {/* Mobile menu trigger — two bars morph into an X */}
               <button
-                onClick={() => setIsOpen(true)}
-                aria-label="Open Menu"
-                className="flex items-center gap-1.5 rounded-full bg-foreground px-4 py-2 text-sm font-semibold text-background transition-colors hover:bg-primary hover:text-primary-foreground"
+                type="button"
+                onClick={() => setIsOpen((o) => !o)}
+                aria-label={isOpen ? "Close menu" : "Open menu"}
+                aria-expanded={isOpen}
+                className="relative z-[70] flex h-10 items-center gap-2.5 rounded-full bg-foreground pl-4 pr-3.5 text-sm font-semibold text-background lg:hidden"
               >
-                <Menu size={17} />
-                <span>Menu</span>
+                <span>{isOpen ? "Close" : "Menu"}</span>
+                <span className="relative flex h-3 w-4 flex-col justify-between">
+                  <motion.span
+                    animate={isOpen ? { rotate: 45, y: 5 } : { rotate: 0, y: 0 }}
+                    transition={{ duration: 0.3, ease: EASE }}
+                    className="block h-[1.5px] w-full rounded-full bg-current"
+                  />
+                  <motion.span
+                    animate={isOpen ? { rotate: -45, y: -5.5 } : { rotate: 0, y: 0 }}
+                    transition={{ duration: 0.3, ease: EASE }}
+                    className="block h-[1.5px] w-full rounded-full bg-current"
+                  />
+                </span>
               </button>
             </div>
           </div>
         </div>
-      </div>
+      </motion.div>
 
-      {/* ── Full-screen mobile menu ── */}
+      {/* ── Full-screen mobile menu — circular reveal from the trigger ── */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.25 }}
-            className="fixed inset-0 z-[60] flex flex-col bg-background/95 backdrop-blur-xl md:hidden"
+            key="mobile-menu"
+            initial={{ clipPath: "circle(0% at 88% 36px)" }}
+            animate={{ clipPath: "circle(150% at 88% 36px)" }}
+            exit={{ clipPath: "circle(0% at 88% 36px)" }}
+            transition={{ duration: 0.7, ease: [0.76, 0, 0.24, 1] }}
+            className="fixed inset-0 z-[60] flex flex-col overflow-y-auto bg-background lg:hidden"
           >
-            {/* Warm background decorations */}
-            <div className="pointer-events-none absolute inset-0 overflow-hidden">
-              <div className="absolute -right-32 -top-32 h-80 w-80 rounded-full bg-primary/15 blur-[100px]" />
-              <div className="absolute -bottom-32 -left-32 h-80 w-80 rounded-full bg-amber-500/10 blur-[100px]" />
-            </div>
-
-            {/* Header row */}
-            <div className="relative flex items-center justify-between border-b border-border/60 px-6 pb-4 pt-5">
-              <a
-                href="#hero"
-                onClick={() => setIsOpen(false)}
-                className="font-display text-2xl font-semibold lowercase tracking-tight"
-              >
-                arif<span className="italic text-primary">.dev</span>
-              </a>
-              <button
-                onClick={() => setIsOpen(false)}
-                aria-label="Close Menu"
-                className="flex items-center gap-1.5 rounded-full border border-border bg-card px-3 py-2 text-sm font-medium transition-all duration-200 hover:border-primary hover:text-primary"
-              >
-                <X size={18} />
-                <span>Close</span>
-              </button>
-            </div>
-
-            {/* Nav groups — editorial accordion */}
-            <div className="relative flex-1 overflow-y-auto px-6 py-6">
-              {/* Menu eyebrow + rule */}
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.4, delay: 0.05 }}
-                className="mb-3 flex items-center justify-between"
-              >
-                <span className="eyebrow text-[11px]">Menu</span>
-                <span className="font-display italic text-primary">✦</span>
-              </motion.div>
-              <motion.div
-                initial={{ scaleX: 0 }}
-                animate={{ scaleX: 1 }}
-                transition={{ duration: 0.6, ease: "easeOut", delay: 0.1 }}
-                className="rule origin-left"
+            <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+              <div
+                className="absolute -right-32 -top-32 h-96 w-96"
+                style={{ background: "radial-gradient(closest-side, hsl(var(--primary) / 0.25), transparent)" }}
               />
-
-              <nav>
-                {navGroups.map((group, i) => {
-                  const index = String(i + 1).padStart(2, "0");
-
-                  // Simple link group
-                  if (group.href) {
-                    const active = isHome && activeSection === group.href.substring(1);
-                    return (
-                      <motion.div
-                        key={group.label}
-                        initial={{ opacity: 0, x: -24 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.3, delay: 0.12 + i * 0.06 }}
-                      >
-                        <Link
-                          href={resolveHref(group.href)}
-                          target={isExternal(group.href) ? "_blank" : undefined}
-                          rel={isExternal(group.href) ? "noopener noreferrer" : undefined}
-                          onClick={() => setIsOpen(false)}
-                          className="flex items-center gap-5 border-b border-border/50 py-5"
-                        >
-                          <span className="index-number">{index}</span>
-                          <span
-                            className={cn(
-                              "font-display text-3xl font-medium tracking-tight transition-colors",
-                              active ? "italic text-primary" : "text-foreground/80"
-                            )}
-                          >
-                            {group.label}
-                          </span>
-                          <ArrowUpRight
-                            className={cn(
-                              "ml-auto h-5 w-5 transition-colors",
-                              active ? "text-primary" : "text-muted-foreground/50"
-                            )}
-                          />
-                        </Link>
-                      </motion.div>
-                    );
-                  }
-
-                  // Accordion group
-                  const expanded = openMobileGroup === group.label;
-                  return (
-                    <motion.div
-                      key={group.label}
-                      initial={{ opacity: 0, x: -24 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 0.3, delay: 0.12 + i * 0.06 }}
-                      className="border-b border-border/50"
-                    >
-                      <button
-                        type="button"
-                        onClick={() =>
-                          setOpenMobileGroup(expanded ? null : group.label)
-                        }
-                        className="flex w-full items-center gap-5 py-5"
-                      >
-                        <span className="index-number">{index}</span>
-                        <span
-                          className={cn(
-                            "font-display text-3xl font-medium tracking-tight transition-colors",
-                            isGroupActive(group) || expanded
-                              ? "italic text-primary"
-                              : "text-foreground/80"
-                          )}
-                        >
-                          {group.label}
-                        </span>
-                        <ChevronDown
-                          className={cn(
-                            "ml-auto h-5 w-5 transition-transform duration-300",
-                            expanded ? "rotate-180 text-primary" : "text-muted-foreground"
-                          )}
-                        />
-                      </button>
-
-                      <AnimatePresence initial={false}>
-                        {expanded && (
-                          <motion.div
-                            initial={{ height: 0, opacity: 0 }}
-                            animate={{ height: "auto", opacity: 1 }}
-                            exit={{ height: 0, opacity: 0 }}
-                            transition={{ duration: 0.28, ease: "easeInOut" }}
-                            className="overflow-hidden"
-                          >
-                            <div className="space-y-2 pb-5">
-                              {/* Sub-item cards — same rows as the desktop mega-menu */}
-                              {group.items!.map((item, j) => {
-                                const Icon = item.icon;
-                                const itemActive = item.href.startsWith("#")
-                                  ? isHome && activeSection === item.href.substring(1)
-                                  : pathname.startsWith(item.href);
-                                return (
-                                  <motion.div
-                                    key={item.href}
-                                    initial={{ opacity: 0, x: -12 }}
-                                    animate={{ opacity: 1, x: 0 }}
-                                    transition={{ duration: 0.3, ease: "easeOut", delay: 0.05 + j * 0.06 }}
-                                  >
-                                    <Link
-                                      href={resolveHref(item.href)}
-                                      onClick={() => setIsOpen(false)}
-                                      className={cn(
-                                        "flex items-center gap-4 rounded-2xl border px-4 py-3.5 transition-colors",
-                                        itemActive
-                                          ? "border-border bg-secondary/70"
-                                          : "border-border/60 bg-card/60"
-                                      )}
-                                    >
-                                      {Icon && (
-                                        <span
-                                          className={cn(
-                                            "flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border bg-card text-primary",
-                                            itemActive ? "border-primary" : "border-border"
-                                          )}
-                                        >
-                                          <Icon className="h-[18px] w-[18px]" />
-                                        </span>
-                                      )}
-                                      <span className="min-w-0 flex-1">
-                                        <span
-                                          className={cn(
-                                            "font-display block text-lg font-medium leading-tight",
-                                            itemActive ? "text-primary" : "text-foreground"
-                                          )}
-                                        >
-                                          {item.label}
-                                        </span>
-                                        {item.desc && (
-                                          <span className="mt-0.5 block text-xs text-muted-foreground">
-                                            {item.desc}
-                                          </span>
-                                        )}
-                                      </span>
-                                      <ArrowUpRight className="h-4 w-4 shrink-0 text-primary/70" />
-                                    </Link>
-                                  </motion.div>
-                                );
-                              })}
-
-                              {/* Featured card — inverted ink block */}
-                              {group.featured?.map((f) => (
-                                <motion.div
-                                  key={f.href + f.title}
-                                  initial={{ opacity: 0, y: 10 }}
-                                  animate={{ opacity: 1, y: 0 }}
-                                  transition={{ duration: 0.3, ease: "easeOut", delay: 0.16 }}
-                                >
-                                  <Link
-                                    href={resolveHref(f.href)}
-                                    download={f.href.endsWith(".pdf") || undefined}
-                                    onClick={() => setIsOpen(false)}
-                                    className="relative flex items-center justify-between gap-4 overflow-hidden rounded-2xl bg-foreground p-5 text-background"
-                                  >
-                                    <span className="font-display pointer-events-none absolute -bottom-9 -right-2 text-[6rem] italic leading-none text-background/10">
-                                      ✦
-                                    </span>
-                                    <span className="relative z-10 min-w-0">
-                                      <span className="block text-[10px] font-semibold uppercase tracking-[0.18em] opacity-70">
-                                        Featured
-                                      </span>
-                                      <span className="font-display mt-1 block text-xl font-semibold italic leading-tight">
-                                        {f.title}
-                                      </span>
-                                      <span className="mt-0.5 block text-xs opacity-75">
-                                        {f.subtitle}
-                                      </span>
-                                    </span>
-                                    <span className="relative z-10 flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-background/25">
-                                      <ArrowUpRight className="h-4 w-4" />
-                                    </span>
-                                  </Link>
-                                </motion.div>
-                              ))}
-                            </div>
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
-                    </motion.div>
-                  );
-                })}
-              </nav>
+              <div
+                className="absolute -bottom-40 -left-32 h-96 w-96"
+                style={{ background: "radial-gradient(closest-side, hsl(var(--iris) / 0.22), transparent)" }}
+              />
+              <div className="bg-grid mask-radial absolute inset-0 opacity-40" />
             </div>
 
-            {/* Footer row */}
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.35, delay: 0.45 }}
-              className="relative space-y-5 border-t border-border/60 px-8 pb-10 pt-6"
-            >
-              {/* Social links */}
-              <div className="flex items-center gap-3">
-                {socials.map(({ href, icon: Icon, label }) => (
-                  <Link
-                    key={label}
-                    href={href}
-                    target={href.startsWith("mailto") ? undefined : "_blank"}
-                    rel="noopener noreferrer"
-                    aria-label={label}
-                    onClick={() => setIsOpen(false)}
-                    className="flex items-center gap-2 rounded-full border border-border bg-card px-4 py-2 text-sm font-medium transition-all duration-200 hover:border-primary hover:bg-primary hover:text-primary-foreground"
+            <nav aria-label="Mobile" className="container relative flex-1 pb-6 pt-28">
+              {mobileItems.map((item, i) => {
+                const activeItem = isActive(item.href);
+                const external = isExternal(item.href);
+                return (
+                  <motion.div
+                    key={item.label}
+                    initial={{ opacity: 0, y: 40 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 20, transition: { duration: 0.2 } }}
+                    transition={{ duration: 0.6, ease: EASE, delay: 0.25 + i * 0.05 }}
+                    className="border-b border-foreground/10"
                   >
-                    <Icon className="h-4 w-4" />
-                    {label}
-                  </Link>
-                ))}
-              </div>
+                    <a
+                      href={resolveHref(item.href)}
+                      target={external ? "_blank" : undefined}
+                      rel={external ? "noopener noreferrer" : undefined}
+                      onClick={() => setIsOpen(false)}
+                      className="group flex items-center gap-5 py-4"
+                    >
+                      <span className="index-number w-6">{String(i + 1).padStart(2, "0")}</span>
+                      <span
+                        className={cn(
+                          "text-4xl font-semibold tracking-[-0.04em] transition-colors sm:text-5xl",
+                          activeItem ? "text-gradient" : "text-foreground/85 group-hover:text-foreground"
+                        )}
+                      >
+                        {item.label}
+                      </span>
+                      <ArrowUpRight
+                        className={cn(
+                          "ml-auto h-6 w-6 transition-all duration-300 group-hover:rotate-45",
+                          activeItem ? "text-primary" : "text-muted-foreground/60"
+                        )}
+                      />
+                    </a>
+                  </motion.div>
+                );
+              })}
+            </nav>
 
-              {/* CTA buttons */}
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.5, ease: EASE, delay: 0.6 }}
+              className="container relative space-y-5 pb-10"
+            >
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2.5">
+                  {socials.map(({ href, icon: Icon, label }) => (
+                    <a
+                      key={label}
+                      href={href}
+                      target={href.startsWith("mailto") ? undefined : "_blank"}
+                      rel="noopener noreferrer"
+                      aria-label={label}
+                      onClick={() => setIsOpen(false)}
+                      className="icon-btn"
+                    >
+                      <Icon className="h-4 w-4" />
+                    </a>
+                  ))}
+                </div>
+                <span className="font-mono text-xs tabular-nums text-muted-foreground" suppressHydrationWarning>
+                  {time ?? "--:--"} · Dhaka
+                </span>
+              </div>
               <div className="grid grid-cols-2 gap-3">
-                <Link
+                <a
                   href="/Arif_Ur_Rahman.pdf"
                   download
                   onClick={() => setIsOpen(false)}
-                  className="flex w-full items-center justify-center gap-2 rounded-full bg-foreground py-3.5 font-semibold text-background transition-all duration-200 hover:bg-primary hover:text-primary-foreground"
+                  className="btn btn-ghost w-full"
                 >
                   <Download className="h-4 w-4" />
-                  Resume
-                </Link>
-                <Link
+                  Résumé
+                </a>
+                <a
                   href={resolveHref("#contact")}
                   onClick={() => setIsOpen(false)}
-                  className="flex w-full items-center justify-center gap-2 rounded-full border border-border bg-card py-3.5 font-semibold transition-all duration-200 hover:border-primary hover:text-primary"
+                  className="btn btn-gradient w-full"
                 >
-                  Contact
-                </Link>
+                  Let&apos;s talk
+                  <ArrowUpRight className="h-4 w-4" />
+                </a>
               </div>
             </motion.div>
           </motion.div>

@@ -1,11 +1,19 @@
 "use client";
 
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useRef, useState } from "react";
+import {
+  motion,
+  AnimatePresence,
+  useInView,
+  useScroll,
+  useSpring,
+  useTransform,
+} from "framer-motion";
 import { Briefcase, GraduationCap, MapPin } from "lucide-react";
 import { cn } from "@/lib/utils";
 import SectionHeading from "@/components/section-heading";
-import { EASE, Reveal } from "@/components/motion-primitives";
+import SpotlightCard from "@/components/spotlight-card";
+import { EASE, VIEWPORT } from "@/components/motion-primitives";
 
 type Entry = {
   company: string;
@@ -110,13 +118,134 @@ const tabs = [
   { value: "education", label: "Education", icon: GraduationCap },
 ] as const;
 
+/* Timeline line is centred on the node column: 16px on mobile, 220px + 28px = 248px on md+ */
+const TRACK_POS = "left-[15.5px] md:left-[247.5px]"; // 1px track
+const BEAM_POS = "left-[15px] md:left-[247px]"; // 2px beam
+const HEAD_POS = "left-[16px] md:left-[248px]"; // comet head centre
+
+function TimelineItem({ entry, i }: { entry: Entry; i: number }) {
+  // Node lights up roughly when the scroll beam reaches it (beam starts at 70% of the viewport)
+  const nodeRef = useRef<HTMLSpanElement>(null);
+  const lit = useInView(nodeRef, { once: true, margin: "0px 0px -38% 0px" }) || !!entry.current;
+
+  const card = (
+    <SpotlightCard className="p-6 md:p-7">
+      <div className="mb-4 flex flex-wrap items-start justify-between gap-3">
+        <div>
+          <h3 className="text-2xl font-semibold tracking-tight md:text-[1.7rem]">{entry.company}</h3>
+          <p className="mt-1 font-display text-lg italic text-primary">{entry.title}</p>
+        </div>
+        {entry.current && (
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-[11px] font-semibold text-emerald-600 dark:text-emerald-400">
+            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-500" />
+            Now
+          </span>
+        )}
+      </div>
+
+      {/* Period + location inline on mobile */}
+      <div className="mb-4 flex flex-wrap items-center gap-x-4 gap-y-1 font-mono text-xs text-muted-foreground md:hidden">
+        <span>{entry.period}</span>
+        <span className="flex items-center gap-1">
+          <MapPin className="h-3 w-3" />
+          {entry.location}
+        </span>
+      </div>
+
+      <p className="max-w-2xl text-[15px] leading-relaxed text-muted-foreground">{entry.description}</p>
+
+      <div className="mt-5 flex flex-wrap gap-2">
+        {entry.tags.map((tag, j) => (
+          <motion.span
+            key={tag}
+            initial={{ opacity: 0, scale: 0.8 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={VIEWPORT}
+            transition={{ type: "spring", stiffness: 260, damping: 20, delay: 0.3 + j * 0.05 }}
+            className="tag"
+          >
+            {tag}
+          </motion.span>
+        ))}
+      </div>
+    </SpotlightCard>
+  );
+
+  return (
+    <div className="group relative grid grid-cols-[32px_1fr] gap-5 pb-8 last:pb-0 md:grid-cols-[220px_56px_1fr] md:gap-0 md:pb-10">
+      {/* Left: period + location (md+) */}
+      <motion.div
+        initial={{ opacity: 0, x: -24 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        viewport={VIEWPORT}
+        transition={{ duration: 0.7, ease: EASE, delay: 0.1 }}
+        className="hidden pr-8 pt-7 text-right md:block"
+      >
+        <p
+          className={cn(
+            "font-mono text-sm font-medium",
+            entry.current ? "text-primary" : "text-foreground/80"
+          )}
+        >
+          {entry.period}
+        </p>
+        <p className="mt-2 inline-flex items-center gap-1.5 text-xs text-muted-foreground">
+          <MapPin className="h-3 w-3" />
+          {entry.location}
+        </p>
+      </motion.div>
+
+      {/* Node */}
+      <div className="relative flex justify-center pt-7">
+        <motion.span
+          ref={nodeRef}
+          initial={{ scale: 0 }}
+          whileInView={{ scale: 1 }}
+          viewport={VIEWPORT}
+          transition={{ type: "spring", stiffness: 300, damping: 18, delay: 0.15 }}
+          className={cn(
+            "relative z-10 flex h-[31px] w-[31px] items-center justify-center rounded-full border bg-background transition-all duration-500",
+            lit
+              ? "border-primary shadow-[0_0_18px_-2px_hsl(var(--primary)/0.7)]"
+              : "border-foreground/15 group-hover:border-primary/60"
+          )}
+        >
+          {entry.current && <span className="animate-ping-soft absolute inset-0 rounded-full bg-primary/40" />}
+          <span
+            className={cn(
+              "relative h-2.5 w-2.5 rounded-full transition-colors duration-500",
+              lit ? "bg-signature" : "bg-foreground/25 group-hover:bg-primary"
+            )}
+          />
+        </motion.span>
+      </div>
+
+      {/* Card */}
+      <motion.div
+        initial={{ opacity: 0, x: 40, filter: "blur(10px)" }}
+        whileInView={{ opacity: 1, x: 0, filter: "blur(0px)" }}
+        viewport={VIEWPORT}
+        transition={{ duration: 0.8, ease: EASE, delay: 0.1 + (i % 2) * 0.05 }}
+      >
+        {entry.current ? <div className="border-beam rounded-[1.75rem]">{card}</div> : card}
+      </motion.div>
+    </div>
+  );
+}
+
 export default function Experience() {
   const [active, setActive] = useState<"work" | "education">("work");
   const entries = active === "work" ? workExperience : education;
 
+  // Gradient beam fills the timeline as you scroll through it
+  const listRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({ target: listRef, offset: ["start 70%", "end 60%"] });
+  const beam = useSpring(scrollYProgress, { stiffness: 140, damping: 30, restDelta: 0.001 });
+  const headTop = useTransform(beam, (v) => `${v * 100}%`);
+
   return (
     <section id="experience" className="relative py-20 md:py-28">
-      <div className="container mx-auto px-4">
+      <div className="container">
         <SectionHeading
           index="02"
           eyebrow="My Journey"
@@ -129,29 +258,28 @@ export default function Experience() {
         />
 
         {/* Toggle — sliding pill indicator */}
-        <div className="mb-12 flex justify-center md:mb-16">
-          <div className="inline-flex rounded-full border border-border bg-card p-1">
+        <div className="mb-14 flex justify-center md:mb-20">
+          <div className="glass inline-flex rounded-full p-1.5">
             {tabs.map(({ value, label, icon: Icon }) => (
               <button
                 key={value}
                 type="button"
                 onClick={() => setActive(value)}
+                aria-pressed={active === value}
                 className={cn(
                   "relative flex items-center gap-2 rounded-full px-6 py-2.5 text-sm font-semibold transition-colors duration-300",
-                  active === value
-                    ? "text-background"
-                    : "text-muted-foreground hover:text-foreground"
+                  active === value ? "text-background" : "text-muted-foreground hover:text-foreground"
                 )}
               >
                 {active === value && (
                   <motion.span
                     layoutId="experience-tab-pill"
-                    transition={{ type: "spring", stiffness: 350, damping: 30 }}
-                    className="absolute inset-0 rounded-full bg-foreground"
+                    transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                    className="absolute inset-0 rounded-full bg-foreground shadow-[0_8px_24px_-10px_hsl(var(--primary)/0.8)]"
                   />
                 )}
                 <span className="relative z-10 flex items-center gap-2">
-                  <Icon className="h-3.5 w-3.5" />
+                  <Icon className="h-4 w-4" />
                   {label}
                 </span>
               </button>
@@ -159,100 +287,38 @@ export default function Experience() {
           </div>
         </div>
 
-        {/* Editorial timeline — period column left, content right */}
-        <AnimatePresence mode="wait">
+        <div ref={listRef} className="relative mx-auto max-w-5xl">
+          {/* Track + scroll beam */}
+          <div className={cn("absolute bottom-0 top-0 w-px bg-border", TRACK_POS)} />
           <motion.div
-            key={active}
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            transition={{ duration: 0.3 }}
-            className="mx-auto max-w-4xl"
-          >
-            {entries.map((entry, i) => (
-              <motion.article
-                key={entry.company + entry.period}
-                initial={{ opacity: 0, y: 16 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.45, delay: i * 0.07 }}
-                className="group grid grid-cols-1 gap-3 border-b border-border py-8 first:border-t md:grid-cols-[220px_1fr] md:gap-10 md:py-10"
-              >
-                {/* Left: period + location — slides in from the left */}
-                <motion.div
-                  initial={{ opacity: 0, x: -18 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.55, ease: EASE, delay: 0.12 }}
-                  className="flex flex-row items-center gap-4 md:flex-col md:items-start md:gap-2"
-                >
-                  <span
-                    className={cn(
-                      "text-sm font-semibold tracking-wide",
-                      entry.current ? "text-primary" : "text-muted-foreground"
-                    )}
-                  >
-                    {entry.period}
-                  </span>
-                  <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
-                    <MapPin className="h-3 w-3" />
-                    {entry.location}
-                  </span>
-                  {entry.current && (
-                    <span className="mt-1 hidden w-fit items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-[11px] font-semibold text-primary md:inline-flex">
-                      <span className="h-1.5 w-1.5 rounded-full bg-primary" />
-                      Current
-                    </span>
-                  )}
-                </motion.div>
+            style={{ scaleY: beam }}
+            className={cn(
+              "absolute bottom-0 top-0 w-[2px] origin-top bg-gradient-to-b from-gold via-primary to-iris shadow-[0_0_12px_hsl(var(--primary)/0.6)]",
+              BEAM_POS
+            )}
+          />
+          <motion.div
+            style={{ top: headTop }}
+            className={cn(
+              "pointer-events-none absolute z-20 -ml-[6px] -mt-[6px] h-3 w-3 rounded-full bg-primary shadow-[0_0_18px_4px_hsl(var(--primary)/0.7)]",
+              HEAD_POS
+            )}
+          />
 
-                {/* Right: role details — masked company reveal, staggered tags */}
-                <div>
-                  <h3 className="font-display text-2xl font-medium tracking-tight transition-colors duration-200 group-hover:text-primary md:text-[1.75rem]">
-                    <Reveal delay={0.15}>{entry.company}</Reveal>
-                  </h3>
-                  <motion.p
-                    initial={{ opacity: 0, y: 10 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5, ease: EASE, delay: 0.28 }}
-                    className="mt-1 text-sm font-semibold text-foreground/80"
-                  >
-                    {entry.title}
-                  </motion.p>
-                  <motion.p
-                    initial={{ opacity: 0, y: 10 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5, ease: EASE, delay: 0.36 }}
-                    className="mt-3 max-w-xl text-sm leading-relaxed text-muted-foreground"
-                  >
-                    {entry.description}
-                  </motion.p>
-                  <div className="mt-4 flex flex-wrap gap-2">
-                    {entry.tags.map((tag, j) => (
-                      <motion.span
-                        key={tag}
-                        initial={{ opacity: 0, scale: 0.7 }}
-                        whileInView={{ opacity: 1, scale: 1 }}
-                        viewport={{ once: true }}
-                        transition={{
-                          type: "spring",
-                          stiffness: 260,
-                          damping: 20,
-                          delay: 0.4 + j * 0.05,
-                        }}
-                        className="rounded-full border border-border bg-card px-2.5 py-1 text-xs font-medium text-muted-foreground"
-                      >
-                        {tag}
-                      </motion.span>
-                    ))}
-                  </div>
-                </div>
-              </motion.article>
-            ))}
-          </motion.div>
-        </AnimatePresence>
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={active}
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -12 }}
+              transition={{ duration: 0.35, ease: EASE }}
+            >
+              {entries.map((entry, i) => (
+                <TimelineItem key={entry.company + entry.period} entry={entry} i={i} />
+              ))}
+            </motion.div>
+          </AnimatePresence>
+        </div>
       </div>
     </section>
   );

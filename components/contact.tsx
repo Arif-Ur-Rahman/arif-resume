@@ -1,60 +1,52 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { Mail, Phone, MapPin, Clock, Linkedin, ArrowUpRight } from "lucide-react";
-import { FaGithub as Github, FaFacebook as FacebookIcon } from "react-icons/fa";
-import Link from "next/link";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Mail, Phone, MapPin, Clock, ArrowUpRight, Copy, Check } from "lucide-react";
+import { FaGithub as Github, FaFacebookF as Facebook, FaLinkedinIn as Linkedin } from "react-icons/fa";
 import SectionHeading from "@/components/section-heading";
-import { EASE, Reveal } from "@/components/motion-primitives";
+import SpotlightCard from "@/components/spotlight-card";
+import { EASE, Magnetic, VIEWPORT } from "@/components/motion-primitives";
+
+const EMAIL = "arifurrahman.it.doc@gmail.com";
 
 const contactInfo = [
-  {
-    icon: <Phone className="h-4 w-4" />,
-    title: "Phone",
-    value: "+880 168 072 8065",
-    link: "tel:+8801680728065",
-  },
-  {
-    icon: <MapPin className="h-4 w-4" />,
-    title: "Location",
-    value: "Dhaka, Bangladesh",
-    link: null,
-  },
-  {
-    icon: <Clock className="h-4 w-4" />,
-    title: "Availability",
-    value: "Mon – Fri, 9 AM – 6 PM BST",
-    link: null,
-  },
+  { icon: Phone, title: "Phone", value: "+880 168 072 8065", link: "tel:+8801680728065" },
+  { icon: MapPin, title: "Location", value: "Dhaka, Bangladesh", link: null },
+  { icon: Clock, title: "Availability", value: "Mon – Fri, 9 AM – 6 PM BST", link: null },
 ];
 
 const socialLinks = [
-  {
-    href: "https://github.com/Arif-Ur-Rahman",
-    label: "GitHub",
-    icon: <Github className="h-4 w-4" />,
-  },
-  {
-    href: "https://www.linkedin.com/in/arif-ur-rahman-swe/",
-    label: "LinkedIn",
-    icon: <Linkedin className="h-4 w-4" />,
-  },
-  {
-    href: "https://www.facebook.com/absent.arif.5",
-    label: "Facebook",
-    icon: <FacebookIcon className="h-4 w-4" />,
-  },
+  { href: "https://github.com/Arif-Ur-Rahman", label: "GitHub", icon: Github },
+  { href: "https://www.linkedin.com/in/arif-ur-rahman-swe/", label: "LinkedIn", icon: Linkedin },
+  { href: "https://www.facebook.com/absent.arif.5", label: "Facebook", icon: Facebook },
 ];
 
-export default function Contact() {
-  return (
-    <section id="contact" className="relative overflow-hidden py-20 md:py-28">
-      {/* Ambient wash */}
-      <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="absolute bottom-[-20%] right-[-10%] h-[420px] w-[420px] rounded-full bg-primary/10 blur-[120px]" />
-      </div>
+function rise(delay: number) {
+  return {
+    initial: { opacity: 0, y: 40, filter: "blur(10px)" },
+    whileInView: { opacity: 1, y: 0, filter: "blur(0px)" },
+    viewport: VIEWPORT,
+    transition: { duration: 0.8, ease: EASE, delay },
+  };
+}
 
-      <div className="container relative mx-auto px-4">
+export default function Contact() {
+  const [copied, setCopied] = useState(false);
+
+  const copyEmail = async () => {
+    try {
+      await navigator.clipboard.writeText(EMAIL);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      window.location.href = `mailto:${EMAIL}`;
+    }
+  };
+
+  return (
+    <section id="contact" className="relative pb-24 pt-20 md:pb-32 md:pt-28">
+      <div className="container">
         <SectionHeading
           index="05"
           eyebrow="Contact"
@@ -68,137 +60,140 @@ export default function Contact() {
           description="I'd love to hear from you — reach out via email, phone, or any of my social channels."
         />
 
-        <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1.4fr_1fr] lg:gap-20">
-          {/* ── Left: giant email + socials ── */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-          >
-            <motion.p
-              initial={{ opacity: 0, x: -14 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, ease: EASE, delay: 0.1 }}
-              className="mb-4 text-sm font-semibold uppercase tracking-[0.18em] text-muted-foreground"
-            >
-              Say hello
-            </motion.p>
-            <Reveal delay={0.2}>
-              <a
-                href="mailto:arifurrahman.it.doc@gmail.com"
-                className="link-underline group inline-flex flex-wrap items-baseline gap-2 break-all pb-1 font-display text-2xl font-medium tracking-tight text-foreground transition-colors hover:text-primary sm:text-3xl md:text-4xl"
-              >
-                arifurrahman.it.doc@gmail.com
-                <motion.span
-                  animate={{ x: [0, 3, 0], y: [0, -3, 0] }}
-                  transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut", repeatDelay: 1.4 }}
-                  className="inline-flex shrink-0 self-center"
+        <div className="grid grid-cols-1 gap-5 lg:grid-cols-[1.35fr_1fr]">
+          {/* ── Email hero card ── */}
+          <motion.div {...rise(0)}>
+            <SpotlightCard className="flex h-full min-h-[380px] flex-col justify-between overflow-hidden p-7 md:p-10">
+              <div
+                aria-hidden
+                className="pointer-events-none absolute -bottom-32 -right-24 h-80 w-80 rounded-full opacity-60"
+                style={{ background: "radial-gradient(closest-side, hsl(var(--primary) / 0.3), transparent)" }}
+              />
+              <div className="relative">
+                <span className="eyebrow">
+                  <span className="bg-signature h-1.5 w-1.5 rounded-full" />
+                  Say hello
+                </span>
+                <a
+                  href={`mailto:${EMAIL}`}
+                  className="group mt-6 inline-flex flex-wrap items-center gap-x-3 gap-y-1 text-[clamp(1.1rem,4.4vw,2.4rem)] font-semibold leading-tight tracking-[-0.04em]"
                 >
-                  <ArrowUpRight className="h-6 w-6 text-primary transition-transform duration-200 group-hover:-translate-y-1 group-hover:translate-x-1" />
-                </motion.span>
-              </a>
-            </Reveal>
+                  <span className="link-underline break-all pb-1">{EMAIL}</span>
+                  <span className="bg-signature flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-[#0b0b10] transition-transform duration-500 group-hover:rotate-45 md:h-11 md:w-11">
+                    <ArrowUpRight className="h-5 w-5" />
+                  </span>
+                </a>
+                <p className="mt-6 max-w-md text-[15px] leading-relaxed text-muted-foreground">
+                  Whether it&apos;s a product idea, a role you&apos;re hiring for, or just a question
+                  about frontend — my inbox is always open. I usually reply within a day.
+                </p>
+              </div>
 
-            <motion.p
-              initial={{ opacity: 0, y: 14 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.55, ease: EASE, delay: 0.4 }}
-              className="mt-8 max-w-md text-sm leading-relaxed text-muted-foreground"
-            >
-              Whether it&apos;s a product idea, a role you&apos;re hiring for, or just a
-              question about frontend — my inbox is always open. I usually reply within
-              a day.
-            </motion.p>
-
-            {/* Socials — springy staggered pops */}
-            <div className="mt-10 flex flex-wrap gap-3">
-              {socialLinks.map((social, i) => (
-                <motion.div
-                  key={social.label}
-                  initial={{ opacity: 0, scale: 0.6 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ type: "spring", stiffness: 260, damping: 18, delay: 0.5 + i * 0.08 }}
-                  whileHover={{ y: -3 }}
-                >
-                  <Link
-                    href={social.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={social.label}
-                    className="flex items-center gap-2.5 rounded-full border border-border bg-card px-5 py-2.5 text-sm font-medium transition-colors duration-200 hover:border-primary hover:bg-primary hover:text-primary-foreground"
-                  >
-                    {social.icon}
-                    {social.label}
-                  </Link>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
-
-          {/* ── Right: contact info rows ── */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-          >
-            {contactInfo.map((info, i) => (
-              <motion.div
-                key={info.title}
-                initial={{ opacity: 0, x: 28 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.55, ease: EASE, delay: 0.15 + i * 0.1 }}
-                className="flex items-center gap-5 border-b border-border py-6 first:border-t"
-              >
-                <motion.span
-                  initial={{ scale: 0.5, opacity: 0 }}
-                  whileInView={{ scale: 1, opacity: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ type: "spring", stiffness: 240, damping: 16, delay: 0.25 + i * 0.1 }}
-                  className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-border bg-card text-primary"
-                >
-                  {info.icon}
-                </motion.span>
-                <div className="min-w-0">
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-                    {info.title}
-                  </p>
-                  {info.link ? (
-                    <Link
-                      href={info.link}
-                      className="mt-0.5 block truncate text-base font-medium transition-colors hover:text-primary"
+              <div className="relative mt-10 flex flex-wrap items-center gap-3">
+                <Magnetic>
+                  <a href={`mailto:${EMAIL}`} className="btn btn-ink btn-shine group">
+                    <Mail className="h-4 w-4" />
+                    Send an email
+                  </a>
+                </Magnetic>
+                <button type="button" onClick={copyEmail} className="btn btn-ghost min-w-[9.5rem]">
+                  <AnimatePresence mode="wait" initial={false}>
+                    <motion.span
+                      key={copied ? "copied" : "copy"}
+                      initial={{ opacity: 0, y: 8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -8 }}
+                      transition={{ duration: 0.2 }}
+                      className="flex items-center gap-2"
                     >
-                      {info.value}
-                    </Link>
-                  ) : (
-                    <p className="mt-0.5 text-base font-medium">{info.value}</p>
-                  )}
-                </div>
-              </motion.div>
-            ))}
-
-            {/* Availability note */}
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.55, ease: EASE, delay: 0.5 }}
-              className="mt-8 flex items-center gap-3 rounded-2xl border border-primary/25 bg-primary/5 px-5 py-4">
-              <span className="relative flex h-2 w-2 shrink-0">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-500 opacity-75" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
-              </span>
-              <p className="text-sm text-foreground/80">
-                Currently <span className="font-semibold">open to opportunities</span> —
-                full-time roles &amp; freelance projects.
-              </p>
-            </motion.div>
+                      {copied ? (
+                        <>
+                          <Check className="h-4 w-4 text-emerald-500" /> Copied!
+                        </>
+                      ) : (
+                        <>
+                          <Copy className="h-4 w-4" /> Copy email
+                        </>
+                      )}
+                    </motion.span>
+                  </AnimatePresence>
+                </button>
+              </div>
+            </SpotlightCard>
           </motion.div>
+
+          {/* ── Details column ── */}
+          <div className="flex flex-col gap-5">
+            <motion.div {...rise(0.1)}>
+              <SpotlightCard className="p-2">
+                {contactInfo.map(({ icon: Icon, title, value, link }) => {
+                  const body = (
+                    <>
+                      <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-foreground/10 bg-foreground/[0.04] text-primary transition-colors duration-300 group-hover/row:border-primary/40">
+                        <Icon className="h-4 w-4" />
+                      </span>
+                      <span className="min-w-0 flex-1">
+                        <span className="block font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+                          {title}
+                        </span>
+                        <span className="mt-0.5 block truncate text-[15px] font-medium">{value}</span>
+                      </span>
+                      {link && (
+                        <ArrowUpRight className="h-4 w-4 text-muted-foreground transition-all duration-300 group-hover/row:-translate-y-0.5 group-hover/row:translate-x-0.5 group-hover/row:text-primary" />
+                      )}
+                    </>
+                  );
+                  const cls =
+                    "group/row flex items-center gap-4 rounded-[1.25rem] px-4 py-3.5 transition-colors duration-300 hover:bg-foreground/[0.04]";
+                  return link ? (
+                    <a key={title} href={link} className={cls}>
+                      {body}
+                    </a>
+                  ) : (
+                    <div key={title} className={cls}>
+                      {body}
+                    </div>
+                  );
+                })}
+              </SpotlightCard>
+            </motion.div>
+
+            <motion.div {...rise(0.2)}>
+              <SpotlightCard className="p-6">
+                <span className="eyebrow">Elsewhere</span>
+                <div className="mt-4 grid grid-cols-1 gap-2 sm:grid-cols-3 lg:grid-cols-1 xl:grid-cols-3">
+                  {socialLinks.map(({ href, label, icon: Icon }) => (
+                    <a
+                      key={label}
+                      href={href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group/s flex items-center justify-between gap-2 rounded-2xl border border-foreground/10 bg-foreground/[0.03] px-4 py-3 text-sm font-medium transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/50"
+                    >
+                      <span className="flex items-center gap-2.5">
+                        <Icon className="h-4 w-4 text-muted-foreground transition-colors group-hover/s:text-foreground" />
+                        {label}
+                      </span>
+                      <ArrowUpRight className="h-3.5 w-3.5 text-muted-foreground transition-all duration-300 group-hover/s:rotate-45 group-hover/s:text-primary" />
+                    </a>
+                  ))}
+                </div>
+              </SpotlightCard>
+            </motion.div>
+
+            <motion.div {...rise(0.3)}>
+              <div className="flex items-center gap-4 rounded-[1.75rem] border border-emerald-500/25 bg-emerald-500/[0.07] px-6 py-5">
+                <span className="relative flex h-3 w-3 shrink-0">
+                  <span className="animate-ping-soft absolute inline-flex h-full w-full rounded-full bg-emerald-500" />
+                  <span className="relative inline-flex h-3 w-3 rounded-full bg-emerald-500" />
+                </span>
+                <p className="text-sm leading-relaxed text-foreground/85">
+                  Currently <span className="font-semibold">open to opportunities</span> — full-time
+                  roles &amp; freelance projects.
+                </p>
+              </div>
+            </motion.div>
+          </div>
         </div>
       </div>
     </section>
